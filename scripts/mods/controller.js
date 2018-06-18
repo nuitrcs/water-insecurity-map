@@ -1,1 +1,2 @@
-var global_example = {}
+var jun = {}
+jun.map_key = ''
