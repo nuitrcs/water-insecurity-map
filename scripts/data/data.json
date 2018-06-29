@@ -4,242 +4,269 @@
    "Lat": 5.205118,
    "Lng": -74.737081,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 4,
+   "GNP": 1,
+   "Region": "Latin America",
+   "Year" : 2002
  },
  {
    "Site Name": "Lagos, Nigeria",
    "Lat": 6.5243793,
    "Lng": 3.3792057,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "West Africa"
+   "Participants": 1,
+   "GNP": 2,
+   "Region": "West Africa",
+   "Year" : 2003
  },
  {
    "Site Name": "Lilongwe, Malawi",
    "Lat": -13.9626121,
    "Lng": 33.7741195,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 3,
+   "GNP": 6,
+   "Region": "East Africa",
+   "Year" : 2000
  },
  {
    "Site Name": "Kathmandu, Nepal",
    "Lat": 27.7172453,
    "Lng": 85.3239605,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 4,
+   "GNP": 4,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2003
  },
  {
    "Site Name": "Accra, Ghana",
    "Lat": 5.6037168,
    "Lng": -0.1869644,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "West Africa"
+   "Participants": 4,
+   "GNP": 2,
+   "Region": "West Africa",
+   "Year" : 2004
  },
  {
    "Site Name": "Seme, Kenya",
    "Lat": -0.453091,
    "Lng": 34.5863128,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 8,
+   "GNP": 7,
+   "Region": "East Africa",
+   "Year" : 2005
  },
  {
    "Site Name": "Dushanbe, Tajikistan",
    "Lat": 38.5597722,
    "Lng": 68.7870384,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 5,
+   "GNP": 5,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2005
  },
  {
    "Site Name": "Singida, Tanzania",
    "Lat": -4.8253518,
    "Lng": 34.7630307,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 8,
+   "GNP": 7,
+   "Region": "East Africa",
+   "Year" : 2001
  },
  {
    "Site Name": "Kampala, Uganda",
    "Lat": 0.3475964,
    "Lng": 32.5825197,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 9,
+   "GNP": 3,
+   "Region": "East Africa",
+   "Year" : 2003
  },
  {
    "Site Name": "Kahemba, DRC",
    "Lat": -7.2953756,
    "Lng": 18.9621091,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "West Africa"
+   "Participants": 4,
+   "GNP": 2,
+   "Region": "West Africa",
+   "Year" : 2004
  },
  {
    "Site Name": "Bahir Dar, Ethiopia",
    "Lat": 11.5742086,
    "Lng": 37.3613533,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants":6,
+   "GNP": 3,
+   "Region": "East Africa",
+   "Year" : 2000
  },
  {
    "Site Name": "Merida, Mexico",
    "Lat": 20.9673702,
    "Lng": -89.5925857,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 9,
+   "GNP": 4,
+   "Region": "Latin America",
+   "Year" : 2002
  },
  {
    "Site Name": "Arua, Uganda",
    "Lat": 3.0303299,
    "Lng": 30.907304,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 4,
+   "GNP": 8,
+   "Region": "East Africa",
+   "Year" : 2001
  },
  {
    "Site Name": "Pecem & Ceará, Brazil",
    "Lat": -3.5522452,
    "Lng": -38.8318982,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 2,
+   "GNP": 6,
+   "Region": "Latin America",
+   "Year" : 2003
  },
  {
    "Site Name": "Gressier, Haiti",
    "Lat": 18.5382815,
    "Lng": -72.5293562,
    "HWISE Version": 2,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 10,
+   "GNP": 4,
+   "Region": "Latin America",
+   "Year" : 2000
  },
  {
    "Site Name": "Chiquimula, Guatemala",
    "Lat": 14.7924897,
    "Lng": -89.5450458,
    "HWISE Version": 2,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 5,
+   "GNP": 1,
+   "Region": "Latin America",
+   "Year" : 2002
  },
  {
    "Site Name": "San Borja, Bolivia",
    "Lat": -14.8518869,
    "Lng": -66.7486446,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 3,
+   "GNP": 2,
+   "Region": "Latin America",
+   "Year" : 2005
  },
  {
    "Site Name": "Punjab, Pakistan",
    "Lat": 31.1704063,
    "Lng": 72.7097161,
    "HWISE Version": 2,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 5,
+   "GNP": 9,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2004
  },
  {
    "Site Name": "Beirut, Lebanon",
    "Lat": 33.8937913,
    "Lng": 35.5017767,
    "HWISE Version": 2,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Middle East"
+   "Participants": 6 ,
+   "GNP": 6,
+   "Region": "Middle East",
+   "Year" : 2003
  },
  {
    "Site Name": "Acatenango, Guatemala",
    "Lat": 14.500461,
    "Lng": -90.8756662,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Latin America"
+   "Participants": 7,
+   "GNP": 8,
+   "Region": "Latin America",
+   "Year" : 2003
  },
  {
    "Site Name": "Kisoro, Uganda",
    "Lat": -1.2834307,
    "Lng": 29.6904746,
    "HWISE Version": 3,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 6,
+   "GNP": 4,
+   "Region": "East Africa",
+   "Year" : 2001
  },
  {
    "Site Name": "Morogoro, Tanzania",
    "Lat": -6.8277556,
    "Lng": 37.6591144,
    "HWISE Version": 3,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "East Africa"
+   "Participants": 3,
+   "GNP": 10,
+   "Region": "East Africa",
+   "Year" : 2004
  },
  {
    "Site Name": "Rajasthan, India",
    "Lat": 27.0238036,
    "Lng": 74.2179326,
    "HWISE Version": 3,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 8,
+   "GNP": 1,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2004
  },
  {
    "Site Name": "Pune, India",
    "Lat": 18.5204303,
    "Lng": 73.8567437,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 3,
+   "GNP": 4,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2005
  },
  {
    "Site Name": "Dhaka and Chakaria, Bangladesh",
    "Lat": 21.7661433,
    "Lng": 92.0767084,
    "HWISE Version": 2,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 7,
+   "GNP": 10,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2002
  },
  {
    "Site Name": "Labuan Bajo, Indonesia",
    "Lat": -8.4538484,
    "Lng": 119.8728421,
    "HWISE Version": 3,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "Central and Southeast Asia"
+   "Participants": 6,
+   "GNP": 7,
+   "Region": "Central and Southeast Asia",
+   "Year" : 2002
  },
  {
    "Site Name": "American Samoa",
    "Lat": -14.270972,
    "Lng": -170.132217,
    "HWISE Version": 1,
-   "Participants": 0,
-   "GNP": 0,
-   "Region": "South Pacific"
+   "Participants": 9,
+   "GNP": 5,
+   "Region": "South Pacific",
+   "Year" : 2001
  }
 ]
