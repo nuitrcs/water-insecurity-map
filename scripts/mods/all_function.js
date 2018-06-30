@@ -288,7 +288,7 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
     }
 //////////////////////////// Mapping points ////////////////////////////
     jun_map.on('load', function () {
-        jun_map.loadImage("/scripts/images/map_marker_resized.png", function(error, image) {
+        jun_map.loadImage("scripts/images/map_marker_resized.png", function(error, image) {
             if (error) throw error;
         jun_map.addImage("custom-marker", image);
         jun_map.addSource("source1", {
