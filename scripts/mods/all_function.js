@@ -449,6 +449,7 @@ var substringMatcher = function(strs) {
   };
 };
 
+
 // navigation bar
 function openNav() {
     document.getElementById("mySidenav").style.width = "20%";
