@@ -1,3 +1,110 @@
+function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, right_end2) { 
+//////////////////////////// filtering based on criteria ////////////////////////////
+    left_end1 = Number(left_end1)
+    right_end1 = Number(right_end1)
+    left_end2 = Number(left_end2)
+    right_end2 = Number(right_end2)
+    var index_point = 0
+    var filtered=[]
+    for (var i = 0; i < jun.data.length; i++) {
+        if (jun.data[i]["HWISE Version"]==1){
+            filtered[index_point] = {
+                "type" : "Feature", 
+                "properties": { 
+                    "SiteName": jun.data[i]["Site Name"],
+                    "HWISE_Version": jun.data[i]["HWISE Version"],
+                    "Participants": jun.data[i]["Participants"],
+                    "GNI": jun.data[i]["GNI"],
+                    "Region": jun.data[i]["Region"],
+                    "Lat" : jun.data[i]["Lat"],
+                    "Lng" : jun.data[i]["Lng"],
+                    "Year" : jun.data[i]["Year"] ,
+                    "id_number" : jun.data[i]["id_number"],
+                    "Partners" : jun.data[i]["Partners"],
+                    "Setting" : jun.data[i]["Setting"],
+                    "Sampling" : jun.data[i]["Sampling"],
+                    "Climate" :jun.data[i]["Climate"],
+                    "icon" :"custom-marker"
+                },
+                "geometry" : {
+                    "type" : "Point",
+                    "coordinates": [jun.data[i]["Lng"],jun.data[i]["Lat"]]
+                }
+            }
+        }
+        else {
+            filtered[index_point] = {
+                "type" : "Feature", 
+                "properties": { 
+                    "SiteName": jun.data[i]["Site Name"],
+                    "HWISE_Version": jun.data[i]["HWISE Version"],
+                    "Participants": jun.data[i]["Participants"],
+                    "GNI": jun.data[i]["GNI"],
+                    "Region": jun.data[i]["Region"],
+                    "Lat" : jun.data[i]["Lat"],
+                    "Lng" : jun.data[i]["Lng"],
+                    "Year" : jun.data[i]["Year"] ,
+                    "id_number" : jun.data[i]["id_number"],
+                    "icon" :"custom-marker1"
+                },
+                "geometry" : {
+                    "type" : "Point",
+                    "coordinates": [jun.data[i]["Lng"],jun.data[i]["Lat"]]
+                }
+            }
+        }
+        index_point += 1 
+        site_search.push(jun.data[i]["Site Name"])
+        hwise_search.push(jun.data[i]["HWISE Version"])
+        Participants_search.push(jun.data[i]["Participants"])
+        GNI_search.push(jun.data[i]["GNI"])
+        Region_search.push(jun.data[i]["Region"])
+        lat_search.push(jun.data[i]["Lat"])
+        lng_search.push(jun.data[i]["Lng"])
+        Year_search.push(jun.data[i]["Year"])
+        id_search.push(jun.data[i]["id_number"])
+        Partners_search.push(jun.data[i]["Partners"])
+        Setting_search.push(jun.data[i]["Setting"])
+        Sampling_search.push(jun.data[i]["Sampling"])
+        Climate_search.push(jun.data[i]["Climate"])
+        Female_search.push(jun.data[i]["Female"])
+        Male_search.push((100-jun.data[i]["Female"]).toFixed(2))
+    }
+    jun.map.on('load', function () {
+        jun.map.loadImage(jun.image1_link, function(error, image) {
+            if (error) throw error;
+            jun.map.loadImage(jun.image2_link, function(error, image1) {
+                jun.map.addImage("custom-marker", image);
+                jun.map.addImage("custom-marker1", image1)
+                jun.map.addSource("source1", {
+                                    "type": "geojson",
+                                    "data": {
+                                            "type": "FeatureCollection",
+                                            "features": filtered}})
+                jun.map.addLayer({
+                    "id": "points",
+                    "type": "symbol",
+                    "source": "source1",
+                    "filter": ["all", [">=", criteria1, left_end1], ["<=", criteria1, right_end1], [">=",criteria2, left_end2 ], ["<=", criteria2, right_end2 ]],
+                    "layout": {
+                        "icon-image": "{icon}",
+                        "icon-allow-overlap": true,
+                        "icon-anchor":"bottom",
+                        "text-field": "{SiteName}",
+                        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                        "text-offset": [0, 0],
+                        "text-anchor": "center"     
+                        }
+                    })
+                })
+            }
+        )
+    })
+}
+
+
+
+// filter_list : for slide bars : change lassoable items and map markers
 function filter_list() {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
@@ -14,40 +121,37 @@ function filter_list() {
 
     filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],[">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]
 
-    if (region.innerText != "All") {
-        filter_combined.push(["==","Year",Number(region.innerText)])
+    if (year_value.innerText != "All") {
+        filter_combined.push(["==","Year",Number(year_value.innerText)])
     }
 
-    d3.json('scripts/data/data2.json',function(finished_data) {
-        jun.data = finished_data
-        if (version_filter[2]){
-            if (region_filter[2]) {
-                filter_combined.push(region_filter)
-                filter_combined.push(version_filter)
-            }
-            else { 
-                filter_combined.push(["in", "HWISE_Version",100])
-            }
+    if (version_filter[2]){
+        if (region_filter[2]) {
+            filter_combined.push(region_filter)
+            filter_combined.push(version_filter)
         }
-        else {
+        else { 
             filter_combined.push(["in", "HWISE_Version",100])
         }
-        jun_map.setFilter("points", filter_combined)
-    })
+    }
+    else {
+        filter_combined.push(["in", "HWISE_Version",100])
+    }
+    jun.map.setFilter("points", filter_combined)
 
     lasso.items(d3.selectAll(".dot"));
     lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
 
     if (version_filter[2]){
         if (region_filter[2]) {
-            if (region.innerText != "All"){
+            if (year_value.innerText != "All"){
                 lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
                     && (d.Lat >= Number(latmin.innerText))
                     && (d.Lat <= Number(latmax.innerText))
                     && (d.Lng >= Number(lngmin.innerText))
                     && (d.Lng <= Number(lngmax.innerText))
-                    && (d.Year == Number(region.innerText)) 
+                    && (d.Year == Number(year_value.innerText)) 
                  }))}
             else {
                  lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
@@ -67,17 +171,10 @@ function filter_list() {
     else {
         lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
     }
-
-    lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",3.5);
+    lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
 }
 
-
-
-
-
-
-
-
+// filter_list_ver2 : when specific marker is chosen : change lasso items and map markers
 function filter_list_ver2(id_marker) {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
@@ -91,24 +188,21 @@ function filter_list_ver2(id_marker) {
             version_filter.push( Number($(Version_select).val()[j]))
         }
     }
-
     lasso.items(d3.selectAll(".dot"));
     lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
-    
-
     if (version_filter[2]){
         if (region_filter[2]){
-            if (region.innerText != "All"){
+            if (year_value.innerText != "All"){
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
-                    && (version_filter.indexOf(hwise_version_search[id_marker]) >= 0)
+                    && (version_filter.indexOf(hwise_search[id_marker]) >= 0)
                     && (lat_search[id_marker] >= Number(latmin.innerText))
                     && (lat_search[id_marker] <= Number(latmax.innerText))
                     && (lng_search[id_marker] >= Number(lngmin.innerText))
                     && (lng_search[id_marker] <= Number(lngmax.innerText))
-                    && (Year_search[id_marker] == Number(region.innerText)) 
+                    && (Year_search[id_marker] == Number(year_value.innerText)) 
                     ){
-                        jun_map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4})
-                        openDesc(regions_search[id_marker], lat_search[id_marker], lng_search[id_marker], hwise_version_search[id_marker], Participants_search[id_marker], GNI_search[id_marker], Region_search[id_marker])
+                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:5})
+                        openDesc(id_marker)
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                             && (region_filter.indexOf(d.Region) >= 0) 
                             && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -116,9 +210,9 @@ function filter_list_ver2(id_marker) {
                             && (d.Lat <= Number(latmax.innerText))
                             && (d.Lng >= Number(lngmin.innerText))
                             && (d.Lng <= Number(lngmax.innerText))
-                            && (d.Year == Number(region.innerText)) 
+                            && (d.Year == Number(year_value.innerText)) 
                          }))
-                        lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",7);
+                        lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
                    
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                             && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -126,12 +220,11 @@ function filter_list_ver2(id_marker) {
                             && (d.Lat <= Number(latmax.innerText))
                             && (d.Lng >= Number(lngmin.innerText))
                             && (d.Lng <= Number(lngmax.innerText))
-                            && (d.Year == Number(region.innerText)) 
+                            && (d.Year == Number(year_value.innerText)) 
                          }))
 
                         filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==", "id_number", Number(id_marker)],["==","Year",Number(region.innerText)]]
-                        console.log("aajajajaaj")
+                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==", "id_number", Number(id_marker)],["==","Year",Number(year_value.innerText)]]
                     }
                 else {
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
@@ -140,23 +233,23 @@ function filter_list_ver2(id_marker) {
                             && (d.Lat <= Number(latmax.innerText))
                             && (d.Lng >= Number(lngmin.innerText))
                             && (d.Lng <= Number(lngmax.innerText))
-                            && (d.Year == Number(region.innerText)) 
+                            && (d.Year == Number(year_value.innerText)) 
                          }))
-                        lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",3.5);
+                        lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",3.5);
                         filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","Year",Number(region.innerText)]]
+                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","Year",Number(year_value.innerText)]]
                 }
             }
             else {
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
-                    && (version_filter.indexOf(hwise_version_search[id_marker]) >= 0)
+                    && (version_filter.indexOf(hwise_search[id_marker]) >= 0)
                     && (lat_search[id_marker] >= Number(latmin.innerText))
                     && (lat_search[id_marker] <= Number(latmax.innerText))
                     && (lng_search[id_marker] >= Number(lngmin.innerText))
                     && (lng_search[id_marker] <= Number(lngmax.innerText))
                     ){
-                        jun_map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4})
-                        openDesc(regions_search[id_marker], lat_search[id_marker], lng_search[id_marker], hwise_version_search[id_marker], Participants_search[id_marker], GNI_search[id_marker], Region_search[id_marker])
+                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:5})
+                        openDesc(id_marker)
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                             && (region_filter.indexOf(d.Region) >= 0) 
                             && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -165,7 +258,7 @@ function filter_list_ver2(id_marker) {
                             && (d.Lng >= Number(lngmin.innerText))
                             && (d.Lng <= Number(lngmax.innerText))
                         }))   
-                        lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",7);
+                        lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                             && (version_filter.indexOf(d["HWISE Version"]) >= 0)
                             && (d.Lat >= Number(latmin.innerText))
@@ -189,9 +282,7 @@ function filter_list_ver2(id_marker) {
                         filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
                             [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]
                 }
-
             }
-
         }
         else {
             lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
@@ -200,25 +291,146 @@ function filter_list_ver2(id_marker) {
     else {
         lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
     }
-    d3.json('scripts/data/data2.json',function(finished_data) {
-        jun.data = finished_data
-        if (version_filter[2]){
-            if (region_filter[2]) {
-                filter_combined.push(region_filter)
-                filter_combined.push(version_filter)
+    if (version_filter[2]){
+        if (region_filter[2]) {
+            filter_combined.push(region_filter)
+            filter_combined.push(version_filter)
+        }
+        else { 
+            filter_combined.push(["in", "HWISE_Version",100])
+        }
+    }
+    else {
+        filter_combined.push(["in", "HWISE_Version",100])
+    }
+    jun.map.setFilter("points", filter_combined)
+}
+
+// filter_list_ver3 : for change list : 
+function filter_list_ver3() {    
+    region_filter1=[]
+    if ($(region_select).val()){
+        for (var i = 0; i < $(region_select).val().length;i++){
+            region_filter1.push( $(region_select).val()[i])
+        }
+    }
+    version_filter1 =[]
+    if ($(Version_select).val()){
+        for (var j = 0; j < $(Version_select).val().length;j++){
+            version_filter1.push( Number($(Version_select).val()[j]))
+        }
+    }
+    if (version_filter1[0]){
+        if (region_filter1[0]) {
+            if (year_value.innerText != "All"){
+                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
+                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
+                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (Year_search[i] == Number(year_value.innerText)) '
             }
-            else { 
-                filter_combined.push(["in", "HWISE_Version",100])
+            else {
+                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
+                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
+                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    '&& (lng_search[i] <= Number(lngmax.innerText)) '
             }
         }
         else {
-            filter_combined.push(["in", "HWISE_Version",100])
+            final_filter = '(hwise_search[i]) == 100)'
         }
-        jun_map.setFilter("points", filter_combined)
-    })
-
+    }
+    else {
+        final_filter = '(hwise_search[i]) == 100)'
+    }
+    return [region_filter1, version_filter1, final_filter]
 }
 
+function filter_list_ver4(id_marker) {    
+    id_marker= Number(id_marker)
+    region_filter2=[]
+    if ($(region_select).val()){
+        for (var i = 0; i < $(region_select).val().length;i++){
+            region_filter2.push( $(region_select).val()[i])
+        }
+    }
+    version_filter2 =[]
+    if ($(Version_select).val()){
+        for (var j = 0; j < $(Version_select).val().length;j++){
+            version_filter2.push( Number($(Version_select).val()[j]))
+        }
+    }
+
+    if (version_filter2[0]){
+        if (region_filter2[0]){
+            if (year_value.innerText != "All"){
+                if ((region_filter2.indexOf(Region_search[id_marker]) >= 0) 
+                    && (version_filter2.indexOf(hwise_search[id_marker]) >= 0)
+                    && (lat_search[id_marker] >= Number(latmin.innerText))
+                    && (lat_search[id_marker] <= Number(latmax.innerText))
+                    && (lng_search[id_marker] >= Number(lngmin.innerText))
+                    && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    && (Year_search[id_marker] == Number(year_value.innerText)) 
+                    ){
+                        final_filter = '(id_search[i] == id_number) '+
+                            '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
+                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (Year_search[i] == Number(year_value.innerText)) '
+                     }
+                else {
+                        final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
+                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (Year_search[i] == Number(year_value.innerText)) '
+                    }
+            }
+            else {
+                if ((region_filter2.indexOf(Region_search[id_marker]) >= 0) 
+                    && (version_filter2.indexOf(hwise_search[id_marker]) >= 0)
+                    && (lat_search[id_marker] >= Number(latmin.innerText))
+                    && (lat_search[id_marker] <= Number(latmax.innerText))
+                    && (lng_search[id_marker] >= Number(lngmin.innerText))
+                    && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    ){
+                       
+                        final_filter = '(id_search[i] == id_number) '+
+                            '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
+                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            '&& (lng_search[i] <= Number(lngmax.innerText)) '
+                    } 
+                else {
+                        final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
+                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            '&& (lng_search[i] <= Number(lngmax.innerText)) '
+                        }
+                }
+        }
+        else {
+            final_filter = '(hwise_search[i]) == 100)'
+        }
+    }
+    else {
+        final_filter = '(hwise_search[i]) == 100)'
+    }
+    return [region_filter2, version_filter2, final_filter]
+}
 
 
 
@@ -226,12 +438,8 @@ function filter_list_ver2(id_marker) {
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substringRegex;
-    // an array that will be populated with substring matches
     matches = [];
-    // regex used to determine if a string contains the substring `q`
     substrRegex = new RegExp(q, 'i');
-    // iterate through the pool of strings and for any string that
-    // contains the substring `q`, add it to the `matches` array
     $.each(strs, function(i, str) {
       if (substrRegex.test(str)) {
         matches.push(str);
@@ -241,109 +449,125 @@ var substringMatcher = function(strs) {
   };
 };
 
-
-
-
-
-
-
-
-
-function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, right_end2) { 
-//////////////////////////// filtering based on criteria ////////////////////////////
-    left_end1 = Number(left_end1)
-    right_end1 = Number(right_end1)
-    left_end2 = Number(left_end2)
-    right_end2 = Number(right_end2)
-    var index_point = 0
-    var filtered=[]
-    for (var i = 0; i < jun.data.length; i++) {
-        filtered[index_point] = {
-            "type" : "Feature", 
-            "properties": { 
-                "SiteName": jun.data[i]["Site Name"],
-                "HWISE_Version": jun.data[i]["HWISE Version"],
-                "Participants": jun.data[i]["Participants"],
-                "GNI": jun.data[i]["GNI"],
-                "Region": jun.data[i]["Region"],
-                "Lat" : jun.data[i]["Lat"],
-                "Lng" : jun.data[i]["Lng"],
-                "Year" : jun.data[i]["Year"] ,
-                "id_number" : jun.data[i]["id_number"]
-            },
-            "geometry" : {
-                "type" : "Point",
-                "coordinates": [jun.data[i]["Lng"],jun.data[i]["Lat"]]
-            }
-        }
-        index_point =index_point+1 
-        regions_search.push(jun.data[i]["Site Name"])
-        hwise_version_search.push(jun.data[i]["HWISE Version"])
-        Participants_search.push(jun.data[i]["Participants"])
-        GNI_search.push(jun.data[i]["GNI"])
-        Region_search.push(jun.data[i]["Region"])
-        lat_search.push(jun.data[i]["Lat"])
-        lng_search.push(jun.data[i]["Lng"])
-        Year_search.push(jun.data[i]["Year"])
-    }
-//////////////////////////// Mapping points ////////////////////////////
-    jun_map.on('load', function () {
-        jun_map.loadImage("scripts/images/map_marker_resized.png", function(error, image) {
-            if (error) throw error;
-        jun_map.addImage("custom-marker", image);
-        jun_map.addSource("source1", {
-                            "type": "geojson",
-                            "data": {
-                                    "type": "FeatureCollection",
-                                    "features": filtered}})
-        jun_map.addLayer({
-            "id": "points",
-            "type": "symbol",
-            "source": "source1",
-            "filter": ["all", [">=", criteria1, left_end1 ], ["<=", criteria1, right_end1], [">=",criteria2, left_end2 ], ["<=", criteria2, right_end2 ]],
-            "layout": {
-                "icon-image": "custom-marker",
-                "icon-allow-overlap": true,
-                "icon-anchor":"bottom",
-                "text-field": "{SiteName}",
-                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset": [0, 0],
-                "text-anchor": "center"     
-                }
-            })
-        })
-    })
-};
-
-
 // navigation bar
 function openNav() {
     document.getElementById("mySidenav").style.width = "20%";
-    document.getElementById("mySidenav").style.opacity = "0.9";
+    document.getElementById("mySidenav").style.opacity = "0.85";
     document.getElementById("openner").style.opacity = "0";
+    document.getElementById("openner2").style.opacity = "0";
 }
+
 function closeNav() {
     document.getElementById("mySidenav").style.width = "1%";
     document.getElementById("mySidenav").style.opacity="0.0";
-    document.getElementById("openner").style.opacity = "0.9";
+    openLister()
 }
 
-function openDesc(SiteName, lat, lng, HWISE_Version, Participants, GNI, Region) { 
+function openDesc(idid) { 
     document.getElementById("mySidenav").style.width = "1%";
     document.getElementById("mySidenav").style.opacity="0.0";
     document.getElementById("openner").style.opacity = "0";
+    document.getElementById("openner2").style.opacity = "0";   
     document.getElementById("Desc").style.width= "20%";
-    document.getElementById("Desc").style.opacity="0.9"
-    document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a> <br> <span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+SiteName+"</div> <img src='scripts/images/Photos/" 
-        +SiteName+"_1.jpg'  alt='need image' style=' width: 100%; height:auto'><br><br> <p>Lat: "+Number(lat)+"<p>Lng: "+Number(lng)
-        +"<p>HWISE Version: "+HWISE_Version +"<p>Participants: " + Participants 
-        +"<p>GNI: " + GNI + "<p>Region: " + Region+"</span>"
+    document.getElementById("Desc").style.opacity="0.85"
+    document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a> <br> \
+        <span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
+        "</div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br> \
+        <br> <p>Lat: "+Number(lat_search[idid]) +"<br />Lng: "+Number(lng_search[idid]) +"<br />HWISE Version: "+hwise_search[idid] 
+        +"<br />Participants: " + Participants_search[idid] +"<br />GNI: " + GNI_search[idid]*1000 + " USD<br />Region: " + Region_search[idid] 
+        + "<br />Partners: "+ Partners_search[idid] + "<br />Setting: "+Setting_search[idid] + "<br />Sampling: " + Sampling_search[idid] 
+        + "<br />Climate : " + Climate_search[idid] + "<br />Gender: male - "+Male_search[idid] + "% / female - "+Female_search[idid] +"%</p></span>"
 }
 
 function closeDesc() { 
     document.getElementById("Desc").innerHTML = ""
     document.getElementById("Desc").style.width= "0%" 
     openNav()
+}
+
+function openLister() {
+    document.getElementById("openner").style.opacity = "0";
+    document.getElementById("openner2").style.opacity = "0"; 
+    document.getElementById("Lister").style.width = "20%"; 
+    document.getElementById("Lister").style.opacity = "0.85";
+    if ($('#Lister').children().length==1){
+        document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+        for (var i = 0; i < site_search.length; i++){
+          document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
+        }
+        document.getElementById("Lister").innerHTML += "<br><input id = 'clear1'  type='submit' value ='clear!'>"
+    }
+}
+
+function closeLister() {
+    document.getElementById("Lister").style.width = "0%"; 
+    document.getElementById("Lister").style.opacity = "0.0";
+    document.getElementById("openner").style.opacity = "0.85";
+    document.getElementById("openner2").style.opacity = "0.85";
+}
+
+function linklink(id_number){
+    closeLister()
+    filter_list_ver2(id_number)
+    ver4_result = filter_list_ver4(id_number)
+    region_filter2 = ver4_result[0]
+    version_filter2 = ver4_result[1]
+    yes_chosen1 = []
+    for (var i = 0; i < site_search.length; i++){
+        if (eval(ver4_result[2])) {
+            yes_chosen1.push(i)
+        } 
+    }
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+    for (var j = 0 ; j < site_search.length; j ++){
+        if (yes_chosen1.indexOf(j) >= 0) {
+            document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+j+"_list' onclick='linklink("+j+")'>"+ site_search[j]+"</span><br>"
+        }
+        else {
+            document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+j+"_list'>"+ site_search[j]+"</span><br>"
+        }
+    }
+    document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+}
+
+function clearit() { 
+    jun.map.setFilter("points", null)
+    $('#region_select').multipleSelect("checkAll");
+    $('#Version_select').multipleSelect("checkAll");  
+    lasso.items(d3.selectAll(".dot"));
+    lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
+    jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
+
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+    for (var i = 0; i < site_search.length; i++){
+      document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
+    }
+     document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+
+     document.getElementById('third_bar').click();
+}
+
+function list_changer() {
+    ver3_result = filter_list_ver3()
+    region1_filter = ver3_result[0]
+    version1_filter = ver3_result[1]
+    yes_chosen =[]
+    for (var i = 0; i < site_search.length; i++){
+        if (eval(ver3_result[2])) {
+            yes_chosen.push(i)
+        } 
+    }
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+    for (var i = 0 ; i < site_search.length; i ++){
+        if (yes_chosen.indexOf(i) >= 0) {
+            document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
+        }
+        else {
+            document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list'>"+ site_search[i]+"</span><br>"
+        }
+    }
+    document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+    return yes_chosen
 }
 
 

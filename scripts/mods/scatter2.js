@@ -1,4 +1,4 @@
-var margin = {top:10, right: 30, bottom: 20, left: 50},
+var margin = {top:10, right: 30, bottom: 33, left: 50},
                   width = 260 - margin.left - margin.right,
                   height = 180 - margin.top - margin.bottom;
 
@@ -47,7 +47,7 @@ var lasso_draw = function() {
 var lasso_end = function() {
   // Reset the color of all dots
   lasso.items()
-     .style("fill", function(d) { return color(d["Site Name"]); })
+     .style("fill", function(d) { return color(d[jun.color_standard ]); })
      .style("opacity","1.0");
 
   // Style the selected dots
@@ -70,7 +70,7 @@ var lasso_end = function() {
   var lassoed = ["in", "SiteName"]
   if (id_list.length != 0){
     for (var j = 0; j < id_list.length; j++){
-      lassoed.push(regions_search[id_list[j]])
+      lassoed.push(site_search[id_list[j]])
     }
   }
   else {
@@ -78,15 +78,15 @@ var lasso_end = function() {
       id_list.push(Number(lasso.items().filter(function(d) {return d.selected===false})[0][i].id))
     }
     for (var j = 0; j < id_list.length; j++){
-      lassoed.push(regions_search[id_list[j]])
+      lassoed.push(site_search[id_list[j]])
     }
   }
 
   if (id_list.length == 1){
     var position = id_list[0]
-    openDesc(regions_search[position], lat_search[position], lng_search[position], hwise_version_search[position], Participants_search[position], GNI_search[position], Region_search[position])
+    openDesc(position)
     
-    jun_map.flyTo({center : [lng_search[position],lat_search[position]], zoom:6})
+    jun.map.flyTo({center : [lng_search[position],lat_search[position]], zoom:6})
   }
   else if (lasso.items().filter(function(d) {return d.selected===true})[0].length >= 1){
     var lat_lassoed=[]
@@ -96,16 +96,22 @@ var lasso_end = function() {
       lat_lassoed.push(lat_search[id_list[k]])
       lng_lassoed.push(lng_search[id_list[k]])
     }
-    jun_map.flyTo({center : [(Math.max(...lng_lassoed)+Math.min(...lng_lassoed))/2,(Math.max(...lat_lassoed)+Math.min(...lat_lassoed))/2],zoom:1.3})
+    jun.map.flyTo({center : [(Math.max(...lng_lassoed)+Math.min(...lng_lassoed))/2,(Math.max(...lat_lassoed)+Math.min(...lat_lassoed))/2],zoom:1.3})
   }
 
-  d3.json('scripts/data/data2.json',function(finished_data) {
-      jun.data = finished_data
-      jun_map.setFilter("points", lassoed)
-  })
+  document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+  for (var i = 0 ; i < site_search.length; i ++){
+      if (id_list.indexOf(i) >= 0) {
+          document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
+      }
+      else {
+          document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br>"
+      }
+  }
+  document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+  jun.map.setFilter("points", lassoed)
 }
  
-
 // Create the area where the lasso event can be triggered
 var lasso_area = svg.append("rect")
                       .attr("width",width)
@@ -123,28 +129,19 @@ var lasso = d3.lasso()
       .on("end",lasso_end); // lasso end function
 
 var tooltip = d3.select("#mySidenav").append("div")
-.attr("class", "tooltip")
-.style("opacity", 0);
+      .attr("class", "tooltip")
+      .style("opacity", 0);
 
 var xValue = function(d) { return d["GNI"];}
-var yValue = function(d) { return d.Participants;}
+var yValue = function(d) { return d.Female;}
 
 // Init the lasso on the svg:g that contains the dots
 svg.call(lasso);
 
-d3.json('scripts/data/data2.json', function(error, data) {
-  data.forEach(function(d) {
-    d.GNI = +d.GNI;
-    d.Participants = +d.Participants;
-    d.Lat = +d.Lat; 
-    d.Lng = +d.Lng;
-    d["HWISE Version"] = +d["HWISE Version"];
-    d.Year= +d.Year;
-  });
+d3.json(jun.data_link, function(error, data) {
 
-  x.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
-  y.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
-
+  x.domain([0, d3.max(data, xValue)+1]);
+  y.domain([0, 100]);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -153,9 +150,10 @@ d3.json('scripts/data/data2.json', function(error, data) {
       .append("text")
       .attr("class", "label")
       .attr("x", width)
-      .attr("y", -6)
+      .attr("y", 33)
       .style("text-anchor", "end")
-      .text("GNI (1,000 USD)");
+      .text("GNI (1,000 USD)")
+      .style("user-select","none");
 
   svg.append("g")
       .attr("class", "y axis")
@@ -163,26 +161,27 @@ d3.json('scripts/data/data2.json', function(error, data) {
       .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
-      .attr("y", 6)
+      .attr("y", -40)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Sample Size")
+      .text("Female (%)")
+      .style("user-select","none");
 
   svg.selectAll(".dot")
       .data(data)
       .enter().append("circle")
-      .attr("id",function(d,i) {return i;}) // added
+      .attr("id",function(d,i) {return i;}) 
       .attr("class", "dot")
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.GNI); })
-      .attr("cy", function(d) { return y(d.Participants); })
-      .style("fill", function(d) { return color(d["Site Name"]); })
+      .attr("cy", function(d) { return y(d.Female); })
+      .style("fill", function(d) { return color(d[jun.color_standard ]); })
       .on("mouseover", function(d) {
         tooltip.transition()
              .duration(200)
              .style("opacity", .9);
-        tooltip.html(d["Site Name"] + "<br/> (" + xValue(d) 
-          + ", " + yValue(d) + ")")
+        tooltip.html(d["Site Name"] + "<br/> (" + xValue(d)*1000 
+          + " USD, " + yValue(d) + "%)")
              .style("left", (d3.event.pageX + 5) + "px")
              .style("top", (d3.event.pageY - 28) + "px");
         })
@@ -194,10 +193,36 @@ d3.json('scripts/data/data2.json', function(error, data) {
         .on("click", function(d){
             var id_marker =d3.select(this)[0][0].id
             filter_list_ver2(id_marker)
+            document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3><br>"
+            for (var i = 0 ; i < site_search.length; i ++){
+                if (i == id_marker) {
+                    document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
+                }
+                else {
+                    document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br>"
+                }
+            }
+            document.getElementById("Lister").innerHTML += "<input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
         })
+  var legend = svg.selectAll(".legend")
+      .data(color.domain())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("y", height - 65)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 22)
+      .attr("y", height - 55)
+      .attr("dy", ".18em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; })
+      .style("user-select","none");
   lasso.items(d3.selectAll(".dot"));
 });
-
-
-
-
