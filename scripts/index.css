@@ -1,0 +1,318 @@
+.sidenav {
+    height : 100%;
+    max-width: 250px; 
+    width:20%;
+    opacity:0.85;
+    position: fixed; 
+    z-index: 3; 
+    top: 0; 
+    left: 0;
+    background-color: brown; 
+    overflow-x: hidden; 
+    padding-top: 20px; 
+    transition: 0.5s; 
+}
+
+/* close button in side navigation bar */
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    font-size: 30px;
+    color : black;
+}
+
+.closebtn:hover {
+    cursor : pointer;
+}
+
+/* search and list button */
+.backsidenav {
+    max-width : 150px ;
+    height: auto; 
+    width: 10%; 
+    opacity:0.0;
+    z-index: 2; 
+    position : fixed;
+    left : 0px;
+    background-color: brown; 
+    overflow-x: hidden; 
+    transition: 0.8s; 
+    color: white;
+    font: 25px 'Helvetica Neue', Arial, Helvetica, sans-serif; 
+    ;
+}
+
+.backsidenav:hover{
+    cursor: pointer;
+}
+
+#openner2 {
+    top : 50px;
+    text-align : center;
+}
+
+/* description navigation bar*/
+.desc {
+    height: 100%; 
+    width: 0px; 
+    opacity:0.85;
+    position: absolute;
+    top: 0;
+    left: 0px; 
+    z-index: 4; 
+    float : right;
+    background-color: brown; 
+    overflow-x: hidden; 
+    padding-top: 20px; 
+    transition: 0.5s; 
+    font-size : 1.2vw;
+}
+
+.desc_top {
+    font-size : 2vw;
+}
+
+/* lsit of research sites*/
+.lister {
+    height : 100%;
+    max-width: 250px; 
+    width:1%;
+    opacity :0.0;
+    position: fixed; 
+    z-index: 3; 
+    top: 0; 
+    left: 0;
+    background-color: brown; 
+    overflow-x: hidden; 
+    padding-top: 20px; 
+    transition: 0.5s;  
+    color : white;
+    text-align : center;
+}
+
+.list_element_yes {
+    color : white ;
+    opacity : 1.0;
+}
+.list_element_yes:hover{
+    cursor : pointer;
+}
+
+.list_element_no {
+    color:white;
+    opacity: 0.3;
+}
+
+
+/* lasso related */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.dot {
+    stroke: #000;
+}
+.dot:hover {  
+    cursor: pointer;
+}
+
+.lasso path {
+    stroke: rgb(80,80,80);
+    stroke-width : 2px;
+}
+
+.lasso .drawn {
+    fill-opacity : .05 ;
+}
+
+.lasso .loop_close {
+    fill:none;
+    stroke-dasharray: 4,4;
+}
+
+.lasso .origin {
+    fill:#3399FF;
+    fill-opacity:.5;
+}
+
+.not_possible {
+    fill:rgb(200,200,200);
+}
+
+.possible {
+    fill:#EC888C;
+}
+
+.not_selected {
+    fill: rgb(200,200,200);
+}
+
+
+/* search box related */
+#search_box { 
+    width : 100%;
+ }
+
+#go_button {
+    width : 100%;
+}
+
+
+/* multiple select related */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+.tt-hint {
+    color: #999999;
+}
+.tt-menu { 
+    max-width: 152px;
+    width : 100%;
+    margin-top: 2px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius : 2px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+.tt-menu:hover {
+    cursor : pointer;
+}
+.tt-suggestion {
+    font-size: 13px;
+    margin-left : 7px;
+    line-height: 24px;
+}
+
+.tt-suggestion:hover {
+    background-color : grey;
+    color: white;
+    cursor: pointer;
+}
+
+.tt-suggestion.tt-cursor {
+    background-color : grey;
+    color: white;
+}
+
+#select1{
+    width : 100%;
+}
+
+#clear{
+    width : 100%;
+}
+
+/* slider */
+#first_bar, #second_bar,  {
+    margin: auto;
+    width : 100%;
+}
+
+/* button to list view*/
+.button {
+  border-radius: 4px;
+  background-color: grey;
+  border: none;
+  color: white;
+  text-align: center;
+  width: 200px;
+  height : 30px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  font: 20px 'Helvetica Neue', Arial, Helvetica, sans-serif; 
+}
+
+.button:hover {
+    cursor :pointer;
+}
+
+
+/* title */
+#title_line { 
+	position : relative;
+	top : 23px;
+    text-align : center;
+    text-shadow : 2px 2px 4px #000000;
+    color : white;
+    z-index: 0;
+    font: 34px 'Helvetica Neue', Arial, Helvetica, sans-serif; 
+	user-select:none;
+}
+
+
+#map { 
+    position:absolute; 
+    top:0px; 
+    bottom:0; 
+    width:100%; 
+    height: 100%;
+    z-index :-1;
+}
+
+body { margin:0; padding:0; }
+
+label {
+    user-select:none;
+}
+
+/* year slider */
+#third_bar {
+	max-width : 650px;
+	width : 50%;
+	margin :auto;
+	text-align : center;
+	position : relative;
+	top : 500px;
+	background-color : brown;
+	z-index: 5;
+	opacity : 0.85;
+}
+
+#third_bar:hover{
+	cursor : pointer;
+}
+
+/* credit related*/
+#credit {
+    z-index : 3;
+    position : fixed ;
+    bottom :25px;
+    right:8px;
+    font: 15px 'Helvetica Neue', Arial, Helvetica, sans-serif; 
+    color : grey;
+}
+
+a:link {
+    color: grey;
+    opacity : 0.5;
+    text-decoration: none;
+}
+
+a:visited {
+    color: grey;
+    opacity : 0.5;
+    text-decoration: none;
+}
+
+a:hover {
+    color: grey;
+    opacity : 0.5;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:active {
+    color: grey;
+    opacity : 0.5;
+    text-decoration: none;
+}
+
+
+

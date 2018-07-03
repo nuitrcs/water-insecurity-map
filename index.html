@@ -2,35 +2,43 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Global Research Sites</title>
+		<title>HWISE Global Research Sites</title>
 		<link rel="icon" href="scripts/images/water_drop_trans.PNG" type="image/png" />
-		<link rel="stylesheet" type="text/css" href="index.css">
+		<link rel="stylesheet" type="text/css" href="scripts/index.css">
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
-		<link rel="stylesheet" type="text/css" href="d3.slider.css">
-		<!-- for bootstrap grid -->
+		<link rel="stylesheet" type="text/css" href="scripts/d3.slider.css">
+		<!-- bootstrap grid -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<link rel="stylesheet" href="scripts/mods/bootstrap/css/bootstrap.css" >
 	    <link rel="stylesheet" href="scripts/mods/multiple-select.css" >
 	</head>
 
 	<body>
-		<div id = "openner" class="backsidenav" onclick="openNav()">
-			&nbsp;
-			<img src="scripts/images/search_icon.png" style = "width :85% ; height: auto">
+		<!-- small navigation bars : search button and list button -->
+		<div class = "container">
+			<div class = "row">				
+				<div id = "openner" class="backsidenav" onclick="openNav()">
+					&nbsp;
+					<img src="scripts/images/search_icon.png" style = "width :85% ; height: auto">
+				</div>
+			</div>
+			<div class = "row">	
+				<div id = "openner2" class= "backsidenav" onclick ="openLister()">
+					List
+				</div>
+			</div>
 		</div>
-
+		<!-- side bar : filter -->
 		<div id="mySidenav" class="sidenav">
-		    <a class="closebtn" onclick="closeNav()">&times;</a>
+		    <a class="closebtn" onclick="closeNav()"> &times;</a>
 		    <div class ="container">
 		    	<div class ="row">
-		    		<div class ="col-sm">
+		    		<div class ="col">
 						<div id ="scatter2"></div>
-						<!-- <input id="reset" type="submit" value="reset!"> -->
 					</div>
-		    	</div>
-		    	<div class= "row">
-				    <div class="col-sm">
+					<div class = "w-100"></div>
+				    <div class="col">
 						<br>
 				  		<div class="row">
 							<div class="col-8" style ="margin: auto">
@@ -39,12 +47,12 @@
 								</div>
 							</div>
 							<div class="col-4" style ="margin: auto;">
-								<input id="gogogo" type="submit" value="GO!">
+								<input id="go_button" type="submit" value="GO!">
 							</div>
 						</div>
 						<br>
 						<div class="row" style ="background-color : white">
-							<div class="col-sm">
+							<div class="col">
 							    <div class="form-group">
 							        <label>Regions</label>
 							        <select id="region_select" multiple="multiple">
@@ -59,7 +67,7 @@
 							</div>
 						</div>
 						<div class="row" style = "background-color : white">
-							<div class="col-sm">
+							<div class="col">
 							    <div class="form-group">
 							        <label>HWISE Version</label>
 							        <div class = "dropdown-content">
@@ -72,18 +80,18 @@
 							</div>
 						</div>
 						<div class = "row" style="background-color : white;">
-							<div class="col-sm" >
+							<div class="col" >
 								<input id="select1" type="submit" value="select!">
 							</div>
-							<div class="col-sm">
-								<input id="clear" type="submit" value="clear!">
+							<div class="col">
+								<input id="clear" class = 'clean' type="submit" value="clear!" onclick= "clearit()">
 							</div>
 							<br>
 							<br>
 						</div>
 						<br>
 						<div class= "row">
-							<div class="col-12" style ="text-align : center" >
+							<div class="col" style ="text-align : center" >
 								<div id="first_bar"></div>
 								<span id="latmin">-90.00</span> <span> latitude </span> <span id="latmax">90.00</span>
 								<br>
@@ -91,44 +99,47 @@
 							    <span id="lngmin">-180.00</span> <span> longitutde </span> <span id="lngmax">180.00</span>
 							</div> 
 						</div>
+						<br>
+						<div class ="row">
+							<div class = "col">
+								<button class="button" onclick="openLister()">
+									 List View
+								</button> 
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- side bar : description -->
 		<div id="Desc" class = "desc"></div>
-
+		<!-- side bar : lister -->
+		<div id="Lister" class = "lister">   <input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()' >  </div>
+		<!-- map part -->
 		<div class = "map_part"> 
-			<div id="title_line"> <b>Global Research Sites</b> </div>
-			<span id="region" style="opacity:0;">All</span> 
+			<div id="title_line"> <b>HWISE Global Research Sites</b> </div>
+			<span id="year_value" style="opacity:0;">All</span> 
 			<div id="third_bar"></div>
 			<div id="map" ></div>
+			<div id="credit"> <a href="https://www.it.northwestern.edu/research/index.html" target="_blank" style="text-decoration :none"> NUIT Research Computing Services </a> </div>
 	    </div>
 	</body>
 
+	<!-- script list  -->
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="scripts/mods/controller.js"></script>
 	<script src="scripts/mods/jquery-3.3.1.min.js"></script>
-	<script src="scripts/mods/multiple-select.js"></script>
-	<script src="scripts/mods/bloodhound.js"></script>
 	<script src="scripts/mods/bloodhound.min.js"></script>
-	<script src="scripts/mods/typeahead.bundle.js"></script>
 	<script src="scripts/mods/typeahead.bundle.min.js"></script>	
-	<script src="scripts/mods/typeahead.jquery.js"></script>
 	<script src="scripts/mods/typeahead.jquery.min.js"></script>
-
     <script src="scripts/mods/all_function.js"></script>
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 
-	<script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="scripts/mods/d3.slider.js"></script>
-	<script src="scripts/mods/controller.js"></script>
 	<script src="scripts/mods/map.js"></script>
-	<script src="scripts/mods/map2.js"></script>
-	<script src = "scripts/mods/lasso.min.js"></script>	
-	<!-- <script src = "http://axc.net/code_libraries/lasso/lasso.min.js"></script> -->
+	<script src="scripts/mods/lasso.min.js"></script>	
 	<script src="scripts/mods/scatter2.js"></script>
-
 	<script src="scripts/mods/search_function.js"></script>
-
-	<script src="scripts/mods/jquery.min.js"></script>
 	<script src="scripts/mods/multiple-select.js"></script>
 	<script>
 	    $(function() {
@@ -149,7 +160,6 @@
 	        $("#Version_select").multipleSelect("checkAll")
 	        ;
 	    });
-
 	</script>
 </html>
 
