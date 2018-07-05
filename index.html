@@ -3,15 +3,15 @@
 	<head>
 		<meta charset="utf-8">
 		<title>HWISE Global Research Sites</title>
-		<link rel="icon" href="scripts/images/water_drop_trans.PNG" type="image/png" />
-		<link rel="stylesheet" type="text/css" href="scripts/index.css">
+		<link rel="icon" href="scripts/images/HWISE_logo_centered.png">
+		<link rel="stylesheet" type="text/css" href="scripts/css/index.css">
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
 		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
-		<link rel="stylesheet" type="text/css" href="scripts/d3.slider.css">
+		<link rel="stylesheet" type="text/css" href="scripts/css/d3.slider.css">
 		<!-- bootstrap grid -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<link rel="stylesheet" href="scripts/mods/bootstrap/css/bootstrap.css" >
-	    <link rel="stylesheet" href="scripts/mods/multiple-select.css" >
+	    <link rel="stylesheet" href="scripts/css/multiple-select.css" >
 	</head>
 
 	<body>
@@ -37,76 +37,72 @@
 		    		<div class ="col">
 						<div id ="scatter2"></div>
 					</div>
-					<div class = "w-100"></div>
-				    <div class="col">
+				</div>
+		  		<div class="row">
+					<div class="col-8" style ="margin: auto">
+						<div id="search_box">
+						  <input class="typeahead" type="text" placeholder="Site Name">
+						</div>
+					</div>
+					<div class="col-4" style ="margin: auto;">
+						<input id="go_button" class="button" type="submit" value="GO!">
+					</div>
+				</div>
+				<br>
+				<div class = "row">
+					<b style="margin:auto;font-size : 1.3vw; user-select : none"> Number of results : &nbsp; <span id="results_num"> 24 </span></b>
+				</div>
+				<div class="row">
+					<div class="col">
+					    <div class="form-group">
+					        <label style="color : white;font-size : 1.2vw">Regions</label>
+					        <select id="region_select" multiple="multiple">
+							    <option value="Africa"> Africa</option>
+	  						    <option value="East Asia and Pacific"> East Asia and Pacific</option>
+							    <option value="Europe and Central Asia"> Europe and Central Asia</option>
+							    <option value="Latin American and the Caribbean"> Latin American and the Caribbean</option>
+							    <option value="Middle East and North Africa"> Middle East and North Africa</option>
+							    <option value="South Asia"> South Asia </option>
+					        </select>
+					    </div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+					    <div class="form-group">
+					        <label style="color : white;font-size : 1.2vw">HWISE Version</label>
+					        <select id="Version_select" multiple="multiple" style="color : white;">
+							    <option value="1"> Version 1</option>
+	  						    <option value="2"> Version 2</option>
+					        </select>
+					    </div>
+					</div>
+				</div>
+				<div class = "row">
+					<div class="col" >
+						<input id="select1" class = "button1" type="submit" value="select">
+					</div>
+					<div class="col">
+						<input id="clear" class = 'button1' type="submit" value="clear" onclick= "clearit()">
+					</div>
+					<br>
+				</div>
+				<br>
+				<div class= "row">
+					<div class="col" style ="text-align : center; color : white; font-size : 1.1vw" >
+						<div id="first_bar"></div>
+						<span id="latmin">-90.00</span> <span> &nbsp; latitude &nbsp; </span> <span id="latmax">90.00</span>
 						<br>
-				  		<div class="row">
-							<div class="col-8" style ="margin: auto">
-								<div id="search_box">
-								  <input class="typeahead" type="text" placeholder="Site Name">
-								</div>
-							</div>
-							<div class="col-4" style ="margin: auto;">
-								<input id="go_button" type="submit" value="GO!">
-							</div>
-						</div>
-						<br>
-						<div class="row" style ="background-color : white">
-							<div class="col">
-							    <div class="form-group">
-							        <label>Regions</label>
-							        <select id="region_select" multiple="multiple">
-									    <option value="Africa"> Africa</option>
-			  						    <option value="East Asia and Pacific"> East Asia and Pacific</option>
-									    <option value="Europe and Central Asia"> Europe and Central Asia</option>
-									    <option value="Latin American and the Caribbean"> Latin American and the Caribbean</option>
-									    <option value="Middle East and North Africa"> Middle East and North Africa</option>
-									    <option value="South Asia"> South Asia </option>
-							        </select>
-							    </div>
-							</div>
-						</div>
-						<div class="row" style = "background-color : white">
-							<div class="col">
-							    <div class="form-group">
-							        <label>HWISE Version</label>
-							        <div class = "dropdown-content">
-							        <select id="Version_select" multiple="multiple">
-									    <option value="1"> Version 1</option>
-			  						    <option value="2"> Version 2</option>
-							        </select>
-								    </div>
-							    </div>
-							</div>
-						</div>
-						<div class = "row" style="background-color : white;">
-							<div class="col" >
-								<input id="select1" type="submit" value="select!">
-							</div>
-							<div class="col">
-								<input id="clear" class = 'clean' type="submit" value="clear!" onclick= "clearit()">
-							</div>
-							<br>
-							<br>
-						</div>
-						<br>
-						<div class= "row">
-							<div class="col" style ="text-align : center" >
-								<div id="first_bar"></div>
-								<span id="latmin">-90.00</span> <span> latitude </span> <span id="latmax">90.00</span>
-								<br>
-							    <div id="second_bar"></div>	
-							    <span id="lngmin">-180.00</span> <span> longitutde </span> <span id="lngmax">180.00</span>
-							</div> 
-						</div>
-						<br>
-						<div class ="row">
-							<div class = "col">
-								<button class="button" onclick="openLister()">
-									 List View
-								</button> 
-							</div>
-						</div>
+					    <div id="second_bar"></div>	
+					    <span id="lngmin">-180.00</span> <span> &nbsp; longitutde &nbsp; </span> <span id="lngmax">180.00</span>
+					</div> 
+				</div>
+				<br>
+				<div class ="row">
+					<div class = "col">
+						<button class="button1" onclick="closeNav()">
+							 List View
+						</button> 
 					</div>
 				</div>
 			</div>
@@ -114,9 +110,10 @@
 		<!-- side bar : description -->
 		<div id="Desc" class = "desc"></div>
 		<!-- side bar : lister -->
-		<div id="Lister" class = "lister">   <input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()' >  </div>
+		<div id="Lister" class = "lister">   
+		<input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()' >  </div>
 		<!-- map part -->
-		<div class = "map_part"> 
+		<div class = "map_part" style= "height: 0px"> 
 			<div id="title_line"> <b>HWISE Global Research Sites</b> </div>
 			<span id="year_value" style="opacity:0;">All</span> 
 			<div id="third_bar"></div>
@@ -134,7 +131,6 @@
 	<script src="scripts/mods/typeahead.jquery.min.js"></script>
     <script src="scripts/mods/all_function.js"></script>
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
-
     <script src="scripts/mods/d3.slider.js"></script>
 	<script src="scripts/mods/map.js"></script>
 	<script src="scripts/mods/lasso.min.js"></script>	

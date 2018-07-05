@@ -20,7 +20,6 @@ document.getElementById("search_box").addEventListener("keypress", function(even
     }
 });
 
-
 jun.map.on('click', 'points', function (e) {
     here_id  = e.features[0].properties.id_number
     var coordinates = e.features[0].geometry.coordinates.slice();

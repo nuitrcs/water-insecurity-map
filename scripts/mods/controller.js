@@ -2,8 +2,8 @@ var jun ={}
 
 jun.map_key = 'pk.eyJ1IjoiZnJhbms2MjciLCJhIjoiY2ppa2Z4Ym43MmRxbDNxcGVwMzRnajY3biJ9.8lvY87cIk4n7Kjok9vOQug'
 
-jun.default_center_first = 8.233028050000001
-jun.default_center_second = 11.853942649999999
+jun.default_center_first = -9.04141275
+jun.default_center_second = 11.85394265
 
 mapboxgl.accessToken = jun.map_key
 jun.map = new mapboxgl.Map({
@@ -14,12 +14,10 @@ jun.map = new mapboxgl.Map({
 });
 
 jun.data_link = 'scripts/data/data2.json'
-jun.image1_link = "scripts/images/map_marker_resized.png"
-jun.image2_link = "scripts/images/map_marker_resized_color.png"
-
+jun.image1_link = "scripts/images/marker1_sil.png"
+jun.image2_link = "scripts/images/marker2_sil.png"
 
 jun.color_standard = "Setting"
-
 
 d3.json(jun.data_link,function(finished_data) {
     jun.data = finished_data
