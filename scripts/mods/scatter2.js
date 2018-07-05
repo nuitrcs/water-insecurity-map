@@ -8,7 +8,9 @@ var x = d3.scale.linear()
 var y = d3.scale.linear()
     .range([height, 0]);
 
-var color = d3.scale.category10();
+var colors = ["#0AC19C","#778AF1", "#9491AB"]
+
+var color = d3.scale.ordinal().range(colors)
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -47,7 +49,7 @@ var lasso_draw = function() {
 var lasso_end = function() {
   // Reset the color of all dots
   lasso.items()
-     .style("fill", function(d) { return color(d[jun.color_standard ]); })
+     .style("fill", function(d) { return color(d[jun.color_standard]); })
      .style("opacity","1.0");
 
   // Style the selected dots
@@ -99,7 +101,7 @@ var lasso_end = function() {
     jun.map.flyTo({center : [(Math.max(...lng_lassoed)+Math.min(...lng_lassoed))/2,(Math.max(...lat_lassoed)+Math.min(...lat_lassoed))/2],zoom:1.3})
   }
 
-  document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+  document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3><div class='list_content'>"
   for (var i = 0 ; i < site_search.length; i ++){
       if (id_list.indexOf(i) >= 0) {
           document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
@@ -108,7 +110,7 @@ var lasso_end = function() {
           document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br>"
       }
   }
-  document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+  document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1' type='submit' value ='clear' onclick = 'clearit()'>"
   jun.map.setFilter("points", lassoed)
 }
  
@@ -193,7 +195,7 @@ d3.json(jun.data_link, function(error, data) {
         .on("click", function(d){
             var id_marker =d3.select(this)[0][0].id
             filter_list_ver2(id_marker)
-            document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3><br>"
+            document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3><div class='list_content'>"
             for (var i = 0 ; i < site_search.length; i ++){
                 if (i == id_marker) {
                     document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
@@ -202,7 +204,7 @@ d3.json(jun.data_link, function(error, data) {
                     document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br>"
                 }
             }
-            document.getElementById("Lister").innerHTML += "<input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+            document.getElementById("Lister").innerHTML += "</div><input id = 'clear1' class='button1' type='submit' value ='clear' onclick = 'clearit()'>"
         })
   var legend = svg.selectAll(".legend")
       .data(color.domain())

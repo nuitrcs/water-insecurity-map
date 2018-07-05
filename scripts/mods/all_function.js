@@ -90,19 +90,25 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                         "icon-image": "{icon}",
                         "icon-allow-overlap": true,
                         "icon-anchor":"bottom",
+                        "icon-size" : 0.2,
                         "text-field": "{SiteName}",
                         "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                        "text-offset": [0, 0],
-                        "text-anchor": "center"     
-                        }
+                        "text-size" : 13,
+                        "text-offset": [0,-0.4],
+                        "text-anchor": "top",  
+                        "text-optional" : true,
+                        "text-max-width" : 8,
+                        "text-line-height" : 0.9
+                        },
+                    "paint" :{
+                        "icon-opacity" : 0.95
+                    }
                     })
                 })
             }
         )
     })
 }
-
-
 
 // filter_list : for slide bars : change lassoable items and map markers
 function filter_list() {    
@@ -432,8 +438,6 @@ function filter_list_ver4(id_marker) {
     return [region_filter2, version_filter2, final_filter]
 }
 
-
-
 // search engine //
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
@@ -471,13 +475,15 @@ function openDesc(idid) {
     document.getElementById("openner2").style.opacity = "0";   
     document.getElementById("Desc").style.width= "20%";
     document.getElementById("Desc").style.opacity="0.85"
-    document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a> <br> \
+    document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a>\
         <span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
         "</div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br> \
         <br> <p>Lat: "+Number(lat_search[idid]) +"<br />Lng: "+Number(lng_search[idid]) +"<br />HWISE Version: "+hwise_search[idid] 
         +"<br />Participants: " + Participants_search[idid] +"<br />GNI: " + GNI_search[idid]*1000 + " USD<br />Region: " + Region_search[idid] 
         + "<br />Partners: "+ Partners_search[idid] + "<br />Setting: "+Setting_search[idid] + "<br />Sampling: " + Sampling_search[idid] 
         + "<br />Climate : " + Climate_search[idid] + "<br />Gender: male - "+Male_search[idid] + "% / female - "+Female_search[idid] +"%</p></span>"
+    document.getElementById("Lister").style.width = "0%"; 
+    document.getElementById("Lister").style.opacity = "0.0";
 }
 
 function closeDesc() { 
@@ -492,11 +498,11 @@ function openLister() {
     document.getElementById("Lister").style.width = "20%"; 
     document.getElementById("Lister").style.opacity = "0.85";
     if ($('#Lister').children().length==1){
-        document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+        document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
         for (var i = 0; i < site_search.length; i++){
           document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
         }
-        document.getElementById("Lister").innerHTML += "<br><input id = 'clear1'  type='submit' value ='clear!'>"
+        document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1'  class='button1' type='submit' value ='clear'>"
     }
 }
 
@@ -519,7 +525,7 @@ function linklink(id_number){
             yes_chosen1.push(i)
         } 
     }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
     for (var j = 0 ; j < site_search.length; j ++){
         if (yes_chosen1.indexOf(j) >= 0) {
             document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+j+"_list' onclick='linklink("+j+")'>"+ site_search[j]+"</span><br>"
@@ -528,7 +534,7 @@ function linklink(id_number){
             document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+j+"_list'>"+ site_search[j]+"</span><br>"
         }
     }
-    document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+    document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1' type='submit' value ='clear' onclick = 'clearit()'>"
 }
 
 function clearit() { 
@@ -539,13 +545,27 @@ function clearit() {
     lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
 
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
     for (var i = 0; i < site_search.length; i++){
       document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
-    }
-     document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+    }  
+    document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1' type='submit'  value ='clear' onclick = 'clearit()'>"
 
-     document.getElementById('third_bar').click();
+    document.getElementById("latmin").innerText = -90.00
+    document.getElementById("latmax").innerText = 90.00
+    document.getElementById("lngmin").innerText = -180.00
+    document.getElementById("lngmax").innerText = 180.00
+    document.getElementsByClassName("d3-slider-range")[0].style.left = "0%"
+    document.getElementsByClassName("d3-slider-range")[0].style.right = "0%"     
+    document.getElementsByClassName("d3-slider-range")[1].style.left = "0%"
+    document.getElementsByClassName("d3-slider-range")[1].style.right = "0%" 
+
+    document.getElementsByClassName("d3-slider-handle")[0].style.left = "0%"
+    document.getElementsByClassName("d3-slider-handle")[1].style.left = "100%" 
+    document.getElementsByClassName("d3-slider-handle")[2].style.left = "0%"
+    document.getElementsByClassName("d3-slider-handle")[3].style.left = "100%" 
+
+    document.getElementById('third_bar').click();
 }
 
 function list_changer() {
@@ -558,7 +578,7 @@ function list_changer() {
             yes_chosen.push(i)
         } 
     }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> List of research sites </h3>"
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
     for (var i = 0 ; i < site_search.length; i ++){
         if (yes_chosen.indexOf(i) >= 0) {
             document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
@@ -567,8 +587,25 @@ function list_changer() {
             document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list'>"+ site_search[i]+"</span><br>"
         }
     }
-    document.getElementById("Lister").innerHTML += "<br><input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'>"
+    document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1'  type='submit' value ='clear' onclick = 'clearit()'>"
     return yes_chosen
 }
 
-
+function center_changer() { 
+    console.log("hi")
+    multiple_selected = list_changer()
+    if (multiple_selected.length >= 1){
+        multiple_selected_lat = []
+        multiple_selected_lng = []
+        for (var k = 0; k < multiple_selected.length; k++){
+          multiple_selected_lat.push(lat_search[multiple_selected[k]])
+          multiple_selected_lng.push(lng_search[multiple_selected[k]])
+        }
+        jun.map.flyTo({center : [(Math.max(...multiple_selected_lng)+Math.min(...multiple_selected_lng))/2,(Math.max(...multiple_selected_lat)+Math.min(...multiple_selected_lat))/2],zoom:1.3})
+        document.getElementById("results_num").innerText = (multiple_selected.length)
+    }
+    else {
+        console.log("sssss")
+        document.getElementById("results_num").innerText = 0
+    }  
+}
