@@ -1,20 +1,27 @@
+var jun ={}
 
-map_key = 'pk.eyJ1IjoiZmVsYXZza3kiLCJhIjoiY2pmb3EwdjF3MHp4eTMybWR2aHVzNG1mOSJ9.QDrrYApB997cGXV7gnoNfQ'
-var jun = {
-	// map : new mapboxgl.Map({
-	// 	   	container: 'map', 
-	// 	  	style: 'mapbox://styles/mapbox/streets-v9', 
-	// 	  	zoom:1.0,
-	// 		center: [-25.12968,9.52095]
-	// 	})
-}
+jun.map_key = 'pk.eyJ1IjoiZnJhbms2MjciLCJhIjoiY2ppa2Z4Ym43MmRxbDNxcGVwMzRnajY3biJ9.8lvY87cIk4n7Kjok9vOQug'
 
-jun.data = []
+jun.default_center_first = 8.233028050000001
+jun.default_center_second = 11.853942649999999
 
-// d3.json('scripts/data/data.json',function(finished_data) {
-// 	jun.data = finished_data
-// 	console.log(jun.data)
-// 	drawMarkers("Lat",-5, 10)
-// })
-	
+mapboxgl.accessToken = jun.map_key
+jun.map = new mapboxgl.Map({
+    container: 'map', 
+    style: 'mapbox://styles/frank627/cjj6207aq00rl2sp1kaukshtb', 
+  	zoom:1.3,
+	center: [jun.default_center_first, jun.default_center_second]
+});
 
+jun.data_link = 'scripts/data/data2.json'
+jun.image1_link = "scripts/images/map_marker_resized.png"
+jun.image2_link = "scripts/images/map_marker_resized_color.png"
+
+
+jun.color_standard = "Setting"
+
+
+d3.json(jun.data_link,function(finished_data) {
+    jun.data = finished_data
+    drawMarkers("Lat",latmin.innerText,latmax.innerText,"Lng", lngmin.innerText, latmax.innerText, "Year",year_value.innerText)
+})
