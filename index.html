@@ -39,13 +39,10 @@
 					</div>
 				</div>
 		  		<div class="row">
-					<div class="col-8" style ="margin: auto">
-						<div id="search_box">
+					<div class="col" style ="margin: auto">
+						<div id="scrollable-dropdown-menu">
 						  <input class="typeahead" type="text" placeholder="Site Name">
 						</div>
-					</div>
-					<div class="col-4" style ="margin: auto;">
-						<input id="go_button" class="button" type="submit" value="GO!">
 					</div>
 				</div>
 				<br>
@@ -57,12 +54,12 @@
 					    <div class="form-group">
 					        <label style="color : white;font-size : 1.2vw">Regions</label>
 					        <select id="region_select" multiple="multiple">
+							    <option value="Middle East and North Africa"> Middle East & North Africa</option>
 							    <option value="Africa"> Africa</option>
+							    <option value="Latin American and the Caribbean"> Latin American & the Caribbean</option>
 	  						    <option value="East Asia and Pacific"> East Asia and Pacific</option>
-							    <option value="Europe and Central Asia"> Europe and Central Asia</option>
-							    <option value="Latin American and the Caribbean"> Latin American and the Caribbean</option>
-							    <option value="Middle East and North Africa"> Middle East and North Africa</option>
 							    <option value="South Asia"> South Asia </option>
+							    <option value="Europe and Central Asia"> Europe and Central Asia</option>
 					        </select>
 					    </div>
 					</div>
@@ -100,7 +97,7 @@
 				<br>
 				<div class ="row">
 					<div class = "col">
-						<button class="button1" onclick="closeNav()">
+						<button class="button1" onclick="filtertolist()">
 							 List View
 						</button> 
 					</div>
@@ -113,10 +110,12 @@
 		<div id="Lister" class = "lister">   
 		<input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()' >  </div>
 		<!-- map part -->
-		<div class = "map_part" style= "height: 0px"> 
+		<div id = "map_part" style= "height: 0px"> 
 			<div id="title_line"> <b>HWISE Global Research Sites</b> </div>
 			<span id="year_value" style="opacity:0;">All</span> 
 			<div id="third_bar"></div>
+
+			<div id = "line_title" style="position: fixed; bottom: 30px; width:100%; text-align: center;opacity: 0; font-size : 15px" > <b>Households that get their water from an improved water source</b> </div>
 			<div id="map" ></div>
 			<div id="credit"> <a href="https://www.it.northwestern.edu/research/index.html" target="_blank" style="text-decoration :none"> NUIT Research Computing Services </a> </div>
 	    </div>
@@ -133,14 +132,16 @@
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
     <script src="scripts/mods/d3.slider.js"></script>
 	<script src="scripts/mods/map.js"></script>
+    <script src="scripts/mods/liquidFillGauge.js""></script>
+    <script src="scripts/mods/water_fill.js""></script>
 	<script src="scripts/mods/lasso.min.js"></script>	
 	<script src="scripts/mods/scatter2.js"></script>
 	<script src="scripts/mods/search_function.js"></script>
 	<script src="scripts/mods/multiple-select.js"></script>
+
 	<script>
 	    $(function() {
 	        $('#region_select').change(function() {
-	            // console.log($(this).val());
 	        }).multipleSelect({
 	            width: '100%'
 	        })
@@ -149,7 +150,6 @@
 	    });
 	    $(function() {
 	        $('#Version_select').change(function() {
-	            // console.log($(this).val());
 	        }).multipleSelect({
 	            width: '100%'
 	        })

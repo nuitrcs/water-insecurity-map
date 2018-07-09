@@ -13,12 +13,32 @@ var Sampling_search = []
 var Climate_search = []
 var Male_search = []
 var Female_search = []
+var Improved_search = []
 
-document.getElementById("search_box").addEventListener("keypress", function(event) {
+document.getElementById("scrollable-dropdown-menu").addEventListener("keypress", function(event) {
   if (event.keyCode === 13) {
-    document.getElementById("go_button").click()
+    for (var i = 0; i < site_search.length; i++) { 
+        if (site_search[i]== $('.typeahead')[1].value) { 
+            jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
+            openDesc(i)
+            $('.tt-menu').css('display','none');
+            filter_list_ver2(i,1)
+            }
+        }
     }
 });
+
+$(document).on('click','.tt-suggestion', function(e){
+    for (var i = 0; i < site_search.length; i++) { 
+        if (site_search[i]== document.getElementsByClassName("typeahead")[1].value) { 
+            console.log("yes")
+            jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
+            openDesc(i)
+            $('.tt-menu').css('display','none');
+            filter_list_ver2(i,1)
+            }
+        }
+})
 
 jun.map.on('click', 'points', function (e) {
     here_id  = e.features[0].properties.id_number
@@ -27,19 +47,9 @@ jun.map.on('click', 'points', function (e) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
     openDesc(here_id)
-    filter_list_ver2(e.features[0].properties.id_number)
+    filter_list_ver2(e.features[0].properties.id_number,1)
 });
 
-document.getElementById("go_button").addEventListener("click",function(){
-    for (var i = 0; i < site_search.length; i++) { 
-        if (site_search[i]== $('.typeahead')[1].value) { 
-            jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
-            openDesc(i)
-            $('.tt-menu').css('display','none');
-            filter_list_ver2(i)
-            }
-    }
-});
 
 jun.map.on('mouseenter', 'points', function () {
     jun.map.getCanvas().style.cursor = 'pointer';

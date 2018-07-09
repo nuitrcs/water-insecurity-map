@@ -2,7 +2,7 @@
     height : 100%;
     max-width: 250px; 
     width:20%;
-    opacity:0.85;
+    opacity:1;
     position: fixed; 
     z-index: 3; 
     top: 0; 
@@ -31,7 +31,7 @@
     max-width : 150px ;
     height: auto; 
     width: 10%; 
-    opacity:0.0;
+    opacity:1;
     z-index: 2; 
     position : fixed;
     left : 0px;
@@ -56,7 +56,7 @@
 .desc {
     height: 100%; 
     width: 0px; 
-    opacity:0.85;
+    opacity:1;
     position: absolute;
     top: 0;
     left: 0px; 
@@ -66,10 +66,11 @@
     overflow-x: hidden; 
     padding-top: 20px; 
     transition: 0.5s; 
-    font-size : 1.2vw;
+    font-size : 1.1vw;
 }
 
 .desc_top {
+    margin-top : 10px;
     font-size : 2vw;
 }
 
@@ -89,7 +90,7 @@
     transition: 0.5s;  
     color : white;
     text-align : center;
-    font-size : 1.1vw;
+    font-size : 1.0vw;
 }
 
 .list_element_yes {
@@ -105,6 +106,11 @@
     opacity: 0.3;
 }
 
+.region_division{
+    font-size : 1.2vw;
+    background-color : #134C78;
+    user-select :none ;
+}
 
 /* lasso related */
 .axis path,
@@ -153,26 +159,22 @@
 }
 
 
-/* search box related */
-#search_box { 
-    width : 100%;
- }
-
-#go_button {
-    width : 100%;
-}
-
-
-/* multiple select related */
 #main {
     transition: margin-left .5s;
     padding: 20px;
 }
+
+.twitter-typeahead {
+    width: 100%;
+}
+.tt-input { 
+    width : 100%;
+}
 .tt-hint {
     color: #999999;
+    width: 100%;
 }
 .tt-menu { 
-    max-width: 152px;
     width : 100%;
     margin-top: 2px;
     background-color: #fff;
@@ -180,6 +182,8 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius : 2px;
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    max-height: 100px;
+    overflow-y: auto;
 }
 .tt-menu:hover {
     cursor : pointer;
@@ -199,7 +203,8 @@
 .tt-suggestion.tt-cursor {
     background-color : grey;
     color: white;
-}
+} 
+
 
 #select1{
     width : 100%;
@@ -207,10 +212,6 @@
 
 #clear{
     width : 100%;
-}
-
-#clear1{
-    width :50%;
 }
 
 /* slider */
@@ -265,10 +266,6 @@
 
 body { margin:0; padding:0; }
 
-label {
-    user-select:none;
-    /*color: white;*/
-}
 .map_part { 
     width : 100%;
     height : 400px;
@@ -285,7 +282,7 @@ label {
     bottom : 50px;
 	background-color : #1D6CAC;
 	z-index: 5;
-	opacity : 0.85;
+	opacity : 1;
 }
 
 #third_bar:hover{
@@ -323,4 +320,17 @@ a:hover {
 a:active {
     color: grey;
     text-decoration: none;
+}
+
+
+table, th, td {
+    border: 1px solid white;
+    margin:auto;
+}
+table { 
+    width : 90%; 
+}
+
+#fillgauge1 {
+    z-index : 100;
 }
