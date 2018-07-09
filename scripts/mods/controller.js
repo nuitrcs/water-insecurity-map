@@ -8,7 +8,7 @@ jun.default_center_second = 11.85394265
 mapboxgl.accessToken = jun.map_key
 jun.map = new mapboxgl.Map({
     container: 'map', 
-    style: 'mapbox://styles/frank627/cjj6207aq00rl2sp1kaukshtb', 
+    style: 'mapbox://styles/frank627/cjjaddc1352h42rrypj4zrflx', 
   	zoom:1.3,
 	center: [jun.default_center_first, jun.default_center_second]
 });

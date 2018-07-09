@@ -69,6 +69,7 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
         Climate_search.push(jun.data[i]["Climate"])
         Female_search.push(jun.data[i]["Female"])
         Male_search.push((100-jun.data[i]["Female"]).toFixed(2))
+        Improved_search.push(jun.data[i]["Improved_water"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
@@ -108,6 +109,7 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
             }
         )
     })
+    jun.map.addControl(new mapboxgl.NavigationControl());
 }
 
 // filter_list : for slide bars : change lassoable items and map markers
@@ -181,7 +183,7 @@ function filter_list() {
 }
 
 // filter_list_ver2 : when specific marker is chosen : change lasso items and map markers
-function filter_list_ver2(id_marker) {    
+function filter_list_ver2(id_marker,option ) {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
         for (var i = 0; i < $(region_select).val().length;i++){
@@ -208,7 +210,7 @@ function filter_list_ver2(id_marker) {
                     && (Year_search[id_marker] == Number(year_value.innerText)) 
                     ){
                         jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:5})
-                        openDesc(id_marker)
+                        openDesc(id_marker,option)
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                             && (region_filter.indexOf(d.Region) >= 0) 
                             && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -255,7 +257,7 @@ function filter_list_ver2(id_marker) {
                     && (lng_search[id_marker] <= Number(lngmax.innerText))
                     ){
                         jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:5})
-                        openDesc(id_marker)
+                        openDesc(id_marker,option)
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                             && (region_filter.indexOf(d.Region) >= 0) 
                             && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -441,81 +443,113 @@ function filter_list_ver4(id_marker) {
 // search engine //
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
-    var matches, substringRegex;
-    matches = [];
-    substrRegex = new RegExp(q, 'i');
-    $.each(strs, function(i, str) {
-      if (substrRegex.test(str)) {
-        matches.push(str);
-      }
-    });
-    cb(matches);
-  };
+    if (q=="") { 
+        var matches 
+        matches = [];
+        substrRegex = new RegExp(q, 'i');
+        $.each(strs, function(i, str) {
+            matches.push(str);
+        });
+        cb(matches);
+    }
+    else { 
+        var matches, substringRegex;
+        matches = [];
+        substrRegex = new RegExp(q, 'i');
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            matches.push(str);
+          }
+        });
+        cb(matches);
+    } 
+  };  
 };
 
 
 // navigation bar
 function openNav() {
     document.getElementById("mySidenav").style.width = "20%";
-    document.getElementById("mySidenav").style.opacity = "0.85";
-    document.getElementById("openner").style.opacity = "0";
-    document.getElementById("openner2").style.opacity = "0";
+    document.getElementById("mySidenav").style.opacity = "1";
+    closeLister()
 }
 
 function closeNav() {
     document.getElementById("mySidenav").style.width = "1%";
     document.getElementById("mySidenav").style.opacity="0.0";
-    openLister()
 }
 
-function openDesc(idid) { 
-    document.getElementById("mySidenav").style.width = "1%";
-    document.getElementById("mySidenav").style.opacity="0.0";
-    document.getElementById("openner").style.opacity = "0";
-    document.getElementById("openner2").style.opacity = "0";   
-    document.getElementById("Desc").style.width= "20%";
-    document.getElementById("Desc").style.opacity="0.85"
-    document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a>\
-        <span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
-        "</div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br> \
-        <br> <p>Lat: "+Number(lat_search[idid]) +"<br />Lng: "+Number(lng_search[idid]) +"<br />HWISE Version: "+hwise_search[idid] 
-        +"<br />Participants: " + Participants_search[idid] +"<br />GNI: " + GNI_search[idid]*1000 + " USD<br />Region: " + Region_search[idid] 
-        + "<br />Partners: "+ Partners_search[idid] + "<br />Setting: "+Setting_search[idid] + "<br />Sampling: " + Sampling_search[idid] 
-        + "<br />Climate : " + Climate_search[idid] + "<br />Gender: male - "+Male_search[idid] + "% / female - "+Female_search[idid] +"%</p></span>"
+function openLister() {
+    document.getElementById("Lister").style.width = "20%"; 
+    document.getElementById("Lister").style.opacity = "1";
+    if ($('#Lister').children().length==1){
+        version2()
+    }
+    closeNav()
+}
+
+function filtertolist() {
+    closeNav() 
+    openLister()
+}
+function listtofilter() { 
+    closeLister() 
+    openNav()
+}
+
+function closeLister() {
     document.getElementById("Lister").style.width = "0%"; 
     document.getElementById("Lister").style.opacity = "0.0";
+}
+
+function openDesc(idid, option) { 
+    closeNav()
+    closeLister()   
+    document.getElementById("Desc").style.width= "20%";
+    document.getElementById("Desc").style.opacity="1"
+    if (option == 1 ){
+        document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a>"  
+    }
+    else {
+        document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()''>&times;</a>"  
+    }
+    document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
+        "</div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br><br>\
+        <div class='whole_table'><table> <tr> <td>Lat</td> <td>"+Number(lat_search[idid]) +
+        "</td> </tr> <tr> <td>Lng</td><td> "+Number(lng_search[idid]) +
+        "</td> </tr> <tr> <td> HWISE Version</td><td> "+hwise_search[idid] +
+        "</td> </tr> <tr> <td>Participants</td><td> " + Participants_search[idid] +
+        "</td> </tr> <tr> <td> GNI</td><td> " + GNI_search[idid]*1000 +
+        " USD</td> </tr> <tr> <td>Region</td><td>  " +Region_search[idid] +
+        "</td> </tr> <tr> <td>Partners</td><td> "+ Partners_search[idid] +
+        "</td> </tr> <tr> <td>Setting</td><td>"+Setting_search[idid] +
+        "</td> </tr> <tr> <td>Sampling</td><td>" + Sampling_search[idid] + 
+        "</td> </tr> <tr> <td>Climate</td><td>" + Climate_search[idid] +
+        "</td> </tr> <tr> <td>Gender</td><td> male - "+Male_search[idid] +"% <br /> female - "+Female_search[idid] +"%</td></table></div>"
+    document.getElementById("Lister").style.width = "0%"; 
+    document.getElementById("Lister").style.opacity = "0.0";
+    water_level_enter(Improved_search[idid],hwise_search[idid])
 }
 
 function closeDesc() { 
     document.getElementById("Desc").innerHTML = ""
     document.getElementById("Desc").style.width= "0%" 
     openNav()
+    clearit()
+    water_level_exit()
 }
 
-function openLister() {
-    document.getElementById("openner").style.opacity = "0";
-    document.getElementById("openner2").style.opacity = "0"; 
-    document.getElementById("Lister").style.width = "20%"; 
-    document.getElementById("Lister").style.opacity = "0.85";
-    if ($('#Lister').children().length==1){
-        document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
-        for (var i = 0; i < site_search.length; i++){
-          document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
-        }
-        document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1'  class='button1' type='submit' value ='clear'>"
-    }
-}
-
-function closeLister() {
-    document.getElementById("Lister").style.width = "0%"; 
-    document.getElementById("Lister").style.opacity = "0.0";
-    document.getElementById("openner").style.opacity = "0.85";
-    document.getElementById("openner2").style.opacity = "0.85";
+function closeDesc1() { 
+    document.getElementById("Desc").innerHTML = ""
+    document.getElementById("Desc").style.width= "0%" 
+    openLister()
+    clearit()
+    water_level_exit()
 }
 
 function linklink(id_number){
     closeLister()
-    filter_list_ver2(id_number)
+    filter_list_ver2(id_number,2)
     ver4_result = filter_list_ver4(id_number)
     region_filter2 = ver4_result[0]
     version_filter2 = ver4_result[1]
@@ -525,16 +559,7 @@ function linklink(id_number){
             yes_chosen1.push(i)
         } 
     }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
-    for (var j = 0 ; j < site_search.length; j ++){
-        if (yes_chosen1.indexOf(j) >= 0) {
-            document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+j+"_list' onclick='linklink("+j+")'>"+ site_search[j]+"</span><br>"
-        }
-        else {
-            document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+j+"_list'>"+ site_search[j]+"</span><br>"
-        }
-    }
-    document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1' type='submit' value ='clear' onclick = 'clearit()'>"
+    version1(yes_chosen1) 
 }
 
 function clearit() { 
@@ -545,11 +570,8 @@ function clearit() {
     lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
 
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
-    for (var i = 0; i < site_search.length; i++){
-      document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
-    }  
-    document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1' type='submit'  value ='clear' onclick = 'clearit()'>"
+    version2()
+    
 
     document.getElementById("latmin").innerText = -90.00
     document.getElementById("latmax").innerText = 90.00
@@ -578,21 +600,11 @@ function list_changer() {
             yes_chosen.push(i)
         } 
     }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <div class='list_content'>"
-    for (var i = 0 ; i < site_search.length; i ++){
-        if (yes_chosen.indexOf(i) >= 0) {
-            document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
-        }
-        else {
-            document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list'>"+ site_search[i]+"</span><br>"
-        }
-    }
-    document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1'  type='submit' value ='clear' onclick = 'clearit()'>"
+    version1(yes_chosen) 
     return yes_chosen
 }
 
 function center_changer() { 
-    console.log("hi")
     multiple_selected = list_changer()
     if (multiple_selected.length >= 1){
         multiple_selected_lat = []
@@ -605,7 +617,108 @@ function center_changer() {
         document.getElementById("results_num").innerText = (multiple_selected.length)
     }
     else {
-        console.log("sssss")
         document.getElementById("results_num").innerText = 0
     }  
 }
+
+
+function version2(){
+    collector = ""
+    for (var i = 0; i < site_search.length; i++){
+        if (i==0) { 
+            collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
+        }
+        else if (i== 1){
+            collector  += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
+        }
+        else if (i == 11){
+            collector  += '<tr><td><div class ="region_division"> Latin American & the Caribbean </div> </td></tr>'
+        }
+        else if (i == 19){
+            collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
+        }
+        else if (i == 20){
+            collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
+        }
+        else if (i == 23){
+            collector  += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
+        }
+        collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span></td></tr>"
+    }
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <table>"+ collector+ 
+    "</table><button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
+     <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
+}
+
+function version1(standard){
+    collector =""
+  for (var i = 0 ; i < site_search.length; i ++){
+     if (i==0) { 
+          collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
+      }
+      else if (i== 1){
+          collector += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
+      }
+      else if (i == 11){
+          collector  += '<tr><td><div class ="region_division"> Latin America & the Carribean </div> </td></tr>'
+      }
+      else if (i == 19){
+          collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
+      }
+      else if (i == 20){
+          collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
+      }
+      else if (i == 23){
+          collector += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
+      }
+      if ((typeof standard) == "number") {
+        if (i == id_marker) {
+              collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
+        }
+        else {
+              collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
+        }
+      }
+      else { 
+        if (standard.indexOf(i) >= 0) {
+              collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
+        }
+        else {
+              collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
+        }
+      }
+  }
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <table>"+ collector+ 
+        "</table> <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
+        <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
+}
+
+function water_level_enter(value, hwise) {
+    // document.getElementById("third_bar").style.opacity = 0
+    document.getElementById("third_bar").style.zIndex = "-2" 
+    var btn = d3.select("#map_part").insert("svg",'#credit')
+    btn.attr("id", "fillgauge1")    
+        .attr("width", 148)
+        .attr("height", 148)
+        .attr("viewBox","0 0 148 148")
+        .attr("style", "position : absolute; left: 50% ; margin-left: -74px; bottom : 50px") 
+
+    if (hwise == 1 ) {
+        loadLiquidFillGauge("fillgauge1", value, config1);
+    }
+    else {
+        loadLiquidFillGauge("fillgauge1", value, config2); 
+    }
+    document.getElementById("line_title").style.opacity = 1
+}
+function water_level_exit() { 
+    document.getElementById("third_bar").style.zIndex = "5"
+    d3.select("#fillgauge1").remove()
+    document.getElementById("line_title").style.opacity = 0
+}
+
+
+
+
+
+

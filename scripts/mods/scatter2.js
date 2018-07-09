@@ -8,7 +8,7 @@ var x = d3.scale.linear()
 var y = d3.scale.linear()
     .range([height, 0]);
 
-var colors = ["#0AC19C","#778AF1", "#9491AB"]
+var colors = ["#559900","#6B7CD9", "#9491AB"]
 
 var color = d3.scale.ordinal().range(colors)
 
@@ -86,7 +86,7 @@ var lasso_end = function() {
 
   if (id_list.length == 1){
     var position = id_list[0]
-    openDesc(position)
+    openDesc(position,1)
     
     jun.map.flyTo({center : [lng_search[position],lat_search[position]], zoom:6})
   }
@@ -100,17 +100,7 @@ var lasso_end = function() {
     }
     jun.map.flyTo({center : [(Math.max(...lng_lassoed)+Math.min(...lng_lassoed))/2,(Math.max(...lat_lassoed)+Math.min(...lat_lassoed))/2],zoom:1.3})
   }
-
-  document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3><div class='list_content'>"
-  for (var i = 0 ; i < site_search.length; i ++){
-      if (id_list.indexOf(i) >= 0) {
-          document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
-      }
-      else {
-          document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br>"
-      }
-  }
-  document.getElementById("Lister").innerHTML += "</div><br><input id = 'clear1' class='button1' type='submit' value ='clear' onclick = 'clearit()'>"
+  version1(id_list)
   jun.map.setFilter("points", lassoed)
 }
  
@@ -194,17 +184,8 @@ d3.json(jun.data_link, function(error, data) {
         })
         .on("click", function(d){
             var id_marker =d3.select(this)[0][0].id
-            filter_list_ver2(id_marker)
-            document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3><div class='list_content'>"
-            for (var i = 0 ; i < site_search.length; i ++){
-                if (i == id_marker) {
-                    document.getElementById('Lister').innerHTML += "<span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br>"
-                }
-                else {
-                    document.getElementById('Lister').innerHTML += "<span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br>"
-                }
-            }
-            document.getElementById("Lister").innerHTML += "</div><input id = 'clear1' class='button1' type='submit' value ='clear' onclick = 'clearit()'>"
+            filter_list_ver2(id_marker,1)
+            version1(id_maker)
         })
   var legend = svg.selectAll(".legend")
       .data(color.domain())
