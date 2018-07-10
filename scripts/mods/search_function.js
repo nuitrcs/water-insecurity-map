@@ -19,15 +19,6 @@ d3.select("#third_bar").call(d3.slider().scale(d3.scale.ordinal().domain(["All",
     center_changer()
 }))
 
-
-
-
-
-
-
-
-
-
 $('#scrollable-dropdown-menu .typeahead').typeahead({
   hint: true,
   highlight: true,

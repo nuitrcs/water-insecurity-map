@@ -528,6 +528,7 @@ function openDesc(idid, option) {
         "</td> </tr> <tr> <td>Gender</td><td> male - "+Male_search[idid] +"% <br /> female - "+Female_search[idid] +"%</td></table></div>"
     document.getElementById("Lister").style.width = "0%"; 
     document.getElementById("Lister").style.opacity = "0.0";
+    water_level_exit()
     water_level_enter(Improved_search[idid],hwise_search[idid])
 }
 
@@ -569,10 +570,10 @@ function clearit() {
     lasso.items(d3.selectAll(".dot"));
     lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
-
+ 
+    $('.typeahead').typeahead('val', '')
     version2()
     
-
     document.getElementById("latmin").innerText = -90.00
     document.getElementById("latmax").innerText = 90.00
     document.getElementById("lngmin").innerText = -180.00
