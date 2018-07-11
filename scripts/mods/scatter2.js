@@ -192,13 +192,27 @@ d3.json(jun.data_link, function(error, data) {
       .enter().append("g")
       .attr("class", "legend")
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
+ 
+  
   legend.append("rect")
       .attr("x", width - 18)
       .attr("y", height - 65)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", color);
+      .style("fill", color)
+      .on("click", function(d) { 
+        d3.selectAll(".dot").style("opacity",1)
+        if (jun.clicked !== d){
+          jun.clicked = d
+          filter_list(clicked =jun.clicked)
+          center_changer()
+        }
+        else{
+          jun.clicked = ""
+          filter_list()
+          center_changer()
+          }
+      });
 
   legend.append("text")
       .attr("x", width - 22)
@@ -206,6 +220,21 @@ d3.json(jun.data_link, function(error, data) {
       .attr("dy", ".18em")
       .style("text-anchor", "end")
       .text(function(d) { return d; })
-      .style("user-select","none");
+      .style("user-select","none")
+      .on("click", function(d) { 
+        d3.selectAll(".dot").style("opacity",1)
+        if (jun.clicked !== d){
+          jun.clicked = d
+          filter_list(clicked =jun.clicked)
+          center_changer()
+         }
+        else{
+            jun.clicked = ""
+            filter_list()
+            center_changer()
+        }
+      });
+
+
   lasso.items(d3.selectAll(".dot"));
 });

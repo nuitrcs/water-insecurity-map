@@ -1,5 +1,4 @@
 function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, right_end2) { 
-//////////////////////////// filtering based on criteria ////////////////////////////
     left_end1 = Number(left_end1)
     right_end1 = Number(right_end1)
     left_end2 = Number(left_end2)
@@ -13,17 +12,13 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
-                    "Participants": jun.data[i]["Participants"],
                     "GNI": jun.data[i]["GNI"],
                     "Region": jun.data[i]["Region"],
                     "Lat" : jun.data[i]["Lat"],
                     "Lng" : jun.data[i]["Lng"],
                     "Year" : jun.data[i]["Year"] ,
                     "id_number" : jun.data[i]["id_number"],
-                    "Partners" : jun.data[i]["Partners"],
                     "Setting" : jun.data[i]["Setting"],
-                    "Sampling" : jun.data[i]["Sampling"],
-                    "Climate" :jun.data[i]["Climate"],
                     "icon" :"custom-marker"
                 },
                 "geometry" : {
@@ -38,13 +33,13 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
-                    "Participants": jun.data[i]["Participants"],
                     "GNI": jun.data[i]["GNI"],
                     "Region": jun.data[i]["Region"],
                     "Lat" : jun.data[i]["Lat"],
                     "Lng" : jun.data[i]["Lng"],
                     "Year" : jun.data[i]["Year"] ,
                     "id_number" : jun.data[i]["id_number"],
+                    "Setting" : jun.data[i]["Setting"],
                     "icon" :"custom-marker1"
                 },
                 "geometry" : {
@@ -68,12 +63,10 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
         Sampling_search.push(jun.data[i]["Sampling"])
         Climate_search.push(jun.data[i]["Climate"])
         Female_search.push(jun.data[i]["Female"])
-        Male_search.push((100-jun.data[i]["Female"]).toFixed(2))
         Improved_search.push(jun.data[i]["Improved_water"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
-            if (error) throw error;
             jun.map.loadImage(jun.image2_link, function(error, image1) {
                 jun.map.addImage("custom-marker", image);
                 jun.map.addImage("custom-marker1", image1)
@@ -86,7 +79,6 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                     "id": "points",
                     "type": "symbol",
                     "source": "source1",
-                    "filter": ["all", [">=", criteria1, left_end1], ["<=", criteria1, right_end1], [">=",criteria2, left_end2 ], ["<=", criteria2, right_end2 ]],
                     "layout": {
                         "icon-image": "{icon}",
                         "icon-allow-overlap": true,
@@ -109,11 +101,11 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
             }
         )
     })
-    jun.map.addControl(new mapboxgl.NavigationControl());
+    
 }
 
 // filter_list : for slide bars : change lassoable items and map markers
-function filter_list() {    
+function filter_list(clicked="") {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
         for (var i = 0; i < $(region_select).val().length;i++){
@@ -126,8 +118,15 @@ function filter_list() {
             version_filter.push( Number($(Version_select).val()[j]))
         }
     }
-
-    filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],[">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]
+    if (clicked == "") { 
+        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
+                    [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]    
+    }
+    else {
+        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
+                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],
+                            ["==", "Setting", clicked]]
+    }
 
     if (year_value.innerText != "All") {
         filter_combined.push(["==","Year",Number(year_value.innerText)])
@@ -146,38 +145,69 @@ function filter_list() {
         filter_combined.push(["in", "HWISE_Version",100])
     }
     jun.map.setFilter("points", filter_combined)
-
     lasso.items(d3.selectAll(".dot"));
     lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
-
-    if (version_filter[2]){
-        if (region_filter[2]) {
-            if (year_value.innerText != "All"){
-                lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                    && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                    && (d.Lat >= Number(latmin.innerText))
-                    && (d.Lat <= Number(latmax.innerText))
-                    && (d.Lng >= Number(lngmin.innerText))
-                    && (d.Lng <= Number(lngmax.innerText))
-                    && (d.Year == Number(year_value.innerText)) 
-                 }))}
+    if (clicked =="") { 
+        if (version_filter[2]){
+            if (region_filter[2]) {
+                if (year_value.innerText != "All"){
+                    lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        && (d.Lat >= Number(latmin.innerText))
+                        && (d.Lat <= Number(latmax.innerText))
+                        && (d.Lng >= Number(lngmin.innerText))
+                        && (d.Lng <= Number(lngmax.innerText))
+                        && (d.Year == Number(year_value.innerText)) 
+                     }))}
+                else {
+                     lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        && (d.Lat >= Number(latmin.innerText))
+                        && (d.Lat <= Number(latmax.innerText))
+                        && (d.Lng >= Number(lngmin.innerText))
+                        && (d.Lng <= Number(lngmax.innerText))
+                     }))
+                }
+            }
             else {
-                 lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                    && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                    && (d.Lat >= Number(latmin.innerText))
-                    && (d.Lat <= Number(latmax.innerText))
-                    && (d.Lng >= Number(lngmin.innerText))
-                    && (d.Lng <= Number(lngmax.innerText))
-                 }))
+                lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
             }
         }
         else {
             lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
         }
     }
-
     else {
-        lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+        if (version_filter[2]){
+            if (region_filter[2]) {
+                if (year_value.innerText != "All"){
+                    lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        && (d.Lat >= Number(latmin.innerText))
+                        && (d.Lat <= Number(latmax.innerText))
+                        && (d.Lng >= Number(lngmin.innerText))
+                        && (d.Lng <= Number(lngmax.innerText))
+                        && (d.Year == Number(year_value.innerText)
+                        && (d.Setting == clicked)) 
+                     }))}
+                else {
+                     lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        && (d.Lat >= Number(latmin.innerText))
+                        && (d.Lat <= Number(latmax.innerText))
+                        && (d.Lng >= Number(lngmin.innerText))
+                        && (d.Lng <= Number(lngmax.innerText))
+                        && (d.Setting == clicked)
+                     }))}
+            }
+            else {
+                lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+            }
+        }
+
+        else {
+            lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+        }
     }
     lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
 }
@@ -209,7 +239,7 @@ function filter_list_ver2(id_marker,option ) {
                     && (lng_search[id_marker] <= Number(lngmax.innerText))
                     && (Year_search[id_marker] == Number(year_value.innerText)) 
                     ){
-                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:5})
+                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                             && (region_filter.indexOf(d.Region) >= 0) 
@@ -256,7 +286,7 @@ function filter_list_ver2(id_marker,option ) {
                     && (lng_search[id_marker] >= Number(lngmin.innerText))
                     && (lng_search[id_marker] <= Number(lngmax.innerText))
                     ){
-                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:5})
+                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
                         lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                             && (region_filter.indexOf(d.Region) >= 0) 
@@ -315,7 +345,7 @@ function filter_list_ver2(id_marker,option ) {
 }
 
 // filter_list_ver3 : for change list : 
-function filter_list_ver3() {    
+function filter_list_ver3(clicked ="") {    
     region_filter1=[]
     if ($(region_select).val()){
         for (var i = 0; i < $(region_select).val().length;i++){
@@ -328,6 +358,8 @@ function filter_list_ver3() {
             version_filter1.push( Number($(Version_select).val()[j]))
         }
     }
+
+if (clicked == "" ){
     if (version_filter1[0]){
         if (region_filter1[0]) {
             if (year_value.innerText != "All"){
@@ -355,6 +387,38 @@ function filter_list_ver3() {
     else {
         final_filter = '(hwise_search[i]) == 100)'
     }
+}
+else { 
+    if (version_filter1[0]){
+        if (region_filter1[0]) {
+            if (year_value.innerText != "All"){
+                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
+                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
+                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (Year_search[i] == Number(year_value.innerText)) '+
+                    '&& (Setting_search[i] == clicked)'
+            }
+            else {
+                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
+                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
+                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (Setting_search[i] == clicked)'
+            }
+        }
+        else {
+            final_filter = '(hwise_search[i]) == 100)'
+        }
+    }
+    else {
+        final_filter = '(hwise_search[i]) == 100)'
+    }
+}
     return [region_filter1, version_filter1, final_filter]
 }
 
@@ -513,19 +577,20 @@ function openDesc(idid, option) {
     else {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()''>&times;</a>"  
     }
+
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
         "</div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br><br>\
-        <div class='whole_table'><table> <tr> <td>Lat</td> <td>"+Number(lat_search[idid]) +
-        "</td> </tr> <tr> <td>Lng</td><td> "+Number(lng_search[idid]) +
+        <div class='whole_table'><table> <tr> <td>Latitude</td> <td>"+Number(lat_search[idid]) +
+        "</td> </tr> <tr> <td>Longitude</td><td> "+Number(lng_search[idid]) +
         "</td> </tr> <tr> <td> HWISE Version</td><td> "+hwise_search[idid] +
         "</td> </tr> <tr> <td>Participants</td><td> " + Participants_search[idid] +
-        "</td> </tr> <tr> <td> GNI</td><td> " + GNI_search[idid]*1000 +
+        "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[idid]*1000).toLocaleString() +
         " USD</td> </tr> <tr> <td>Region</td><td>  " +Region_search[idid] +
         "</td> </tr> <tr> <td>Partners</td><td> "+ Partners_search[idid] +
         "</td> </tr> <tr> <td>Setting</td><td>"+Setting_search[idid] +
         "</td> </tr> <tr> <td>Sampling</td><td>" + Sampling_search[idid] + 
         "</td> </tr> <tr> <td>Climate</td><td>" + Climate_search[idid] +
-        "</td> </tr> <tr> <td>Gender</td><td> male - "+Male_search[idid] +"% <br /> female - "+Female_search[idid] +"%</td></table></div>"
+        "</td> </tr> <tr> <td>Gender</td><td> male - "+ ((100-Female_search[idid]).toFixed(1)) +"% <br /> female - "+Female_search[idid].toFixed(1) +"%</td></table></div>"
     document.getElementById("Lister").style.width = "0%"; 
     document.getElementById("Lister").style.opacity = "0.0";
     water_level_exit()
@@ -570,14 +635,16 @@ function clearit() {
     lasso.items(d3.selectAll(".dot"));
     lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
- 
+    
+    jun.clicked = ""
     $('.typeahead').typeahead('val', '')
     version2()
-    
-    document.getElementById("latmin").innerText = -90.00
-    document.getElementById("latmax").innerText = 90.00
-    document.getElementById("lngmin").innerText = -180.00
-    document.getElementById("lngmax").innerText = 180.00
+
+    document.getElementById("results_num").innerText = site_search.length
+    document.getElementById("latmin").innerText = (-90.00).toFixed(2)
+    document.getElementById("latmax").innerText = 90.00.toFixed(2)
+    document.getElementById("lngmin").innerText = (-180.00).toFixed(2)
+    document.getElementById("lngmax").innerText = 180.00.toFixed(2)
     document.getElementsByClassName("d3-slider-range")[0].style.left = "0%"
     document.getElementsByClassName("d3-slider-range")[0].style.right = "0%"     
     document.getElementsByClassName("d3-slider-range")[1].style.left = "0%"
@@ -592,7 +659,7 @@ function clearit() {
 }
 
 function list_changer() {
-    ver3_result = filter_list_ver3()
+    ver3_result = filter_list_ver3(clicked =jun.clicked)
     region1_filter = ver3_result[0]
     version1_filter = ver3_result[1]
     yes_chosen =[]
@@ -601,7 +668,7 @@ function list_changer() {
             yes_chosen.push(i)
         } 
     }
-    version1(yes_chosen) 
+    version1(yes_chosen)
     return yes_chosen
 }
 
@@ -621,7 +688,6 @@ function center_changer() {
         document.getElementById("results_num").innerText = 0
     }  
 }
-
 
 function version2(){
     collector = ""

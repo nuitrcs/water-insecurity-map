@@ -21,5 +21,10 @@ jun.color_standard = "Setting"
 
 d3.json(jun.data_link,function(finished_data) {
     jun.data = finished_data
-    drawMarkers("Lat",latmin.innerText,latmax.innerText,"Lng", lngmin.innerText, latmax.innerText, "Year",year_value.innerText)
+    drawMarkers("Lat",latmin.innerText,latmax.innerText,"Lng", lngmin.innerText, latmax.innerText)
+    jun.map.addControl(new mapboxgl.NavigationControl());
 })
+
+jun.clicked =""
+
+// jun.timedic = []

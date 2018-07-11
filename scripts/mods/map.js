@@ -11,7 +11,6 @@ var Partners_search = []
 var Setting_search = [] 
 var Sampling_search = []
 var Climate_search = []
-var Male_search = []
 var Female_search = []
 var Improved_search = []
 
@@ -31,7 +30,6 @@ document.getElementById("scrollable-dropdown-menu").addEventListener("keypress",
 $(document).on('click','.tt-suggestion', function(e){
     for (var i = 0; i < site_search.length; i++) { 
         if (site_search[i]== document.getElementsByClassName("typeahead")[1].value) { 
-            console.log("yes")
             jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
