@@ -20,6 +20,7 @@
     right: 10%;
     font-size: 30px;
     color : black;
+    user-select: none;
 }
 
 .closebtn:hover {
@@ -127,6 +128,10 @@
     cursor: pointer;
 }
 
+.legend:hover {
+    cursor: pointer ;
+}
+
 .lasso path {
     stroke: rgb(80,80,80);
     stroke-width : 2px;
@@ -157,7 +162,6 @@
 .not_selected {
     fill: rgb(200,200,200);
 }
-
 
 #main {
     transition: margin-left .5s;
@@ -218,6 +222,7 @@
 #first_bar, #second_bar,  {
     margin: auto;
     width : 100%;
+    background-color : #1D6CAC;
 }
 
 /* button to list view*/
@@ -271,7 +276,7 @@ body { margin:0; padding:0; }
     height : 400px;
  }
 /* year slider */
-#third_bar {
+#third_bar, #fourth_bar {
 	max-width : 650px;
 	width : 50%;
 	margin :auto;
@@ -333,4 +338,14 @@ table {
 
 #fillgauge1 {
     z-index : 100;
+}
+
+#line_title {
+    position: fixed;
+    bottom: 30px; 
+    width:100%; 
+    text-align: center;
+    opacity: 0;
+    font-size : 1.3vw;
+    user-select : none
 }
