@@ -1,8 +1,8 @@
-function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, right_end2) { 
-    left_end1 = Number(left_end1)
-    right_end1 = Number(right_end1)
-    left_end2 = Number(left_end2)
-    right_end2 = Number(right_end2)
+function drawMarkers() { 
+    // left_end1 = Number(left_end1)
+    // right_end1 = Number(right_end1)
+    // left_end2 = Number(left_end2)
+    // right_end2 = Number(right_end2)
     var index_point = 0
     var filtered=[]
     for (var i = 0; i < jun.data.length; i++) {
@@ -12,11 +12,11 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
-                    "GNI": jun.data[i]["GNI"],
+                    // "GNI": jun.data[i]["GNI"],
                     "Region": jun.data[i]["Region"],
                     "Lat" : jun.data[i]["Lat"],
                     "Lng" : jun.data[i]["Lng"],
-                    "Year" : jun.data[i]["Year"] ,
+                    "Start" : jun.data[i]["start"] ,
                     "id_number" : jun.data[i]["id_number"],
                     "Setting" : jun.data[i]["Setting"],
                     "icon" :"custom-marker"
@@ -33,11 +33,11 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
-                    "GNI": jun.data[i]["GNI"],
+                    // "GNI": jun.data[i]["GNI"],
                     "Region": jun.data[i]["Region"],
                     "Lat" : jun.data[i]["Lat"],
                     "Lng" : jun.data[i]["Lng"],
-                    "Year" : jun.data[i]["Year"] ,
+                    "Start" : jun.data[i]["start"] ,
                     "id_number" : jun.data[i]["id_number"],
                     "Setting" : jun.data[i]["Setting"],
                     "icon" :"custom-marker1"
@@ -52,11 +52,11 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
         site_search.push(jun.data[i]["Site Name"])
         hwise_search.push(jun.data[i]["HWISE Version"])
         Participants_search.push(jun.data[i]["Participants"])
-        GNI_search.push(jun.data[i]["GNI"])
+        // GNI_search.push(jun.data[i]["GNI"])
         Region_search.push(jun.data[i]["Region"])
         lat_search.push(jun.data[i]["Lat"])
         lng_search.push(jun.data[i]["Lng"])
-        Year_search.push(jun.data[i]["Year"])
+        Start_search.push(jun.data[i]["start"])
         id_search.push(jun.data[i]["id_number"])
         Partners_search.push(jun.data[i]["Partners"])
         Setting_search.push(jun.data[i]["Setting"])
@@ -64,6 +64,8 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
         Climate_search.push(jun.data[i]["Climate"])
         Female_search.push(jun.data[i]["Female"])
         Improved_search.push(jun.data[i]["Improved_water"])
+        Main_search.push(jun.data[i]["Main"])
+        Source_search.push(jun.data[i]["Source"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
@@ -83,13 +85,14 @@ function drawMarkers(criteria1, left_end1, right_end1, criteria2, left_end2, rig
                         "icon-image": "{icon}",
                         "icon-allow-overlap": true,
                         "icon-anchor":"bottom",
-                        "icon-size" : 0.2,
+                        "icon-size" : 0.15,
                         "text-field": "{SiteName}",
                         "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
                         "text-size" : 13,
                         "text-offset": [0,-0.4],
                         "text-anchor": "top",  
                         "text-optional" : true,
+                        // "text-allow-overlap": true,
                         "text-max-width" : 8,
                         "text-line-height" : 0.9
                         },
@@ -118,18 +121,19 @@ function filter_list(clicked="") {
             version_filter.push( Number($(Version_select).val()[j]))
         }
     }
-    if (clicked == "") { 
-        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
-                    [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]    
-    }
-    else {
-        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],
-                            ["==", "Setting", clicked]]
-    }
+    filter_combined = ["all"]
+    // if (clicked == "") {     
+    //     filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
+    //         [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]    
+    // }
+    // else {
+    //     filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
+    //                         [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],
+    //                         ["==", "Setting", clicked]]
+    // }
 
     if (year_value.innerText != "All") {
-        filter_combined.push(["==","Year",Number(year_value.innerText)])
+        filter_combined.push(["==","Start",year_value.innerText])
     }
 
     if (version_filter[2]){
@@ -145,71 +149,71 @@ function filter_list(clicked="") {
         filter_combined.push(["in", "HWISE_Version",100])
     }
     jun.map.setFilter("points", filter_combined)
-    lasso.items(d3.selectAll(".dot"));
-    lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
-    if (clicked =="") { 
-        if (version_filter[2]){
-            if (region_filter[2]) {
-                if (year_value.innerText != "All"){
-                    lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        && (d.Lat >= Number(latmin.innerText))
-                        && (d.Lat <= Number(latmax.innerText))
-                        && (d.Lng >= Number(lngmin.innerText))
-                        && (d.Lng <= Number(lngmax.innerText))
-                        && (d.Year == Number(year_value.innerText)) 
-                     }))}
-                else {
-                     lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        && (d.Lat >= Number(latmin.innerText))
-                        && (d.Lat <= Number(latmax.innerText))
-                        && (d.Lng >= Number(lngmin.innerText))
-                        && (d.Lng <= Number(lngmax.innerText))
-                     }))
-                }
-            }
-            else {
-                lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-            }
-        }
-        else {
-            lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-        }
-    }
-    else {
-        if (version_filter[2]){
-            if (region_filter[2]) {
-                if (year_value.innerText != "All"){
-                    lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        && (d.Lat >= Number(latmin.innerText))
-                        && (d.Lat <= Number(latmax.innerText))
-                        && (d.Lng >= Number(lngmin.innerText))
-                        && (d.Lng <= Number(lngmax.innerText))
-                        && (d.Year == Number(year_value.innerText)
-                        && (d.Setting == clicked)) 
-                     }))}
-                else {
-                     lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        && (d.Lat >= Number(latmin.innerText))
-                        && (d.Lat <= Number(latmax.innerText))
-                        && (d.Lng >= Number(lngmin.innerText))
-                        && (d.Lng <= Number(lngmax.innerText))
-                        && (d.Setting == clicked)
-                     }))}
-            }
-            else {
-                lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-            }
-        }
+    // lasso.items(d3.selectAll(".dot"));
+    // lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
+    // if (clicked =="") { 
+        // if (version_filter[2]){
+        //     if (region_filter[2]) {
+        //         if (year_value.innerText != "All"){
+        //             lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+        //                 && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        // && (d.Lat >= Number(latmin.innerText))
+                        // && (d.Lat <= Number(latmax.innerText))
+                        // && (d.Lng >= Number(lngmin.innerText))
+                        // && (d.Lng <= Number(lngmax.innerText))
+                //         && (d.Year == Number(year_value.innerText)) 
+                //      }))}
+                // else {
+                //      lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                //         && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        // && (d.Lat >= Number(latmin.innerText))
+                        // && (d.Lat <= Number(latmax.innerText))
+                        // && (d.Lng >= Number(lngmin.innerText))
+                        // && (d.Lng <= Number(lngmax.innerText))
+        //              }))
+        //         }
+        //     }
+        //     else {
+        //         lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+        //     }
+        // }
+        // else {
+        //     lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+        // }
+    // }
+    // else {
+    //     if (version_filter[2]){
+    //         if (region_filter[2]) {
+    //             if (year_value.innerText != "All"){
+    //                 lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+    //                     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+    //                     // && (d.Lat >= Number(latmin.innerText))
+    //                     // && (d.Lat <= Number(latmax.innerText))
+    //                     // && (d.Lng >= Number(lngmin.innerText))
+    //                     // && (d.Lng <= Number(lngmax.innerText))
+    //                     && (d.Year == Number(year_value.innerText)
+    //                     && (d.Setting == clicked)) 
+    //                  }))}
+    //             else {
+    //                  lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+    //                     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+    //                     // && (d.Lat >= Number(latmin.innerText))
+    //                     // && (d.Lat <= Number(latmax.innerText))
+    //                     // && (d.Lng >= Number(lngmin.innerText))
+    //                     // && (d.Lng <= Number(lngmax.innerText))
+    //                     && (d.Setting == clicked)
+    //                  }))}
+    //         }
+    //         else {
+    //             lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+    //         }
+    //     }
 
-        else {
-            lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-        }
-    }
-    lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
+    //     else {
+    //         lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+    //     }
+    // }
+    // lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
 }
 
 // filter_list_ver2 : when specific marker is chosen : change lasso items and map markers
@@ -226,108 +230,110 @@ function filter_list_ver2(id_marker,option ) {
             version_filter.push( Number($(Version_select).val()[j]))
         }
     }
-    lasso.items(d3.selectAll(".dot"));
-    lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
+    // lasso.items(d3.selectAll(".dot"));
+    // lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
     if (version_filter[2]){
         if (region_filter[2]){
             if (year_value.innerText != "All"){
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
                     && (version_filter.indexOf(hwise_search[id_marker]) >= 0)
-                    && (lat_search[id_marker] >= Number(latmin.innerText))
-                    && (lat_search[id_marker] <= Number(latmax.innerText))
-                    && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    && (lng_search[id_marker] <= Number(lngmax.innerText))
-                    && (Year_search[id_marker] == Number(year_value.innerText)) 
+                    // && (lat_search[id_marker] >= Number(latmin.innerText))
+                    // && (lat_search[id_marker] <= Number(latmax.innerText))
+                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
+                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    && (Start_search[id_marker] == year_value.innerText) 
                     ){
                         jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
-                        lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
-                            && (region_filter.indexOf(d.Region) >= 0) 
-                            && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                            && (d.Lat >= Number(latmin.innerText))
-                            && (d.Lat <= Number(latmax.innerText))
-                            && (d.Lng >= Number(lngmin.innerText))
-                            && (d.Lng <= Number(lngmax.innerText))
-                            && (d.Year == Number(year_value.innerText)) 
-                         }))
-                        lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
+                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
+                        //     && (region_filter.indexOf(d.Region) >= 0) 
+                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        //     && (d.Lat >= Number(latmin.innerText))
+                        //     && (d.Lat <= Number(latmax.innerText))
+                        //     && (d.Lng >= Number(lngmin.innerText))
+                        //     && (d.Lng <= Number(lngmax.innerText))
+                        //     && (d.Year == Number(year_value.innerText)) 
+                        //  }))
+                        // lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
                    
-                        lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                            && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                            && (d.Lat >= Number(latmin.innerText))
-                            && (d.Lat <= Number(latmax.innerText))
-                            && (d.Lng >= Number(lngmin.innerText))
-                            && (d.Lng <= Number(lngmax.innerText))
-                            && (d.Year == Number(year_value.innerText)) 
-                         }))
-
-                        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==", "id_number", Number(id_marker)],["==","Year",Number(year_value.innerText)]]
+                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        //     && (d.Lat >= Number(latmin.innerText))
+                        //     && (d.Lat <= Number(latmax.innerText))
+                        //     && (d.Lng >= Number(lngmin.innerText))
+                        //     && (d.Lng <= Number(lngmax.innerText))
+                        //     && (d.Year == Number(year_value.innerText)) 
+                        //  }))
+                        filter_combined = ["all", ["==", "id_number", Number(id_marker)],["==","Start",year_value.innerText]]
+                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
+                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==", "id_number", Number(id_marker)],["==","Year",Number(year_value.innerText)]]
                     }
                 else {
-                        lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                            && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                            && (d.Lat >= Number(latmin.innerText))
-                            && (d.Lat <= Number(latmax.innerText))
-                            && (d.Lng >= Number(lngmin.innerText))
-                            && (d.Lng <= Number(lngmax.innerText))
-                            && (d.Year == Number(year_value.innerText)) 
-                         }))
-                        lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",3.5);
-                        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","Year",Number(year_value.innerText)]]
+                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        //     && (d.Lat >= Number(latmin.innerText))
+                        //     && (d.Lat <= Number(latmax.innerText))
+                        //     && (d.Lng >= Number(lngmin.innerText))
+                        //     && (d.Lng <= Number(lngmax.innerText))
+                        //     && (d.Year == Number(year_value.innerText)) 
+                        //  }))
+                        // lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",3.5);
+                        filter_combined = ["all", ["==","Start",year_value.innerText]]
+                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
+                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","Year",Number(year_value.innerText)]]
                 }
             }
             else {
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
                     && (version_filter.indexOf(hwise_search[id_marker]) >= 0)
-                    && (lat_search[id_marker] >= Number(latmin.innerText))
-                    && (lat_search[id_marker] <= Number(latmax.innerText))
-                    && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    // && (lat_search[id_marker] >= Number(latmin.innerText))
+                    // && (lat_search[id_marker] <= Number(latmax.innerText))
+                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
+                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
                     ){
                         jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
-                        lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
-                            && (region_filter.indexOf(d.Region) >= 0) 
-                            && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                            && (d.Lat >= Number(latmin.innerText))
-                            && (d.Lat <= Number(latmax.innerText))
-                            && (d.Lng >= Number(lngmin.innerText))
-                            && (d.Lng <= Number(lngmax.innerText))
-                        }))   
-                        lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
-                        lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                            && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                            && (d.Lat >= Number(latmin.innerText))
-                            && (d.Lat <= Number(latmax.innerText))
-                            && (d.Lng >= Number(lngmin.innerText))
-                            && (d.Lng <= Number(lngmax.innerText))
-                        }))
-
-                        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","id_number",Number(id_marker)]]
+                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
+                        //     && (region_filter.indexOf(d.Region) >= 0) 
+                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        //     && (d.Lat >= Number(latmin.innerText))
+                        //     && (d.Lat <= Number(latmax.innerText))
+                        //     && (d.Lng >= Number(lngmin.innerText))
+                        //     && (d.Lng <= Number(lngmax.innerText))
+                        // }))   
+                        // lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
+                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        //     && (d.Lat >= Number(latmin.innerText))
+                        //     && (d.Lat <= Number(latmax.innerText))
+                        //     && (d.Lng >= Number(lngmin.innerText))
+                        //     && (d.Lng <= Number(lngmax.innerText))
+                        // }))
+                        filter_combined = ["all",["==","id_number",Number(id_marker)]]
+                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
+                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","id_number",Number(id_marker)]]
                     }
                 else {
-                        lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                            && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                            && (d.Lat >= Number(latmin.innerText))
-                            && (d.Lat <= Number(latmax.innerText))
-                            && (d.Lng >= Number(lngmin.innerText))
-                            && (d.Lng <= Number(lngmax.innerText))
-                        }))
-                        lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",3.5);
-                        filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                            [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]
+                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
+                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
+                        //     && (d.Lat >= Number(latmin.innerText))
+                        //     && (d.Lat <= Number(latmax.innerText))
+                        //     && (d.Lng >= Number(lngmin.innerText))
+                        //     && (d.Lng <= Number(lngmax.innerText))
+                        // }))
+                        // lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",3.5);
+                        filter_combined = ["all"]
+                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
+                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]
                 }
             }
         }
         else {
-            lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+            // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
         }
     }
     else {
-        lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
+        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
     }
     if (version_filter[2]){
         if (region_filter[2]) {
@@ -365,19 +371,19 @@ if (clicked == "" ){
             if (year_value.innerText != "All"){
                 final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
                     '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                    '&& (Year_search[i] == Number(year_value.innerText)) '
+                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (Start_search[i] == year_value.innerText) '
             }
             else {
                 final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    '&& (lng_search[i] <= Number(lngmax.innerText)) '
+                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'
+                    // + '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '
             }
         }
         else {
@@ -394,20 +400,20 @@ else {
             if (year_value.innerText != "All"){
                 final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
                     '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                    '&& (Year_search[i] == Number(year_value.innerText)) '+
+                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (Start_search[i] == year_value.innerText) '+
                     '&& (Setting_search[i] == clicked)'
             }
             else {
                 final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
                     '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
                     '&& (Setting_search[i] == clicked)'
             }
         }
@@ -442,55 +448,55 @@ function filter_list_ver4(id_marker) {
             if (year_value.innerText != "All"){
                 if ((region_filter2.indexOf(Region_search[id_marker]) >= 0) 
                     && (version_filter2.indexOf(hwise_search[id_marker]) >= 0)
-                    && (lat_search[id_marker] >= Number(latmin.innerText))
-                    && (lat_search[id_marker] <= Number(latmax.innerText))
-                    && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    && (lng_search[id_marker] <= Number(lngmax.innerText))
-                    && (Year_search[id_marker] == Number(year_value.innerText)) 
+                    // && (lat_search[id_marker] >= Number(latmin.innerText))
+                    // && (lat_search[id_marker] <= Number(latmax.innerText))
+                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
+                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    && (Start_search[id_marker] == year_value.innerText) 
                     ){
                         final_filter = '(id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
                             '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                            '&& (Year_search[i] == Number(year_value.innerText)) '
+                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (Start_search[i] == year_value.innerText) '
                      }
                 else {
                         final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
                             '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                            '&& (Year_search[i] == Number(year_value.innerText)) '
+                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (Start_search[i] == year_value.innerText) '
                     }
             }
             else {
                 if ((region_filter2.indexOf(Region_search[id_marker]) >= 0) 
                     && (version_filter2.indexOf(hwise_search[id_marker]) >= 0)
-                    && (lat_search[id_marker] >= Number(latmin.innerText))
-                    && (lat_search[id_marker] <= Number(latmax.innerText))
-                    && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    // && (lat_search[id_marker] >= Number(latmin.innerText))
+                    // && (lat_search[id_marker] <= Number(latmax.innerText))
+                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
+                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
                     ){
                        
                         final_filter = '(id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            '&& (lng_search[i] <= Number(lngmax.innerText)) '
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)' 
+                            // + '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '
                     } 
                 else {
                         final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            '&& (lng_search[i] <= Number(lngmax.innerText)) '
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'
+                            // +'&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '
                         }
                 }
         }
@@ -552,6 +558,11 @@ function openLister() {
     closeNav()
 }
 
+function closeLister() {
+    document.getElementById("Lister").style.width = "0%"; 
+    document.getElementById("Lister").style.opacity = "0.0";
+}
+
 function filtertolist() {
     closeNav() 
     openLister()
@@ -559,11 +570,6 @@ function filtertolist() {
 function listtofilter() { 
     closeLister() 
     openNav()
-}
-
-function closeLister() {
-    document.getElementById("Lister").style.width = "0%"; 
-    document.getElementById("Lister").style.opacity = "0.0";
 }
 
 function openDesc(idid, option) { 
@@ -579,13 +585,13 @@ function openDesc(idid, option) {
     }
 
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
-        "</div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br><br>\
-        <div class='whole_table'><table> <tr> <td>Latitude</td> <td>"+Number(lat_search[idid]) +
+        "<br />" +"Site Characteristics </div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br><br>\
+        <div class='whole_table'><table id = 'description'> <tr> <td>Latitude</td> <td>"+Number(lat_search[idid]) +
         "</td> </tr> <tr> <td>Longitude</td><td> "+Number(lng_search[idid]) +
         "</td> </tr> <tr> <td> HWISE Version</td><td> "+hwise_search[idid] +
         "</td> </tr> <tr> <td>Participants</td><td> " + Participants_search[idid] +
-        "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[idid]*1000).toLocaleString() +
-        " USD</td> </tr> <tr> <td>Region</td><td>  " +Region_search[idid] +
+        // "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[idid]*1000).toLocaleString() + " USD"
+        "</td> </tr> <tr> <td>Region</td><td>  " +Region_search[idid] +
         "</td> </tr> <tr> <td>Partners</td><td> "+ Partners_search[idid] +
         "</td> </tr> <tr> <td>Setting</td><td>"+Setting_search[idid] +
         "</td> </tr> <tr> <td>Sampling</td><td>" + Sampling_search[idid] + 
@@ -593,8 +599,9 @@ function openDesc(idid, option) {
         "</td> </tr> <tr> <td>Gender</td><td> male - "+ ((100-Female_search[idid]).toFixed(1)) +"% <br /> female - "+Female_search[idid].toFixed(1) +"%</td></table></div>"
     document.getElementById("Lister").style.width = "0%"; 
     document.getElementById("Lister").style.opacity = "0.0";
-    water_level_exit()
-    water_level_enter(Improved_search[idid],hwise_search[idid])
+    bottom_bar_exit()
+    water_level_enter(Main_search[idid],Improved_search[idid],idid)
+    time_spent_enter(Female_search[idid],hwise_search[idid])
 }
 
 function closeDesc() { 
@@ -602,7 +609,7 @@ function closeDesc() {
     document.getElementById("Desc").style.width= "0%" 
     openNav()
     clearit()
-    water_level_exit()
+    bottom_bar_exit()
 }
 
 function closeDesc1() { 
@@ -610,7 +617,7 @@ function closeDesc1() {
     document.getElementById("Desc").style.width= "0%" 
     openLister()
     clearit()
-    water_level_exit()
+    bottom_bar_exit()
 }
 
 function linklink(id_number){
@@ -632,8 +639,8 @@ function clearit() {
     jun.map.setFilter("points", null)
     $('#region_select').multipleSelect("checkAll");
     $('#Version_select').multipleSelect("checkAll");  
-    lasso.items(d3.selectAll(".dot"));
-    lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
+    // lasso.items(d3.selectAll(".dot"));
+    // lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
     
     jun.clicked = ""
@@ -641,19 +648,19 @@ function clearit() {
     version2()
 
     document.getElementById("results_num").innerText = site_search.length
-    document.getElementById("latmin").innerText = (-90.00).toFixed(2)
-    document.getElementById("latmax").innerText = 90.00.toFixed(2)
-    document.getElementById("lngmin").innerText = (-180.00).toFixed(2)
-    document.getElementById("lngmax").innerText = 180.00.toFixed(2)
-    document.getElementsByClassName("d3-slider-range")[0].style.left = "0%"
-    document.getElementsByClassName("d3-slider-range")[0].style.right = "0%"     
-    document.getElementsByClassName("d3-slider-range")[1].style.left = "0%"
-    document.getElementsByClassName("d3-slider-range")[1].style.right = "0%" 
+    // document.getElementById("latmin").innerText = (-90.00).toFixed(2)
+    // document.getElementById("latmax").innerText = 90.00.toFixed(2)
+    // document.getElementById("lngmin").innerText = (-180.00).toFixed(2)
+    // document.getElementById("lngmax").innerText = 180.00.toFixed(2)
+    // document.getElementsByClassName("d3-slider-range")[0].style.left = "0%"
+    // document.getElementsByClassName("d3-slider-range")[0].style.right = "0%"     
+    // document.getElementsByClassName("d3-slider-range")[1].style.left = "0%"
+    // document.getElementsByClassName("d3-slider-range")[1].style.right = "0%" 
 
-    document.getElementsByClassName("d3-slider-handle")[0].style.left = "0%"
-    document.getElementsByClassName("d3-slider-handle")[1].style.left = "100%" 
-    document.getElementsByClassName("d3-slider-handle")[2].style.left = "0%"
-    document.getElementsByClassName("d3-slider-handle")[3].style.left = "100%" 
+    // document.getElementsByClassName("d3-slider-handle")[0].style.left = "0%"
+    // document.getElementsByClassName("d3-slider-handle")[1].style.left = "100%" 
+    // document.getElementsByClassName("d3-slider-handle")[2].style.left = "0%"
+    // document.getElementsByClassName("d3-slider-handle")[3].style.left = "100%" 
 
     document.getElementById('third_bar').click();
 }
@@ -760,32 +767,84 @@ function version1(standard){
         <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
 }
 
-function water_level_enter(value, hwise) {
+function water_level_enter(value0,value, idid) {
     // document.getElementById("third_bar").style.opacity = 0
     document.getElementById("third_bar").style.zIndex = "-2" 
-    var btn = d3.select("#map_part").insert("svg",'#credit')
+    document.getElementById("title_line2").style.zIndex = "-2" 
+    document.getElementById("legend1").style.zIndex = "-2"
+    document.getElementById("bottom_bar").style.zIndex = "100"
+
+    document.getElementById("line_title0").innerText = Source_search[idid]
+    var btn0 = d3.select("#first_column").insert("svg",'#line_title0')
+    btn0.attr("id", "fillgauge0")    
+        .attr("width", 148)
+        .attr("height", 148)
+        .attr("viewBox","0 0 148 148")
+
+    var btn = d3.select("#second_column").insert("svg",'#line_title')
     btn.attr("id", "fillgauge1")    
         .attr("width", 148)
         .attr("height", 148)
         .attr("viewBox","0 0 148 148")
-        .attr("style", "position : absolute; left: 50% ; margin-left: -74px; bottom : 50px") 
+        // .attr("style", "position : absolute; left: 50% ; margin-left: -74px; bottom : 50px") 
 
-    if (hwise == 1 ) {
+    if (hwise_search[idid] == 1 ) {
+        loadLiquidFillGauge("fillgauge0", value0, config3);
         loadLiquidFillGauge("fillgauge1", value, config1);
     }
     else {
+        loadLiquidFillGauge("fillgauge0", value0, config4);
         loadLiquidFillGauge("fillgauge1", value, config2); 
     }
-    document.getElementById("line_title").style.opacity = 1
+    document.getElementById("bottom_bar").style.opacity = "1.0"
+    document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.4)"
 }
-function water_level_exit() { 
+
+
+function bottom_bar_exit() { 
+    document.getElementById("bottom_bar").style.zIndex = "-100"
+    document.getElementById("legend1").style.zIndex = "5"
     document.getElementById("third_bar").style.zIndex = "5"
+    document.getElementById("title_line2").style.zIndex = "5"
     d3.select("#fillgauge1").remove()
-    document.getElementById("line_title").style.opacity = 0
+    d3.select("#fillgauge0").remove()
+    document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.8)"
 }
 
+function time_spent_enter(value, hwise) {
+    progress = 0 
+    allocated = value 
+    var i = d3.interpolate(progress, allocated / total); 
 
-
-
+    if (hwise == 1 ) {
+        var description = meter.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "description")
+            .attr("dy", "0.9em")
+            .text("hrs")
+            .style("font-size", "28px")
+            .style("fill", "#2080BF");
+        document.getElementsByClassName("foreground")[0].style.fill = "#2080BF"
+        document.getElementsByClassName("percent-complete")[0].style.fill = "#2080BF"
+    }
+    else {
+        var description = meter.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "description")
+            .attr("dy", "0.9em")
+            .text("hrs")
+            .style("font-size", "28px")
+            .style("fill", "#0FD2B4");
+        document.getElementsByClassName("foreground")[0].style.fill = "#0FD2B4"
+        document.getElementsByClassName("percent-complete")[0].style.fill = "#0FD2B4"
+    }
+    d3.transition().duration(1000).tween("progress", function() {
+      return function(t) {
+        progress = i(t);
+        foreground.attr("d", arc.endAngle(twoPi * progress));
+        percentComplete.text(formatPercent(progress));
+      };
+    })
+}
 
 
