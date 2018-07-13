@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>HWISE Global Research Sites</title>
+		<title>Household Water Insecurity Experiences (HWISE) Study Sites</title>
 		<link rel="icon" href="scripts/images/HWISE_logo_centered.png">
 		<link rel="stylesheet" type="text/css" href="scripts/css/index.css">
 		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
@@ -31,15 +31,21 @@
 		</div>
 		<!-- side bar : filter -->
 		<div id="mySidenav" class="sidenav">
-		    <a class="closebtn" onclick="closeNav()"> &times;</a>
+		    
 		    <div class ="container">
-		    	<div class ="row">
+
+<!-- 		    	<div class ="row">
 		    		<div class ="col">
 						<div id ="scatter2"></div>
 					</div>
+				</div> -->
+				<div class="row">
+					<div class ="col">
+						<a class="closebtn" onclick="closeNav()"> &times;</a>
+					</div>
 				</div>
 		  		<div class="row">
-					<div class="col" style ="margin: auto">
+					<div class="col" style ="position : relative ;margin-top : 50px">
 						<div id="scrollable-dropdown-menu">
 						  <input class="typeahead" type="text" placeholder="Site Name">
 						</div>
@@ -85,7 +91,7 @@
 					<br>
 				</div>
 				<br>
-				<div class= "row">
+<!-- 				<div class= "row">
 					<div class="col" style ="text-align : center; color : white; font-size : 1.1vw" >
 						<div id="first_bar"></div>
 						<span id="latmin">-90.00</span> <span> &nbsp; latitude &nbsp; </span> <span id="latmax">90.00</span>
@@ -94,7 +100,7 @@
 					    <span id="lngmin">-180.00</span> <span> &nbsp; longitutde &nbsp; </span> <span id="lngmax">180.00</span>
 					</div> 
 				</div>
-				<br>
+				<br> -->
 				<div class ="row">
 					<div class = "col">
 						<button class="button1" onclick="filtertolist()">
@@ -107,19 +113,73 @@
 		<!-- side bar : description -->
 		<div id="Desc" class = "desc"></div>
 		<!-- side bar : lister -->
-		<div id="Lister" class = "lister">   
-		<input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()' >  </div>
+		<div id="Lister" class = "lister" onload= "version2()">   
+			<input id = 'clear1' type='submit' value ='clear!' onclick = 'clearit()'> 
+		</div>
 		<!-- map part -->
 		<div id = "map_part" style= "height: 0px"> 
-			<div id="title_line"> <b>HWISE Global Research Sites</b> </div>
+			<div id="title_line"> <b>Household Water Insecurity Experiences (HWISE) Study Sites</b> </div>
 			<span id="year_value" style="opacity:0;">All</span> 
-			<!-- <span id="year_value2" style="opacity:0;">All</span>  -->
 			<div id="third_bar"></div>
-			<!-- <div id = "fourth_bar"></div> -->
-			<div id = "line_title" > <b>Households that get their water from an improved water source</b> </div>
+			<div id="title_line2"> 2017 &nbsp; Dates of Data Collection &nbsp; 2018</div>
+			<div id = "bottom_bar">	
+				<table> 
+					<tr> 
+						<td class = "table_column">
+						</td>
+						<td id = "first_column" class = "table_column">
+							<div id = "line_title0" style="font-weight : bold">
+							</div> 
+						</td>
+						<td id = "second_column" class = "table_column"> 
+							<div id = "line_title" >
+								<b>
+									Proportion who worry about water
+								</b> 
+							</div> 
+						</td>
+						<td id = "third_column"  class = "table_column"> 
+							<div id = "line_title2"> 
+								<b>
+									Time spent collecting water
+								</b>
+							</div>
+						</td>
+						<td class = "table_column">
+						</td>
+					</tr>
+				</table>
+			</div>
 			<div id="map" ></div>
+			<!-- <div id="docsChart"></div> -->
 			<div id="credit"> <a href="https://www.it.northwestern.edu/research/index.html" target="_blank" style="text-decoration :none"> NUIT Research Computing Services </a> </div>
 	    </div>
+
+	    <div class='map-overlay top' id="legend1">
+			<table style ="text-align :center">
+				<tr>
+					<td colspan ="2" style = "font-size : 1.2vw"> 
+						<b> HWISE Version </b>
+					</td>
+				</tr>
+				<tr>
+					<td style = "width : 40%"> 
+						<img src="scripts/images/marker1_sil.png" style = "width : 40% ; height: auto;">
+					</td>
+					<td style = "width : 60%">
+						version 1
+					</td>
+				</tr>
+				<tr>
+					<td style = "width : 40%"> 
+						<img src="scripts/images/marker2_sil.png" style = "width : 40% ; height: auto">
+					</td>
+					<td style = "width : 60%">
+						version 2
+					</td>
+				</tr>
+			</table>
+		</div>
 	</body>
 
 	<!-- script list  -->
@@ -135,11 +195,12 @@
 	<script src="scripts/mods/map.js"></script>
     <script src="scripts/mods/liquidFillGauge.js""></script>
     <script src="scripts/mods/water_fill.js""></script>
-	<script src="scripts/mods/lasso.min.js"></script>	
-	<script src="scripts/mods/scatter2.js"></script>
+	<!-- <script src="scripts/mods/lasso.min.js"></script>	 -->
+	<!-- <script src="scripts/mods/scatter2.js"></script> -->
 	<script src="scripts/mods/search_function.js"></script>
 	<script src="scripts/mods/multiple-select.js"></script>
-
+	<script src="scripts/mods/docsChart.js"></script>
+	
 	<script>
 	    $(function() {
 	        $('#region_select').change(function() {
@@ -157,6 +218,11 @@
 	        $("#Version_select").multipleSelect("checkAll")
 	        ;
 	    });
+	</script>
+	<script>
+		$(document).ready(function() {
+			openLister()
+		})
 	</script>
 </html>
 
