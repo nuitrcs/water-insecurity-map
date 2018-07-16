@@ -87,8 +87,8 @@ function drawMarkers() {
                         "icon-anchor":"bottom",
                         "icon-size" : 0.15,
                         "text-field": "{SiteName}",
-                        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                        "text-size" : 13,
+                        "text-font": ["Roboto Bold"],
+                        "text-size" : 12,
                         "text-offset": [0,-0.4],
                         "text-anchor": "top",  
                         "text-optional" : true,
@@ -578,10 +578,10 @@ function openDesc(idid, option) {
     document.getElementById("Desc").style.width= "20%";
     document.getElementById("Desc").style.opacity="1"
     if (option == 1 ){
-        document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()''>&times;</a>"  
+        document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc()' style='color : white'>&times;</a>"  
     }
     else {
-        document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()''>&times;</a>"  
+        document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
 
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
@@ -719,7 +719,7 @@ function version2(){
         }
         collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span></td></tr>"
     }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <table>"+ collector+ 
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3 style='font: 2.0vw Roboto, sans-serif;'> Research Sites </h3> <table>"+ collector+ 
     "</table><button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
      <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
 }
@@ -762,8 +762,8 @@ function version1(standard){
         }
       }
   }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3> Research Sites </h3> <table>"+ collector+ 
-        "</table> <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table>"+ collector+ 
+        "</table><button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
         <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
 }
 
@@ -775,11 +775,6 @@ function water_level_enter(value0,value, idid) {
     document.getElementById("bottom_bar").style.zIndex = "100"
 
     document.getElementById("line_title0").innerText = Source_search[idid]
-    var btn0 = d3.select("#first_column").insert("svg",'#line_title0')
-    btn0.attr("id", "fillgauge0")    
-        .attr("width", 148)
-        .attr("height", 148)
-        .attr("viewBox","0 0 148 148")
 
     var btn = d3.select("#second_column").insert("svg",'#line_title')
     btn.attr("id", "fillgauge1")    
@@ -787,13 +782,13 @@ function water_level_enter(value0,value, idid) {
         .attr("height", 148)
         .attr("viewBox","0 0 148 148")
         // .attr("style", "position : absolute; left: 50% ; margin-left: -74px; bottom : 50px") 
-
+    bar_graph(idid)
     if (hwise_search[idid] == 1 ) {
-        loadLiquidFillGauge("fillgauge0", value0, config3);
+        // loadLiquidFillGauge("fillgauge0", value0, config3);
         loadLiquidFillGauge("fillgauge1", value, config1);
     }
     else {
-        loadLiquidFillGauge("fillgauge0", value0, config4);
+        // loadLiquidFillGauge("fillgauge0", value0, config4);
         loadLiquidFillGauge("fillgauge1", value, config2); 
     }
     document.getElementById("bottom_bar").style.opacity = "1.0"
@@ -807,7 +802,12 @@ function bottom_bar_exit() {
     document.getElementById("third_bar").style.zIndex = "5"
     document.getElementById("title_line2").style.zIndex = "5"
     d3.select("#fillgauge1").remove()
-    d3.select("#fillgauge0").remove()
+    // d3.select("#fillgauge0").remove()
+
+    if (document.getElementById("full_rect") != null)
+    {
+        document.getElementById("full_rect").remove()
+    }
     document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.8)"
 }
 
@@ -847,4 +847,83 @@ function time_spent_enter(value, hwise) {
     })
 }
 
+
+function bar_graph(idid) {
+    var dollars = [Female_search[idid]];
+    if (hwise_search[idid] ==1 ) {
+        var colors = ['#1C71AA'];
+    }
+    else {
+        var colors = ['#18C2A2'];
+    }
+
+    var xscale = d3.scale.linear()
+                    .domain([0,100])
+                    .range([0,148]);
+
+    var yscale = d3.scale.linear()
+                    .domain([0,1])
+                    .range([0,148]);
+
+    var colorScale = d3.scale.quantize()
+                    .domain([0,1])
+                    .range(colors);
+
+    var canvas = d3.select("#first_column").insert("svg","#line_title0")
+                    .attr('id','full_rect')
+                    .attr({'width':148,'height':148});
+
+    var xAxis = d3.svg.axis();
+        xAxis
+            .orient('bottom')
+            .scale(xscale);
+
+
+    var yAxis = d3.svg.axis();
+        yAxis
+            .orient('left')
+            .scale(yscale);
+
+    var backback = canvas.append('rect')
+                        .attr('id',"bar_background")
+                        .attr("width", "100%")
+                        .attr("height", 148)
+                        .attr("fill", "white")
+                        .attr("y",0)
+
+    // var text1 = canvas.append("text")
+    //     .text(Female_search[idid] + "%")
+    //     .attr("class", "liquidFillGaugeText")
+    //     .attr("text-anchor", "middle")
+    //     .attr("font-size", 37 + "px")
+    //     .attr('transform','translate(72,80)');
+
+    var chart = canvas.append('g')
+                        .attr('id','bars')
+                        .selectAll('rect')
+                        .data(dollars)
+                        .enter()
+                        .append('rect')
+                        .attr('id','rect1')
+                        .attr('height',148)
+                        .attr({'x':0,'y':function(d,i){ return yscale(i); }})
+                        .style('fill',function(d,i){ return colorScale(i); })
+                        .attr('width',0)
+                        .transition()
+                        .duration(1000)//time in ms
+                        .attr("width", function(d){
+                            return xscale(d);
+                        })
+   
+
+    var text2 = canvas.append("text")
+            .text(Female_search[idid] + "%")
+            .attr("class", "liquidFillGaugeText")
+            .attr("text-anchor", "middle")
+            .attr("font-size", 37 + "px")
+            // .attr("fill","red")
+            // .style('opacity','0.0')
+            .attr('transform','translate(72,80)');
+
+}
 

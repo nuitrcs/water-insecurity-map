@@ -46,7 +46,6 @@ jun.map.on('click', 'points', function (e) {
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
-    openDesc(here_id)
     filter_list_ver2(e.features[0].properties.id_number,1)
 });
 

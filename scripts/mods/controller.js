@@ -10,7 +10,8 @@ jun.map = new mapboxgl.Map({
     container: 'map', 
     style: 'mapbox://styles/mapbox/light-v9', 
   	zoom:1.3,
-	center: [jun.default_center_first, jun.default_center_second]
+	center: [jun.default_center_first, jun.default_center_second],
+	
 });
 
 jun.data_link = 'scripts/data/data2.json'

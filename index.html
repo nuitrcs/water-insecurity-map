@@ -12,6 +12,8 @@
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<link rel="stylesheet" href="scripts/mods/bootstrap/css/bootstrap.css" >
 	    <link rel="stylesheet" href="scripts/css/multiple-select.css" >
+
+	    <link href="https://fonts.googleapis.com/css?family=Lato:300|Roboto:700|Ropa+Sans:400,400i" rel="stylesheet">
 	</head>
 
 	<body>
@@ -19,8 +21,8 @@
 		<div class = "container">
 			<div class = "row">				
 				<div id = "openner" class="backsidenav" onclick="openNav()">
-					&nbsp;
-					<img src="scripts/images/search_icon.png" style = "width :85% ; height: auto">
+					<img src="scripts/images/search_icon.png" style = "width :27% ; height: auto;">
+					Search
 				</div>
 			</div>
 			<div class = "row">	
@@ -31,21 +33,26 @@
 		</div>
 		<!-- side bar : filter -->
 		<div id="mySidenav" class="sidenav">
-		    
-		    <div class ="container">
-
+		    <div class ="container" style ="font-family: 'Lato', sans-serif;position : absolute; top : 10px">
 <!-- 		    	<div class ="row">
 		    		<div class ="col">
 						<div id ="scatter2"></div>
 					</div>
 				</div> -->
+
 				<div class="row">
 					<div class ="col">
-						<a class="closebtn" onclick="closeNav()"> &times;</a>
+						<a class="closebtn" onclick="closeNav()" style="color:white"> &times;</a>
+					</div>
+				</div>
+				<br>
+				<div class = "row">
+					<div class ="col">
+						<img src = "scripts/images/HWISE_logo.png" style="width : 50% ; display: block ;margin: auto; margin-top: 30px;filter: drop-shadow(5px 5px 5px #222);">
 					</div>
 				</div>
 		  		<div class="row">
-					<div class="col" style ="position : relative ;margin-top : 50px">
+					<div class="col" style ="position : relative ;margin-top : 30px">
 						<div id="scrollable-dropdown-menu">
 						  <input class="typeahead" type="text" placeholder="Site Name">
 						</div>
@@ -53,12 +60,12 @@
 				</div>
 				<br>
 				<div class = "row">
-					<b style="margin:auto;font-size : 1.3vw; user-select : none"> Number of results : &nbsp; <span id="results_num"> 24 </span></b>
+					<b style="margin:auto;font-size : 1.3vw; user-select : none ; font-family: 'Roboto', sans-serif;"> Number of results : &nbsp; <span id="results_num"> 24 </span></b>
 				</div>
 				<div class="row">
 					<div class="col">
 					    <div class="form-group">
-					        <label style="color : white;font-size : 1.2vw">Regions</label>
+					        <label style="color : white;font-size : 1.2vw; font-family: 'Roboto', sans-serif;">Regions</label>
 					        <select id="region_select" multiple="multiple">
 							    <option value="Middle East and North Africa"> Middle East & North Africa</option>
 							    <option value="Africa"> Africa</option>
@@ -73,7 +80,7 @@
 				<div class="row">
 					<div class="col">
 					    <div class="form-group">
-					        <label style="color : white;font-size : 1.2vw">HWISE Version</label>
+					        <label style="color : white;font-size : 1.2vw; font-family: 'Roboto', sans-serif;">HWISE Version</label>
 					        <select id="Version_select" multiple="multiple" style="color : white;">
 							    <option value="1"> Version 1</option>
 	  						    <option value="2"> Version 2</option>
@@ -128,10 +135,12 @@
 						<td class = "table_column">
 						</td>
 						<td id = "first_column" class = "table_column">
+							<br>
 							<div id = "line_title0" style="font-weight : bold">
 							</div> 
 						</td>
 						<td id = "second_column" class = "table_column"> 
+							<br>
 							<div id = "line_title" >
 								<b>
 									Proportion who worry about water
@@ -139,6 +148,7 @@
 							</div> 
 						</td>
 						<td id = "third_column"  class = "table_column"> 
+							<br>
 							<div id = "line_title2"> 
 								<b>
 									Time spent collecting water
@@ -193,6 +203,7 @@
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
     <script src="scripts/mods/d3.slider.js"></script>
 	<script src="scripts/mods/map.js"></script>
+	<!-- <script src="scripts/mods/main_source.js"></script> -->
     <script src="scripts/mods/liquidFillGauge.js""></script>
     <script src="scripts/mods/water_fill.js""></script>
 	<!-- <script src="scripts/mods/lasso.min.js"></script>	 -->
@@ -224,6 +235,10 @@
 			openLister()
 		})
 	</script>
+
+
+
+
 </html>
 
 
