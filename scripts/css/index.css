@@ -7,12 +7,13 @@
     z-index: 3; 
     top: 0; 
     left: 0;
-    background-color: #1D6CAC; 
+    background-color: #A1A1A1; 
     overflow-x: hidden; 
     padding-top: 20px; 
     transition: 0.5s; 
     z-index : 101;
 }
+
 
 /* close button in side navigation bar */
 .closebtn {
@@ -34,8 +35,6 @@ h3 {
 }
 table {
     font-family: 'Lato', sans-serif;
-
-
 }
 /* search and list button */
 .backsidenav {
@@ -47,11 +46,12 @@ table {
     z-index: 2; 
     position : fixed;
     left : 0px;
-    background-color: #1D6CAC; 
+    background-color: #A1A1A1; 
     overflow-x: hidden; 
     transition: 0.8s; 
     color: white;
     font: 22px 'Roboto', sans-serif; 
+    user-select : none;
 }
 
 .backsidenav:hover{
@@ -59,7 +59,8 @@ table {
 }
 
 #openner2 {
-    top : 50px;
+    /*top : 50px;*/
+    margin-top : 40px;
     text-align : center;
 }
 
@@ -73,7 +74,7 @@ table {
     left: 0px; 
     z-index: 102; 
     float : right;
-    background-color: #1D6CAC; 
+    background-color: #A1A1A1; 
     overflow-x: hidden; 
     padding-top: 20px; 
     transition: 0.5s; 
@@ -97,7 +98,7 @@ table {
     z-index: 103; 
     top: 0; 
     left: 0;
-    background-color: #1D6CAC; 
+    background-color: #A1A1A1; 
     overflow-x: hidden; 
     padding-top: 20px; 
     transition: 0.5s;  
@@ -119,9 +120,14 @@ table {
     opacity: 0.3;
 }
 
+#collected {
+    background-color : #949494;
+    margin-top : 0px;
+}
+
 .region_division{
     font-size : 1.2vw;
-    background-color : #134C78;
+    background-color : #828282;
     user-select :none ;
 }
 
@@ -231,16 +237,16 @@ table {
 }
 
 /* slider */
-#first_bar, #second_bar,  {
+/*#first_bar, #second_bar,  {
     margin: auto;
     width : 100%;
-    background-color : #1D6CAC;
-}
+    background-color : #A1A1A1;
+}*/
 
 /* button to list view*/
 .button1 {
-  /*border-radius: 4px;*/
-  background-color: grey;
+  border-radius: 4px;
+  background-color: #6E6E6E;
   border: none;
   color: white;
   text-align: center;
@@ -265,8 +271,8 @@ table {
 	position : relative;
 	top : 23px;
     text-align : center;
-    text-shadow : 2px 2px 4px #000000;
-    color : white;
+    text-shadow : 2px 2px 4px white;
+    color : black;
     z-index: 0;
     font: 2.5vw 'Ropa Sans', sans-serif;
 	user-select:none;
@@ -298,7 +304,7 @@ body { margin:0; padding:0; }
 	right : 0 ;
     left : 0;
     bottom : 50px;
-	background-color : #1D6CAC;
+	background-color : #A1A1A1;
 	z-index: 120;
 	opacity : 1;
 }
@@ -347,19 +353,25 @@ table, th, td {
 }
 table { 
     width : 100%; 
-    line-height : 1.2;
+    line-height : 1.1;
 }
+
 #description {
     width : 90%;
+    background-color :  #949494;
     /*border: 1px solid white;*/
 }
 
 #description th { 
-    border: 1px solid white;
+    border: 0.1px solid rgba(255, 255, 255, .3);
  }
 
 #description td { 
-    border: 1px solid white;
+    border: 0.1px solid rgba(255, 255, 255, .3);
+ }
+
+#front_desc { 
+    background-color :  #828282;
  }
 
 #fillgauge1 {
@@ -378,6 +390,7 @@ table {
     background-color : white;
     opacity : 0;
     user-select : none;
+    z-index : -100;
  }
 
 .funds-allocated-meter .background {

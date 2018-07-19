@@ -19,11 +19,12 @@ var Source_search = []
 document.getElementById("scrollable-dropdown-menu").addEventListener("keypress", function(event) {
   if (event.keyCode === 13) {
     for (var i = 0; i < site_search.length; i++) { 
-        if (site_search[i]== $('.typeahead')[1].value) { 
+        if (site_search[i]== $('.typeahead')[1].value) {
+            clearit() 
             jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
-            filter_list_ver2(i,1)
+            a= filter_list_ver2(i,1)
             }
         }
     }
@@ -32,10 +33,11 @@ document.getElementById("scrollable-dropdown-menu").addEventListener("keypress",
 $(document).on('click','.tt-suggestion', function(e){
     for (var i = 0; i < site_search.length; i++) { 
         if (site_search[i]== document.getElementsByClassName("typeahead")[1].value) { 
+            clearit() 
             jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
-            filter_list_ver2(i,1)
+            a= filter_list_ver2(i,1)
             }
         }
 })
@@ -46,7 +48,7 @@ jun.map.on('click', 'points', function (e) {
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
-    filter_list_ver2(e.features[0].properties.id_number,1)
+    a= filter_list_ver2(e.features[0].properties.id_number,1)
 });
 
 

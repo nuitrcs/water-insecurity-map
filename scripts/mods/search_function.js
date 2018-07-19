@@ -13,10 +13,10 @@
 // }));
 
 // bottom bar
-d3.select("#third_bar").call(d3.slider().scale(d3.scale.ordinal().domain(jun.timelist).rangePoints([0, 1], 0.5)).axis( d3.svg.axis() ).snap(true).value("Gecko")
+d3.select("#third_bar").call(d3.slider().scale(d3.scale.ordinal().domain(jun.timelist).rangePoints([0, 1], 0.5)).axis(d3.svg.axis()).snap(true).value("All")
   .on("slide", function(evt, value){
     d3.select('#year_value').text(value);
-    filter_list(clicked =jun.clicked)
+    a = filter_list(clicked =jun.clicked)
     center_changer()
 }))
 
@@ -33,7 +33,7 @@ $('#scrollable-dropdown-menu .typeahead').typeahead({
 
 // region and version selection (multiple)
 document.getElementById("select1").addEventListener("click",function(){
-    filter_list(clicked =jun.clicked)
+    a = filter_list(clicked =jun.clicked)
     center_changer()
 })
 

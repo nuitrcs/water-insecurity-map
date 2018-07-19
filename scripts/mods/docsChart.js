@@ -24,7 +24,8 @@ var meter = svg.append("g")
 
 meter.append("path")
     .attr("class", "background")
-    .attr("d", arc.endAngle(twoPi));
+    .attr("d", arc.endAngle(twoPi))
+    .style("fill","#FFFFFF");
 
 var foreground = meter.append("path")
     .attr("class", "foreground");
@@ -50,5 +51,16 @@ d3.transition().duration(1000).tween("progress", function() {
     percentComplete.text(formatPercent(progress*100));
   };
 })
+
+
+
+
+
+
+
+
+
+
+
 
 
