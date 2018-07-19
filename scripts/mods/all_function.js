@@ -1,13 +1,10 @@
+// drawMarkers : when the page loads 
+//      main role : draw markers
 function drawMarkers() { 
-    // left_end1 = Number(left_end1)
-    // right_end1 = Number(right_end1)
-    // left_end2 = Number(left_end2)
-    // right_end2 = Number(right_end2)
-    var index_point = 0
     var filtered=[]
     for (var i = 0; i < jun.data.length; i++) {
         if (jun.data[i]["HWISE Version"]==1){
-            filtered[index_point] = {
+            filtered[i] = {
                 "type" : "Feature", 
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
@@ -28,7 +25,7 @@ function drawMarkers() {
             }
         }
         else {
-            filtered[index_point] = {
+            filtered[i] = {
                 "type" : "Feature", 
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
@@ -48,7 +45,6 @@ function drawMarkers() {
                 }
             }
         }
-        index_point += 1 
         site_search.push(jun.data[i]["Site Name"])
         hwise_search.push(jun.data[i]["HWISE Version"])
         Participants_search.push(jun.data[i]["Participants"])
@@ -104,10 +100,13 @@ function drawMarkers() {
             }
         )
     })
-    
 }
 
-// filter_list : for slide bars : change lassoable items and map markers
+// filter_list : when bottom slider is moved / when "select" button is pressed 
+//      input : clicked(optional) 
+//      output : [region_filter.slice(2), version_filter.slice(2), final_filter]
+//                  list of strings         list of strings         string
+//      main role : set filter to markers
 function filter_list(clicked="") {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
@@ -121,8 +120,9 @@ function filter_list(clicked="") {
             version_filter.push( Number($(Version_select).val()[j]))
         }
     }
+
     filter_combined = ["all"]
-    // if (clicked == "") {     
+     // if (clicked == "") {     
     //     filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
     //         [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]    
     // }
@@ -131,7 +131,6 @@ function filter_list(clicked="") {
     //                         [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],
     //                         ["==", "Setting", clicked]]
     // }
-
     if (year_value.innerText != "All") {
         filter_combined.push(["==","Start",year_value.innerText])
     }
@@ -214,10 +213,42 @@ function filter_list(clicked="") {
     //     }
     // }
     // lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
+    if (version_filter[0]){
+        if (region_filter[0]) {
+            if (year_value.innerText != "All"){
+                final_filter = '(region_filter.indexOf(Region_search[i]) >= 0) '+
+                    '&& (version_filter.indexOf(hwise_search[i]) >= 0)'+ 
+                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (Start_search[i] == year_value.innerText) '
+            }
+            else {
+                final_filter = '(region_filter.indexOf(Region_search[i]) >= 0) '+
+                    '&& (version_filter.indexOf(hwise_search[i]) >= 0)'
+                    // + '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '
+            }
+        }
+        else {
+            final_filter = '(hwise_search[i]) == 100)'
+        }
+    }
+    else {
+        final_filter = '(hwise_search[i]) == 100)'
+    }
+    return [region_filter.slice(2), version_filter.slice(2), final_filter]
 }
 
-// filter_list_ver2 : when specific marker is chosen : change lasso items and map markers
-function filter_list_ver2(id_marker,option ) {    
+// filter_list_ver2 : when specific marker is chosen
+//      input : id_marker, option  
+//      output : [region_filter.slice(2), version_filter.slice(2), final_filter]
+//                  list of strings         list of strings         string
+//      main role : set filter to markers / make map fly to chosen point / open description panel
+function filter_list_ver2(id_marker, option) {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
         for (var i = 0; i < $(region_select).val().length;i++){
@@ -245,6 +276,14 @@ function filter_list_ver2(id_marker,option ) {
                     ){
                         jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
+                        final_filter = '(id_search[i] == id_number) '+
+                            '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
+                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (Start_search[i] == year_value.innerText) '
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                         //     && (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -269,6 +308,13 @@ function filter_list_ver2(id_marker,option ) {
                         //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==", "id_number", Number(id_marker)],["==","Year",Number(year_value.innerText)]]
                     }
                 else {
+                        final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
+                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (Start_search[i] == year_value.innerText) '
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
                         //     && (d.Lat >= Number(latmin.innerText))
@@ -293,6 +339,10 @@ function filter_list_ver2(id_marker,option ) {
                     ){
                         jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
+
+                        final_filter = '(id_search[i] == id_number) '+
+                            '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)' 
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                         //     && (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -314,6 +364,8 @@ function filter_list_ver2(id_marker,option ) {
                         //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","id_number",Number(id_marker)]]
                     }
                 else {
+                        final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
+                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
                         //     && (d.Lat >= Number(latmin.innerText))
@@ -329,10 +381,12 @@ function filter_list_ver2(id_marker,option ) {
             }
         }
         else {
+            final_filter = '(hwise_search[i]) == 100)'
             // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
         }
     }
     else {
+        final_filter = '(hwise_search[i]) == 100)'
         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
     }
     if (version_filter[2]){
@@ -348,169 +402,14 @@ function filter_list_ver2(id_marker,option ) {
         filter_combined.push(["in", "HWISE_Version",100])
     }
     jun.map.setFilter("points", filter_combined)
+
+    console.log(final_filter)
+    console.log(region_filter.slice(2))
+    return [region_filter.slice(2), version_filter.slice(2), final_filter]
 }
 
-// filter_list_ver3 : for change list : 
-function filter_list_ver3(clicked ="") {    
-    region_filter1=[]
-    if ($(region_select).val()){
-        for (var i = 0; i < $(region_select).val().length;i++){
-            region_filter1.push( $(region_select).val()[i])
-        }
-    }
-    version_filter1 =[]
-    if ($(Version_select).val()){
-        for (var j = 0; j < $(Version_select).val().length;j++){
-            version_filter1.push( Number($(Version_select).val()[j]))
-        }
-    }
-
-if (clicked == "" ){
-    if (version_filter1[0]){
-        if (region_filter1[0]) {
-            if (year_value.innerText != "All"){
-                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                    '&& (Start_search[i] == year_value.innerText) '
-            }
-            else {
-                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'
-                    // + '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '
-            }
-        }
-        else {
-            final_filter = '(hwise_search[i]) == 100)'
-        }
-    }
-    else {
-        final_filter = '(hwise_search[i]) == 100)'
-    }
-}
-else { 
-    if (version_filter1[0]){
-        if (region_filter1[0]) {
-            if (year_value.innerText != "All"){
-                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                    '&& (Start_search[i] == year_value.innerText) '+
-                    '&& (Setting_search[i] == clicked)'
-            }
-            else {
-                final_filter = '(region_filter1.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter1.indexOf(hwise_search[i]) >= 0)'+ 
-                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                    '&& (Setting_search[i] == clicked)'
-            }
-        }
-        else {
-            final_filter = '(hwise_search[i]) == 100)'
-        }
-    }
-    else {
-        final_filter = '(hwise_search[i]) == 100)'
-    }
-}
-    return [region_filter1, version_filter1, final_filter]
-}
-
-function filter_list_ver4(id_marker) {    
-    id_marker= Number(id_marker)
-    region_filter2=[]
-    if ($(region_select).val()){
-        for (var i = 0; i < $(region_select).val().length;i++){
-            region_filter2.push( $(region_select).val()[i])
-        }
-    }
-    version_filter2 =[]
-    if ($(Version_select).val()){
-        for (var j = 0; j < $(Version_select).val().length;j++){
-            version_filter2.push( Number($(Version_select).val()[j]))
-        }
-    }
-
-    if (version_filter2[0]){
-        if (region_filter2[0]){
-            if (year_value.innerText != "All"){
-                if ((region_filter2.indexOf(Region_search[id_marker]) >= 0) 
-                    && (version_filter2.indexOf(hwise_search[id_marker]) >= 0)
-                    // && (lat_search[id_marker] >= Number(latmin.innerText))
-                    // && (lat_search[id_marker] <= Number(latmax.innerText))
-                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
-                    && (Start_search[id_marker] == year_value.innerText) 
-                    ){
-                        final_filter = '(id_search[i] == id_number) '+
-                            '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                            '&& (Start_search[i] == year_value.innerText) '
-                     }
-                else {
-                        final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
-                            '&& (Start_search[i] == year_value.innerText) '
-                    }
-            }
-            else {
-                if ((region_filter2.indexOf(Region_search[id_marker]) >= 0) 
-                    && (version_filter2.indexOf(hwise_search[id_marker]) >= 0)
-                    // && (lat_search[id_marker] >= Number(latmin.innerText))
-                    // && (lat_search[id_marker] <= Number(latmax.innerText))
-                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
-                    ){
-                       
-                        final_filter = '(id_search[i] == id_number) '+
-                            '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)' 
-                            // + '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '
-                    } 
-                else {
-                        final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'
-                            // +'&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '
-                        }
-                }
-        }
-        else {
-            final_filter = '(hwise_search[i]) == 100)'
-        }
-    }
-    else {
-        final_filter = '(hwise_search[i]) == 100)'
-    }
-    return [region_filter2, version_filter2, final_filter]
-}
-
-// search engine //
+// substringMatcher : when user type something in search engine 
+//      main role : form typeahead hints
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     if (q=="") { 
@@ -536,17 +435,16 @@ var substringMatcher = function(strs) {
   };  
 };
 
-
-// navigation bar
+// Functions for openning and closing side panels (Searcher, Lister, Desc)
 function openNav() {
-    document.getElementById("mySidenav").style.width = "20%";
-    document.getElementById("mySidenav").style.opacity = "1";
+    document.getElementById("Searcher").style.width = "20%";
+    document.getElementById("Searcher").style.opacity = "1";
     closeLister()
 }
 
 function closeNav() {
-    document.getElementById("mySidenav").style.width = "1%";
-    document.getElementById("mySidenav").style.opacity="0.0";
+    document.getElementById("Searcher").style.width = "1%";
+    document.getElementById("Searcher").style.opacity="0.0";
 }
 
 function openLister() {
@@ -572,7 +470,13 @@ function listtofilter() {
     openNav()
 }
 
-function openDesc(idid, option) { 
+
+// openDesc : when specific point is chosen  
+//      input : id_number, option 
+//      output : [region_filter.slice(2), version_filter.slice(2), final_filter]
+//                  list of strings         list of strings         string
+//      main role : open Desc panel / make bottom statistics bar appear 
+function openDesc(id_number, option) { 
     closeNav()
     closeLister()   
     document.getElementById("Desc").style.width= "20%";
@@ -583,25 +487,26 @@ function openDesc(idid, option) {
     else {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
-
-    document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> <div class='desc_top'>"+site_search[idid]+
-        "<br />" +"Site Characteristics </div> <img src='scripts/images/Photos/"+site_search[idid]+"_1.jpg'  alt='no image yet' style=' width: 100%; height:auto'><br><br>\
-        <div class='whole_table'><table id = 'description'> <tr> <td>Latitude</td> <td>"+Number(lat_search[idid]) +
-        "</td> </tr> <tr> <td>Longitude</td><td> "+Number(lng_search[idid]) +
-        "</td> </tr> <tr> <td> HWISE Version</td><td> "+hwise_search[idid] +
-        "</td> </tr> <tr> <td>Participants</td><td> " + Participants_search[idid] +
-        // "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[idid]*1000).toLocaleString() + " USD"
-        "</td> </tr> <tr> <td>Region</td><td>  " +Region_search[idid] +
-        "</td> </tr> <tr> <td>Partners</td><td> "+ Partners_search[idid] +
-        "</td> </tr> <tr> <td>Setting</td><td>"+Setting_search[idid] +
-        "</td> </tr> <tr> <td>Sampling</td><td>" + Sampling_search[idid] + 
-        "</td> </tr> <tr> <td>Climate</td><td>" + Climate_search[idid] +
-        "</td> </tr> <tr> <td>Gender</td><td> male - "+ ((100-Female_search[idid]).toFixed(1)) +"% <br /> female - "+Female_search[idid].toFixed(1) +"%</td></table></div>"
-    document.getElementById("Lister").style.width = "0%"; 
-    document.getElementById("Lister").style.opacity = "0.0";
-    bottom_bar_exit()
-    water_level_enter(Main_search[idid],Improved_search[idid],idid)
-    time_spent_enter(Female_search[idid],hwise_search[idid])
+    document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
+        <div class='desc_top'>"+site_search[id_number]+"<br />" +"Site Characteristics </div> \
+        <img src='scripts/images/Photos/"+site_search[id_number]+"_1.jpg' alt='no image yet' \
+        style=' width: 100%; height:auto;margin-top:7px'>\
+        <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
+        // "<tr> <td id = 'front_desc'>Latitude</td> <td>"+Number(lat_search[id_number]) + "</td> </tr> " + 
+        // "<tr> <td id = 'front_desc'>Longitude</td><td> "+Number(lng_search[id_number]) +"</td> </tr> " + 
+        "<tr> <td id = 'front_desc'> HWISE Version</td><td> "+hwise_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Participants</td><td> " + Participants_search[id_number] +
+        // "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[id_number]*1000).toLocaleString() + " USD"
+        "</td> </tr> <tr> <td id = 'front_desc'>Region</td><td>  " +Region_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Partners</td><td> "+ Partners_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Setting</td><td>"+Setting_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Sampling</td><td>" + Sampling_search[id_number] + 
+        "</td> </tr> <tr> <td id = 'front_desc'>Climate</td><td>" + Climate_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Gender</td><td> male - "+ ((100-Female_search[id_number]).toFixed(1)) +
+        "% <br /> female - "+Female_search[id_number].toFixed(1) +"%</td></table></div>"
+    
+    water_level_enter(Main_search[id_number], Improved_search[id_number],id_number)
+    time_spent_enter(Female_search[id_number], hwise_search[id_number])
 }
 
 function closeDesc() { 
@@ -620,10 +525,25 @@ function closeDesc1() {
     bottom_bar_exit()
 }
 
+function bottom_bar_exit() { 
+    document.getElementById("bottom_bar").style.zIndex = "-100"
+    document.getElementById("legend1").style.zIndex = "5"
+    document.getElementById("third_bar").style.zIndex = "5"
+    document.getElementById("title_line2").style.zIndex = "5"
+    d3.select("#fillgauge1").remove()
+
+    if (document.getElementById("full_rect") != null)
+    {
+        document.getElementById("full_rect").remove()
+    }
+    document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.5)"
+}
+
 function linklink(id_number){
     closeLister()
-    filter_list_ver2(id_number,2)
-    ver4_result = filter_list_ver4(id_number)
+    ver4_result = filter_list_ver2(id_number, 2)
+    // filter_list_ver2(id_number,2)
+    // ver4_result = filter_list_ver4(id_number)
     region_filter2 = ver4_result[0]
     version_filter2 = ver4_result[1]
     yes_chosen1 = []
@@ -666,7 +586,8 @@ function clearit() {
 }
 
 function list_changer() {
-    ver3_result = filter_list_ver3(clicked =jun.clicked)
+    ver3_result = filter_list(clicked =jun.clicked)
+    console.log(ver3_result)
     region1_filter = ver3_result[0]
     version1_filter = ver3_result[1]
     yes_chosen =[]
@@ -719,52 +640,56 @@ function version2(){
         }
         collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span></td></tr>"
     }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3 style='font: 2.0vw Roboto, sans-serif;'> Research Sites </h3> <table>"+ collector+ 
-    "</table><button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
-     <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
+        <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
+        "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
+        <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
+        <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button> </div></div></div>"
 }
 
 function version1(standard){
     collector =""
-  for (var i = 0 ; i < site_search.length; i ++){
-     if (i==0) { 
-          collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
+    for (var i = 0 ; i < site_search.length; i ++){
+         if (i==0) { 
+              collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
+          }
+          else if (i== 1){
+              collector += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
+          }
+          else if (i == 11){
+              collector  += '<tr><td><div class ="region_division"> Latin America & the Carribean </div> </td></tr>'
+          }
+          else if (i == 19){
+              collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
+          }
+          else if (i == 20){
+              collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
+          }
+          else if (i == 23){
+              collector += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
+          }
+          if ((typeof standard) == "number") {
+            if (i == id_marker) {
+                  collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
+            }
+            else {
+                  collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
+            }
+          }
+          else { 
+            if (standard.indexOf(i) >= 0) {
+                  collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
+            }
+            else {
+                  collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
+            }
+          }
       }
-      else if (i== 1){
-          collector += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
-      }
-      else if (i == 11){
-          collector  += '<tr><td><div class ="region_division"> Latin America & the Carribean </div> </td></tr>'
-      }
-      else if (i == 19){
-          collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
-      }
-      else if (i == 20){
-          collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
-      }
-      else if (i == 23){
-          collector += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
-      }
-      if ((typeof standard) == "number") {
-        if (i == id_marker) {
-              collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
-        }
-        else {
-              collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
-        }
-      }
-      else { 
-        if (standard.indexOf(i) >= 0) {
-              collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
-        }
-        else {
-              collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
-        }
-      }
-  }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a><h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table>"+ collector+ 
-        "</table><button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button>\
-        <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button>"
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
+        <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
+        "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
+        <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
+        <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button> </div></div></div>"
 }
 
 function water_level_enter(value0,value, idid) {
@@ -774,48 +699,29 @@ function water_level_enter(value0,value, idid) {
     document.getElementById("legend1").style.zIndex = "-2"
     document.getElementById("bottom_bar").style.zIndex = "100"
 
-    document.getElementById("line_title0").innerText = Source_search[idid]
+    document.getElementById("line_title0").innerText = "Main source of water"
 
     var btn = d3.select("#second_column").insert("svg",'#line_title')
     btn.attr("id", "fillgauge1")    
         .attr("width", 148)
         .attr("height", 148)
         .attr("viewBox","0 0 148 148")
-        // .attr("style", "position : absolute; left: 50% ; margin-left: -74px; bottom : 50px") 
     bar_graph(idid)
     if (hwise_search[idid] == 1 ) {
-        // loadLiquidFillGauge("fillgauge0", value0, config3);
         loadLiquidFillGauge("fillgauge1", value, config1);
     }
     else {
-        // loadLiquidFillGauge("fillgauge0", value0, config4);
         loadLiquidFillGauge("fillgauge1", value, config2); 
     }
     document.getElementById("bottom_bar").style.opacity = "1.0"
-    document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.4)"
+    document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.5)"
 }
 
 
-function bottom_bar_exit() { 
-    document.getElementById("bottom_bar").style.zIndex = "-100"
-    document.getElementById("legend1").style.zIndex = "5"
-    document.getElementById("third_bar").style.zIndex = "5"
-    document.getElementById("title_line2").style.zIndex = "5"
-    d3.select("#fillgauge1").remove()
-    // d3.select("#fillgauge0").remove()
 
-    if (document.getElementById("full_rect") != null)
-    {
-        document.getElementById("full_rect").remove()
-    }
-    document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.8)"
-}
-
-function time_spent_enter(value, hwise) {
+function time_spent_enter(allocated, hwise) {
     progress = 0 
-    allocated = value 
     var i = d3.interpolate(progress, allocated / total); 
-
     if (hwise == 1 ) {
         var description = meter.append("text")
             .attr("text-anchor", "middle")
@@ -823,9 +729,9 @@ function time_spent_enter(value, hwise) {
             .attr("dy", "0.9em")
             .text("hrs")
             .style("font-size", "28px")
-            .style("fill", "#2080BF");
-        document.getElementsByClassName("foreground")[0].style.fill = "#2080BF"
-        document.getElementsByClassName("percent-complete")[0].style.fill = "#2080BF"
+            .style("fill", jun.v1_color[1]);
+        document.getElementsByClassName("foreground")[0].style.fill = jun.v1_color[0]
+        document.getElementsByClassName("percent-complete")[0].style.fill = jun.v1_color[1]
     }
     else {
         var description = meter.append("text")
@@ -834,10 +740,11 @@ function time_spent_enter(value, hwise) {
             .attr("dy", "0.9em")
             .text("hrs")
             .style("font-size", "28px")
-            .style("fill", "#0FD2B4");
-        document.getElementsByClassName("foreground")[0].style.fill = "#0FD2B4"
-        document.getElementsByClassName("percent-complete")[0].style.fill = "#0FD2B4"
+            .style("fill", jun.v2_color[1]);
+        document.getElementsByClassName("foreground")[0].style.fill = jun.v2_color[0]
+        document.getElementsByClassName("percent-complete")[0].style.fill = jun.v2_color[1]
     }
+
     d3.transition().duration(1000).tween("progress", function() {
       return function(t) {
         progress = i(t);
@@ -851,10 +758,10 @@ function time_spent_enter(value, hwise) {
 function bar_graph(idid) {
     var dollars = [Female_search[idid]];
     if (hwise_search[idid] ==1 ) {
-        var colors = ['#1C71AA'];
+        var colors = jun.v1_color;
     }
     else {
-        var colors = ['#18C2A2'];
+        var colors = jun.v2_color;
     }
 
     var xscale = d3.scale.linear()
@@ -891,39 +798,92 @@ function bar_graph(idid) {
                         .attr("fill", "white")
                         .attr("y",0)
 
-    // var text1 = canvas.append("text")
-    //     .text(Female_search[idid] + "%")
-    //     .attr("class", "liquidFillGaugeText")
-    //     .attr("text-anchor", "middle")
-    //     .attr("font-size", 37 + "px")
-    //     .attr('transform','translate(72,80)');
+    formatPercent1 = d3.format(".0f");
+    var progress = 0
+    var percentComplete = canvas.append("text")
+        .attr("text-anchor", "middle")
+        .attr("class", "percent-complete1")
+        .attr("dy", "76.5")
+        .attr("dx", "72")
+        .style("font-size", "37px")
+        .style("fill", colors[1]);
 
-    var chart = canvas.append('g')
-                        .attr('id','bars')
-                        .selectAll('rect')
-                        .data(dollars)
-                        .enter()
-                        .append('rect')
-                        .attr('id','rect1')
-                        .attr('height',148)
-                        .attr({'x':0,'y':function(d,i){ return yscale(i); }})
-                        .style('fill',function(d,i){ return colorScale(i); })
-                        .attr('width',0)
-                        .transition()
-                        .duration(1000)//time in ms
-                        .attr("width", function(d){
-                            return xscale(d);
-                        })
-   
+    var main_source_desc = canvas.append("text")
+        .attr("text-anchor", "middle")
+        .attr("class", "percent-complete1")
+        .attr("dy", "104.5")
+        .attr("dx", "72")
+        .style("font-size", "15px")
+        .style("fill", colors[1]);
 
-    var text2 = canvas.append("text")
-            .text(Female_search[idid] + "%")
-            .attr("class", "liquidFillGaugeText")
-            .attr("text-anchor", "middle")
-            .attr("font-size", 37 + "px")
-            // .attr("fill","red")
-            // .style('opacity','0.0')
-            .attr('transform','translate(72,80)');
+    var textRounder = function(value){ return Math.round(value);};
+    var textTween = function(){
+        var i = d3.interpolate(progress, (Female_search[idid])/100); 
+        return function(t) {  
+            progress = i(t); 
+            percentComplete.text(formatPercent1(progress*100)+"%"); }
+    };
 
+    percentComplete.transition()
+        .duration(1000)
+        .tween("text", textTween);
+
+    main_source_desc.text(Source_search[idid])
+
+    var waveGroup = canvas.append("clipPath")      
+        .attr("id", "ellipse-clip") 
+        .selectAll('rect')
+        .data(dollars)
+        .enter()
+        .append('rect')
+        .attr('id','rect1')
+        .attr('height',148)
+        .attr({'x':0,'y':function(d,i){ return yscale(i); }})
+        .style('fill',function(d,i){ return colorScale(i); })
+        .attr('width',0)
+        .transition()
+        .duration(1000)//time in ms
+        .attr("width", function(d){
+            return xscale(d);
+        })     
+
+    var chart = canvas.append("g")  
+        .attr("clip-path", "url(#ellipse-clip)")
+    chart.append("rect")
+        .attr("height", 148)    
+        .attr("width", 148)    
+        .style('fill',function(d,i){ return colorScale(i); })
+
+    progress = 0
+    var percentComplete0 = chart.append("text")
+        .attr("text-anchor", "middle")
+        .attr("class", "percent-complete2")
+        .attr("dy", "76.5")
+        .attr("dx", "72")
+        .attr("id","woo")
+        .style("font-size", "37px")
+        .style("fill", colors[2])
+
+
+    var main_source_desc0 = chart.append("text")
+        .attr("text-anchor", "middle")
+        .attr("class", "percent-complete2")
+        .attr("dy", "104.5")
+        .attr("dx", "72")
+        .style("font-size", "15px")
+        .style("fill", colors[2]);
+
+
+    var textTween0 = function(){
+        var i = d3.interpolate(progress, (Female_search[idid])/100); 
+        return function(t) {  
+            progress = i(t); 
+            percentComplete0.text(formatPercent1(progress*100)+"%"); }
+    };;
+    percentComplete0.transition()
+        .duration(1000)
+        .tween("text", textTween0);
+
+    main_source_desc0.text(Source_search[idid])
 }
 

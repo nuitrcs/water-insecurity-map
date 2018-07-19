@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<!-- side bar : filter -->
-		<div id="mySidenav" class="sidenav">
+		<div id="Searcher" class="sidenav">
 		    <div class ="container" style ="font-family: 'Lato', sans-serif;position : absolute; top : 10px">
 <!-- 		    	<div class ="row">
 		    		<div class ="col">
@@ -45,24 +45,22 @@
 						<a class="closebtn" onclick="closeNav()" style="color:white"> &times;</a>
 					</div>
 				</div>
-				<br>
-				<div class = "row">
+				<div class = "row" style = "margin-top : 25px">
 					<div class ="col">
 						<img src = "scripts/images/HWISE_logo.png" style="width : 50% ; display: block ;margin: auto; margin-top: 30px;filter: drop-shadow(5px 5px 5px #222);">
 					</div>
 				</div>
-		  		<div class="row">
-					<div class="col" style ="position : relative ;margin-top : 30px">
+		  		<div class="row" style = "margin-top : 20px">
+					<div class="col" style ="position : relative ;">
 						<div id="scrollable-dropdown-menu">
 						  <input class="typeahead" type="text" placeholder="Site Name">
 						</div>
 					</div>
 				</div>
-				<br>
-				<div class = "row">
+				<div class = "row" style = "margin-top : 15px">
 					<b style="margin:auto;font-size : 1.3vw; user-select : none ; font-family: 'Roboto', sans-serif;"> Number of results : &nbsp; <span id="results_num"> 24 </span></b>
 				</div>
-				<div class="row">
+				<div class="row" style = "margin-top : 3px">
 					<div class="col">
 					    <div class="form-group">
 					        <label style="color : white;font-size : 1.2vw; font-family: 'Roboto', sans-serif;">Regions</label>
@@ -88,27 +86,23 @@
 					    </div>
 					</div>
 				</div>
-				<div class = "row">
+				<div class = "row" style = "margin-top : 3px">
 					<div class="col" >
 						<input id="select1" class = "button1" type="submit" value="select">
 					</div>
 					<div class="col">
 						<input id="clear" class = 'button1' type="submit" value="clear" onclick= "clearit()">
 					</div>
-					<br>
 				</div>
-				<br>
 <!-- 				<div class= "row">
 					<div class="col" style ="text-align : center; color : white; font-size : 1.1vw" >
 						<div id="first_bar"></div>
 						<span id="latmin">-90.00</span> <span> &nbsp; latitude &nbsp; </span> <span id="latmax">90.00</span>
-						<br>
 					    <div id="second_bar"></div>	
 					    <span id="lngmin">-180.00</span> <span> &nbsp; longitutde &nbsp; </span> <span id="lngmax">180.00</span>
 					</div> 
-				</div>
-				<br> -->
-				<div class ="row">
+				</div> -->
+				<div class ="row" style = "margin-top : 3px">
 					<div class = "col">
 						<button class="button1" onclick="filtertolist()">
 							 List View
@@ -201,6 +195,7 @@
 	<script src="scripts/mods/typeahead.jquery.min.js"></script>
     <script src="scripts/mods/all_function.js"></script>
 	<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+	<script src="scripts/mods/docsChart.js"></script>
     <script src="scripts/mods/d3.slider.js"></script>
 	<script src="scripts/mods/map.js"></script>
 	<!-- <script src="scripts/mods/main_source.js"></script> -->
@@ -210,7 +205,7 @@
 	<!-- <script src="scripts/mods/scatter2.js"></script> -->
 	<script src="scripts/mods/search_function.js"></script>
 	<script src="scripts/mods/multiple-select.js"></script>
-	<script src="scripts/mods/docsChart.js"></script>
+
 	
 	<script>
 	    $(function() {
