@@ -45,23 +45,26 @@ function drawMarkers() {
                 }
             }
         }
-        site_search.push(jun.data[i]["Site Name"])
-        hwise_search.push(jun.data[i]["HWISE Version"])
-        Participants_search.push(jun.data[i]["Participants"])
-        // GNI_search.push(jun.data[i]["GNI"])
+        Id_search.push(jun.data[i]["id_number"])
         Region_search.push(jun.data[i]["Region"])
-        lat_search.push(jun.data[i]["Lat"])
-        lng_search.push(jun.data[i]["Lng"])
-        Start_search.push(jun.data[i]["start"])
-        id_search.push(jun.data[i]["id_number"])
+        Site_search.push(jun.data[i]["Site Name"])
+        Hwise_search.push(jun.data[i]["HWISE Version"])
         Partners_search.push(jun.data[i]["Partners"])
         Setting_search.push(jun.data[i]["Setting"])
         Sampling_search.push(jun.data[i]["Sampling"])
-        Climate_search.push(jun.data[i]["Climate"])
+        Cognitive_search.push(jun.data[i]["Cognitive Interviewing"])
+        Participants_search.push(jun.data[i]["Participants"])
+        Period_search.push(jun.data[i]["Dates of Data Collection"])
+        Start_search.push(jun.data[i]["start"])
         Female_search.push(jun.data[i]["Female"])
-        Improved_search.push(jun.data[i]["Improved_water"])
+        Main_source_search.push(jun.data[i]["Main Sources of Drinking Water"])
         Main_search.push(jun.data[i]["Main"])
         Source_search.push(jun.data[i]["Source"])
+        Climate_search.push(jun.data[i]["Climate"])
+        Lat_search.push(jun.data[i]["Lat"])
+        Lng_search.push(jun.data[i]["Lng"])
+        Improved_search.push(jun.data[i]["Improved_water"])
+        // GNI_search.push(jun.data[i]["GNI"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
@@ -217,28 +220,28 @@ function filter_list(clicked="") {
         if (region_filter[0]) {
             if (year_value.innerText != "All"){
                 final_filter = '(region_filter.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter.indexOf(hwise_search[i]) >= 0)'+ 
-                    // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                    '&& (version_filter.indexOf(Hwise_search[i]) >= 0)'+ 
+                    // '&& (Lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (Lng_search[i] <= Number(lngmax.innerText)) '+
                     '&& (Start_search[i] == year_value.innerText) '
             }
             else {
                 final_filter = '(region_filter.indexOf(Region_search[i]) >= 0) '+
-                    '&& (version_filter.indexOf(hwise_search[i]) >= 0)'
-                    // + '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (lng_search[i] <= Number(lngmax.innerText)) '
+                    '&& (version_filter.indexOf(Hwise_search[i]) >= 0)'
+                    // + '&& (Lat_search[i] >= Number(latmin.innerText)) '+
+                    // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
+                    // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
+                    // '&& (Lng_search[i] <= Number(lngmax.innerText)) '
             }
         }
         else {
-            final_filter = '(hwise_search[i]) == 100)'
+            final_filter = '(Hwise_search[i]) == 100)'
         }
     }
     else {
-        final_filter = '(hwise_search[i]) == 100)'
+        final_filter = '(Hwise_search[i]) == 100)'
     }
     return [region_filter.slice(2), version_filter.slice(2), final_filter]
 }
@@ -267,22 +270,22 @@ function filter_list_ver2(id_marker, option) {
         if (region_filter[2]){
             if (year_value.innerText != "All"){
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
-                    && (version_filter.indexOf(hwise_search[id_marker]) >= 0)
-                    // && (lat_search[id_marker] >= Number(latmin.innerText))
-                    // && (lat_search[id_marker] <= Number(latmax.innerText))
-                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    && (version_filter.indexOf(Hwise_search[id_marker]) >= 0)
+                    // && (Lat_search[id_marker] >= Number(latmin.innerText))
+                    // && (Lat_search[id_marker] <= Number(latmax.innerText))
+                    // && (Lng_search[id_marker] >= Number(lngmin.innerText))
+                    // && (Lng_search[id_marker] <= Number(lngmax.innerText))
                     && (Start_search[id_marker] == year_value.innerText) 
                     ){
-                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
+                        jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
-                        final_filter = '(id_search[i] == id_number) '+
+                        final_filter = '(Id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)'+ 
+                            // '&& (Lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (Lng_search[i] <= Number(lngmax.innerText)) '+
                             '&& (Start_search[i] == year_value.innerText) '
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                         //     && (region_filter.indexOf(d.Region) >= 0) 
@@ -309,11 +312,11 @@ function filter_list_ver2(id_marker, option) {
                     }
                 else {
                         final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'+ 
-                            // '&& (lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (lng_search[i] <= Number(lngmax.innerText)) '+
+                            '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)'+ 
+                            // '&& (Lat_search[i] >= Number(latmin.innerText)) '+
+                            // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
+                            // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
+                            // '&& (Lng_search[i] <= Number(lngmax.innerText)) '+
                             '&& (Start_search[i] == year_value.innerText) '
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -331,18 +334,18 @@ function filter_list_ver2(id_marker, option) {
             }
             else {
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
-                    && (version_filter.indexOf(hwise_search[id_marker]) >= 0)
-                    // && (lat_search[id_marker] >= Number(latmin.innerText))
-                    // && (lat_search[id_marker] <= Number(latmax.innerText))
-                    // && (lng_search[id_marker] >= Number(lngmin.innerText))
-                    // && (lng_search[id_marker] <= Number(lngmax.innerText))
+                    && (version_filter.indexOf(Hwise_search[id_marker]) >= 0)
+                    // && (Lat_search[id_marker] >= Number(latmin.innerText))
+                    // && (Lat_search[id_marker] <= Number(latmax.innerText))
+                    // && (Lng_search[id_marker] >= Number(lngmin.innerText))
+                    // && (Lng_search[id_marker] <= Number(lngmax.innerText))
                     ){
-                        jun.map.flyTo({center : [lng_search[id_marker],lat_search[id_marker]], zoom:4.7})
+                        jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
 
-                        final_filter = '(id_search[i] == id_number) '+
+                        final_filter = '(Id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)' 
+                            '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)' 
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
                         //     && (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
@@ -365,7 +368,7 @@ function filter_list_ver2(id_marker, option) {
                     }
                 else {
                         final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
-                            '&& (version_filter2.indexOf(hwise_search[i]) >= 0)'
+                            '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)'
                         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
                         //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
                         //     && (d.Lat >= Number(latmin.innerText))
@@ -381,12 +384,12 @@ function filter_list_ver2(id_marker, option) {
             }
         }
         else {
-            final_filter = '(hwise_search[i]) == 100)'
+            final_filter = '(Hwise_search[i]) == 100)'
             // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
         }
     }
     else {
-        final_filter = '(hwise_search[i]) == 100)'
+        final_filter = '(Hwise_search[i]) == 100)'
         // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
     }
     if (version_filter[2]){
@@ -403,8 +406,6 @@ function filter_list_ver2(id_marker, option) {
     }
     jun.map.setFilter("points", filter_combined)
 
-    console.log(final_filter)
-    console.log(region_filter.slice(2))
     return [region_filter.slice(2), version_filter.slice(2), final_filter]
 }
 
@@ -436,13 +437,13 @@ var substringMatcher = function(strs) {
 };
 
 // Functions for openning and closing side panels (Searcher, Lister, Desc)
-function openNav() {
+function openSearcher() {
     document.getElementById("Searcher").style.width = "20%";
     document.getElementById("Searcher").style.opacity = "1";
     closeLister()
 }
 
-function closeNav() {
+function closeSearcher() {
     document.getElementById("Searcher").style.width = "1%";
     document.getElementById("Searcher").style.opacity="0.0";
 }
@@ -451,9 +452,9 @@ function openLister() {
     document.getElementById("Lister").style.width = "20%"; 
     document.getElementById("Lister").style.opacity = "1";
     if ($('#Lister').children().length==1){
-        version2()
+        unfiltered_list_creator()
     }
-    closeNav()
+    closeSearcher()
 }
 
 function closeLister() {
@@ -461,15 +462,15 @@ function closeLister() {
     document.getElementById("Lister").style.opacity = "0.0";
 }
 
-function filtertolist() {
-    closeNav() 
+function Searcher_to_Lister() {
+    closeSearcher() 
     openLister()
 }
-function listtofilter() { 
-    closeLister() 
-    openNav()
-}
 
+function Lister_to_Searcher() { 
+    closeLister() 
+    openSearcher()
+}
 
 // openDesc : when specific point is chosen  
 //      input : id_number, option 
@@ -477,7 +478,7 @@ function listtofilter() {
 //                  list of strings         list of strings         string
 //      main role : open Desc panel / make bottom statistics bar appear 
 function openDesc(id_number, option) { 
-    closeNav()
+    closeSearcher()
     closeLister()   
     document.getElementById("Desc").style.width= "20%";
     document.getElementById("Desc").style.opacity="1"
@@ -488,35 +489,29 @@ function openDesc(id_number, option) {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
-        <div class='desc_top'>"+site_search[id_number]+"<br />" +"Site Characteristics </div> \
-        <img src='scripts/images/Photos/"+site_search[id_number]+"_1.jpg' alt='no image yet' \
+        <div class='desc_top'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
+        <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
         style=' width: 100%; height:auto;margin-top:7px'>\
         <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
-        // "<tr> <td id = 'front_desc'>Latitude</td> <td>"+Number(lat_search[id_number]) + "</td> </tr> " + 
-        // "<tr> <td id = 'front_desc'>Longitude</td><td> "+Number(lng_search[id_number]) +"</td> </tr> " + 
-        "<tr> <td id = 'front_desc'> HWISE Version</td><td> "+hwise_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Participants</td><td> " + Participants_search[id_number] +
-        // "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[id_number]*1000).toLocaleString() + " USD"
-        "</td> </tr> <tr> <td id = 'front_desc'>Region</td><td>  " +Region_search[id_number] +
+        "<tr> <td id = 'front_desc'> Region</td><td> "+Region_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>HWISE Version</td><td>  " + Hwise_search[id_number] +
         "</td> </tr> <tr> <td id = 'front_desc'>Partners</td><td> "+ Partners_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Setting</td><td>"+Setting_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Setting</td><td>"+ Setting_search[id_number] +
         "</td> </tr> <tr> <td id = 'front_desc'>Sampling</td><td>" + Sampling_search[id_number] + 
+        "</td> </tr> <tr> <td id = 'front_desc'>Cognitive Interviewing</td><td>" + Cognitive_search[id_number] + 
+        "</td> </tr> <tr> <td id = 'front_desc'>Participants</td><td> " + Participants_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Dates of Data Collection</td><td> " + Period_search[id_number] +
+        "</td> </tr> <tr> <td id = 'front_desc'>Gender</td><td> Male - "+ ((100-Female_search[id_number]).toFixed(1)) +
+        "% <br /> Female - "+Female_search[id_number].toFixed(1) +"%</td></table></div>"
+        // "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[id_number]*1000).toLocaleString() + " USD"
+        // "<tr> <td id = 'front_desc'>Latitude</td> <td>"+Number(Lat_search[id_number]) + "</td> </tr> " + 
+        // "<tr> <td id = 'front_desc'>Longitude</td><td> "+Number(Lng_search[id_number]) +"</td> </tr> " + 
         "</td> </tr> <tr> <td id = 'front_desc'>Climate</td><td>" + Climate_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Gender</td><td> male - "+ ((100-Female_search[id_number]).toFixed(1)) +
-        "% <br /> female - "+Female_search[id_number].toFixed(1) +"%</td></table></div>"
-    
-    water_level_enter(Main_search[id_number], Improved_search[id_number],id_number)
-    time_spent_enter(Female_search[id_number], hwise_search[id_number])
+        "</td></tr></table></div>"
+    bottom_bar_enter(id_number)
 }
 
-function closeDesc() { 
-    document.getElementById("Desc").innerHTML = ""
-    document.getElementById("Desc").style.width= "0%" 
-    openNav()
-    clearit()
-    bottom_bar_exit()
-}
-
+// closeDesc1() : when user tries to close description panel that's openned by clicking element in Lister
 function closeDesc1() { 
     document.getElementById("Desc").innerHTML = ""
     document.getElementById("Desc").style.width= "0%" 
@@ -525,36 +520,16 @@ function closeDesc1() {
     bottom_bar_exit()
 }
 
-function bottom_bar_exit() { 
-    document.getElementById("bottom_bar").style.zIndex = "-100"
-    document.getElementById("legend1").style.zIndex = "5"
-    document.getElementById("third_bar").style.zIndex = "5"
-    document.getElementById("title_line2").style.zIndex = "5"
-    d3.select("#fillgauge1").remove()
-
-    if (document.getElementById("full_rect") != null)
-    {
-        document.getElementById("full_rect").remove()
-    }
-    document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.5)"
+// closeDesc() : when user tries to close description panel that's not the case of closeDesc1()
+function closeDesc() { 
+    document.getElementById("Desc").innerHTML = ""
+    document.getElementById("Desc").style.width= "0%" 
+    openSearcher()
+    clearit()
+    bottom_bar_exit()
 }
 
-function linklink(id_number){
-    closeLister()
-    ver4_result = filter_list_ver2(id_number, 2)
-    // filter_list_ver2(id_number,2)
-    // ver4_result = filter_list_ver4(id_number)
-    region_filter2 = ver4_result[0]
-    version_filter2 = ver4_result[1]
-    yes_chosen1 = []
-    for (var i = 0; i < site_search.length; i++){
-        if (eval(ver4_result[2])) {
-            yes_chosen1.push(i)
-        } 
-    }
-    version1(yes_chosen1) 
-}
-
+// clearit() : reset all filters and map markers
 function clearit() { 
     jun.map.setFilter("points", null)
     $('#region_select').multipleSelect("checkAll");
@@ -565,9 +540,10 @@ function clearit() {
     
     jun.clicked = ""
     $('.typeahead').typeahead('val', '')
-    version2()
+    unfiltered_list_creator()
 
-    document.getElementById("results_num").innerText = site_search.length
+    document.getElementById("results_num").innerText = Site_search.length
+    document.getElementById('third_bar').click();
     // document.getElementById("latmin").innerText = (-90.00).toFixed(2)
     // document.getElementById("latmax").innerText = 90.00.toFixed(2)
     // document.getElementById("lngmin").innerText = (-180.00).toFixed(2)
@@ -581,33 +557,46 @@ function clearit() {
     // document.getElementsByClassName("d3-slider-handle")[1].style.left = "100%" 
     // document.getElementsByClassName("d3-slider-handle")[2].style.left = "0%"
     // document.getElementsByClassName("d3-slider-handle")[3].style.left = "100%" 
-
-    document.getElementById('third_bar').click();
 }
 
-function list_changer() {
-    ver3_result = filter_list(clicked =jun.clicked)
-    console.log(ver3_result)
-    region1_filter = ver3_result[0]
-    version1_filter = ver3_result[1]
-    yes_chosen =[]
-    for (var i = 0; i < site_search.length; i++){
-        if (eval(ver3_result[2])) {
+// linklink() : when element in list is chosen 
+function linklink(id_number){
+    closeLister()
+    ver2_result = filter_list_ver2(id_number, 2)
+    region_filter2 = ver2_result[0]
+    version_filter2 = ver2_result[1]
+    yes_chosen = []
+    for (var i = 0; i < Site_search.length; i++){
+        if (eval(ver2_result[2])) {
             yes_chosen.push(i)
         } 
     }
-    version1(yes_chosen)
-    return yes_chosen
+    filtered_list_creator(yes_chosen) 
 }
 
+// center_changer() : when filter is applied
+//      main role : set filters to markers / change the center of map based on filterd or chosen markers
 function center_changer() { 
-    multiple_selected = list_changer()
+    // marker filtering
+    filter_result = filter_list(clicked = jun.clicked)
+    region1_filter = filter_result[0]
+    version1_filter = filter_result[1]
+    // list changing
+    yes_chosen =[]
+    for (var i = 0; i < Site_search.length; i++){
+        if (eval(filter_result[2])) {
+            yes_chosen.push(i)
+        } 
+    }
+    filtered_list_creator(yes_chosen)
+    // map center changing
+    multiple_selected = yes_chosen
     if (multiple_selected.length >= 1){
         multiple_selected_lat = []
         multiple_selected_lng = []
         for (var k = 0; k < multiple_selected.length; k++){
-          multiple_selected_lat.push(lat_search[multiple_selected[k]])
-          multiple_selected_lng.push(lng_search[multiple_selected[k]])
+          multiple_selected_lat.push(Lat_search[multiple_selected[k]])
+          multiple_selected_lng.push(Lng_search[multiple_selected[k]])
         }
         jun.map.flyTo({center : [(Math.max(...multiple_selected_lng)+Math.min(...multiple_selected_lng))/2,(Math.max(...multiple_selected_lat)+Math.min(...multiple_selected_lat))/2],zoom:1.3})
         document.getElementById("results_num").innerText = (multiple_selected.length)
@@ -617,71 +606,44 @@ function center_changer() {
     }  
 }
 
-function version2(){
-    collector = ""
-    for (var i = 0; i < site_search.length; i++){
-        if (i==0) { 
-            collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
-        }
-        else if (i== 1){
-            collector  += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
-        }
-        else if (i == 11){
-            collector  += '<tr><td><div class ="region_division"> Latin American & the Caribbean </div> </td></tr>'
-        }
-        else if (i == 19){
-            collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
-        }
-        else if (i == 20){
-            collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
-        }
-        else if (i == 23){
-            collector  += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
-        }
-        collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span></td></tr>"
-    }
-    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
-        <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
-        "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
-        <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
-        <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button> </div></div></div>"
-}
 
-function version1(standard){
+// filtered_list_creator()
+//      main role : create filtered list  
+function filtered_list_creator(standard){
     collector =""
-    for (var i = 0 ; i < site_search.length; i ++){
-         if (i==0) { 
+    for (var i = 0 ; i < Site_search.length; i ++){
+         if (i==jun.divider[0]) { 
               collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
           }
-          else if (i== 1){
+          else if (i== jun.divider[1]){
               collector += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
           }
-          else if (i == 11){
+          else if (i == jun.divider[2]){
               collector  += '<tr><td><div class ="region_division"> Latin America & the Carribean </div> </td></tr>'
           }
-          else if (i == 19){
+          else if (i == jun.divider[3]){
               collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
           }
-          else if (i == 20){
+          else if (i == jun.divider[4]){
               collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
           }
-          else if (i == 23){
+          else if (i == jun.divider[5]){
               collector += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
           }
           if ((typeof standard) == "number") {
             if (i == id_marker) {
-                  collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
+                  collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ Site_search[i]+"</span><br></td></tr>"
             }
             else {
-                  collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
+                  collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ Site_search[i]+"</span><br></td></tr>"
             }
           }
           else { 
             if (standard.indexOf(i) >= 0) {
-                  collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ site_search[i]+"</span><br></td></tr>"
+                  collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ Site_search[i]+"</span><br></td></tr>"
             }
             else {
-                  collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ site_search[i]+"</span><br></td></tr>"
+                  collector += "<tr><td><span class='list_element_no' id='"+i+"_list' >"+ Site_search[i]+"</span><br></td></tr>"
             }
           }
       }
@@ -689,75 +651,65 @@ function version1(standard){
         <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
         "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
         <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
-        <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'listtofilter()'>Search View</button> </div></div></div>"
+        <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"
 }
 
-function water_level_enter(value0,value, idid) {
-    // document.getElementById("third_bar").style.opacity = 0
+// unfiltered_list_creator()
+//      main role : create unfiltered list of all elements
+function unfiltered_list_creator(){
+    collector = ""
+    for (var i = 0; i < Site_search.length; i++){
+        if (i == jun.divider[0]) { 
+            collector  += '<tr><td> <div class ="region_division"> Middle East & North Africa </div> </td></tr>'
+        }
+        else if (i == jun.divider[1]){
+            collector  += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
+        }
+        else if (i == jun.divider[2]){
+            collector  += '<tr><td><div class ="region_division"> Latin American & the Caribbean </div> </td></tr>'
+        }
+        else if (i == jun.divider[3]){
+            collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
+        }
+        else if (i == jun.divider[4]){
+            collector  += '<tr><td><div class ="region_division"> South Asia </div></td></tr>'
+        }
+        else if (i == jun.divider[5]){
+            collector  += '<tr><td><div class ="region_division"> Europe and Central Asia </div></td></tr>'
+        }
+        collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ Site_search[i]+"</span></td></tr>"
+    }
+    document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
+        <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
+        "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
+        <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
+        <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"
+}
+
+
+// bottom_bar_enter : when openDesc() function is called
+//      main role : hide "Dates of Data Collection" bar and bar for 3 statistics appear
+function bottom_bar_enter(idid) {
     document.getElementById("third_bar").style.zIndex = "-2" 
     document.getElementById("title_line2").style.zIndex = "-2" 
     document.getElementById("legend1").style.zIndex = "-2"
     document.getElementById("bottom_bar").style.zIndex = "100"
 
-    document.getElementById("line_title0").innerText = "Main source of water"
-
-    var btn = d3.select("#second_column").insert("svg",'#line_title')
-    btn.attr("id", "fillgauge1")    
-        .attr("width", 148)
-        .attr("height", 148)
-        .attr("viewBox","0 0 148 148")
-    bar_graph(idid)
-    if (hwise_search[idid] == 1 ) {
-        loadLiquidFillGauge("fillgauge1", value, config1);
-    }
-    else {
-        loadLiquidFillGauge("fillgauge1", value, config2); 
-    }
+    main_source_enter(idid)
+    worry_enter(idid)
+    time_spent_enter(idid)
     document.getElementById("bottom_bar").style.opacity = "1.0"
     document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.5)"
 }
 
-
-
-function time_spent_enter(allocated, hwise) {
-    progress = 0 
-    var i = d3.interpolate(progress, allocated / total); 
-    if (hwise == 1 ) {
-        var description = meter.append("text")
-            .attr("text-anchor", "middle")
-            .attr("class", "description")
-            .attr("dy", "0.9em")
-            .text("hrs")
-            .style("font-size", "28px")
-            .style("fill", jun.v1_color[1]);
-        document.getElementsByClassName("foreground")[0].style.fill = jun.v1_color[0]
-        document.getElementsByClassName("percent-complete")[0].style.fill = jun.v1_color[1]
+// first statistic : main source of water
+function main_source_enter(idid) {
+    if (document.getElementById("full_rect") != null)
+    {
+        document.getElementById("full_rect").remove()
     }
-    else {
-        var description = meter.append("text")
-            .attr("text-anchor", "middle")
-            .attr("class", "description")
-            .attr("dy", "0.9em")
-            .text("hrs")
-            .style("font-size", "28px")
-            .style("fill", jun.v2_color[1]);
-        document.getElementsByClassName("foreground")[0].style.fill = jun.v2_color[0]
-        document.getElementsByClassName("percent-complete")[0].style.fill = jun.v2_color[1]
-    }
-
-    d3.transition().duration(1000).tween("progress", function() {
-      return function(t) {
-        progress = i(t);
-        foreground.attr("d", arc.endAngle(twoPi * progress));
-        percentComplete.text(formatPercent(progress));
-      };
-    })
-}
-
-
-function bar_graph(idid) {
     var dollars = [Female_search[idid]];
-    if (hwise_search[idid] ==1 ) {
+    if (Hwise_search[idid] ==1 ) {
         var colors = jun.v1_color;
     }
     else {
@@ -886,4 +838,74 @@ function bar_graph(idid) {
 
     main_source_desc0.text(Source_search[idid])
 }
+// second statistic : proportion who worry about water
+function worry_enter(idid) {
+    value = Improved_search[idid]
+    d3.select("#fillgauge1").remove()
 
+    var btn = d3.select("#second_column").insert("svg",'#line_title')
+    btn.attr("id", "fillgauge1")    
+        .attr("width", 148)
+        .attr("height", 148)
+        .attr("viewBox","0 0 148 148")
+
+    if (Hwise_search[idid] == 1 ) {
+        loadLiquidFillGauge("fillgauge1", value, config1);
+    }
+    else {
+        loadLiquidFillGauge("fillgauge1", value, config2); 
+    }
+}
+// third statistic : time spent collecting water
+function time_spent_enter(idid) {
+    allocated = Female_search[idid]
+    hwise = Hwise_search[idid]
+    progress = 0 
+    var i = d3.interpolate(progress, allocated / total); 
+    if (hwise == 1 ) {
+        var description = meter.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "description")
+            .attr("dy", "0.9em")
+            .text("hrs")
+            .style("font-size", "28px")
+            .style("fill", jun.v1_color[1]);
+        document.getElementsByClassName("foreground")[0].style.fill = jun.v1_color[0]
+        document.getElementsByClassName("percent-complete")[0].style.fill = jun.v1_color[1]
+    }
+    else {
+        var description = meter.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "description")
+            .attr("dy", "0.9em")
+            .text("hrs")
+            .style("font-size", "28px")
+            .style("fill", jun.v2_color[1]);
+        document.getElementsByClassName("foreground")[0].style.fill = jun.v2_color[0]
+        document.getElementsByClassName("percent-complete")[0].style.fill = jun.v2_color[1]
+    }
+
+    d3.transition().duration(1000).tween("progress", function() {
+      return function(t) {
+        progress = i(t);
+        foreground.attr("d", arc.endAngle(twoPi * progress));
+        percentComplete.text(formatPercent(progress));
+      };
+    })
+}
+
+// bottom_bar_enter : when description bar is closed
+//      main role : hide bar for 3 statistics and "Dates of Data Collection" bar appear 
+function bottom_bar_exit() { 
+    document.getElementById("bottom_bar").style.zIndex = "-100"
+    document.getElementById("legend1").style.zIndex = "5"
+    document.getElementById("third_bar").style.zIndex = "5"
+    document.getElementById("title_line2").style.zIndex = "5"
+    d3.select("#fillgauge1").remove()
+
+    if (document.getElementById("full_rect") != null)
+    {
+        document.getElementById("full_rect").remove()
+    }
+    document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.5)"
+}

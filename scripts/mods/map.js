@@ -1,43 +1,47 @@
-var site_search = []
-var lat_search = []
-var lng_search = []
-var hwise_search = []
-var Participants_search = []
-// var GNI_search = []
+
+var Id_search = []
 var Region_search = []
-var Start_search = []
-var id_search = []
+var Site_search = []
+var Hwise_search = []
 var Partners_search = []
 var Setting_search = [] 
 var Sampling_search = []
-var Climate_search = []
+var Cognitive_search = []
+var Participants_search = []
+var Period_search = []
+var Start_search = []
 var Female_search = []
-var Improved_search = []
+var Main_source_search = []
 var Main_search = []
 var Source_search = []
+var Climate_search = []
+var Lat_search = []
+var Lng_search = []
+var Improved_search = []
+// var GNI_search = []
 
 document.getElementById("scrollable-dropdown-menu").addEventListener("keypress", function(event) {
   if (event.keyCode === 13) {
-    for (var i = 0; i < site_search.length; i++) { 
-        if (site_search[i]== $('.typeahead')[1].value) {
+    for (var i = 0; i < Site_search.length; i++) { 
+        if (Site_search[i]== $('.typeahead')[1].value) {
             clearit() 
-            jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
+            jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
-            a= filter_list_ver2(i,1)
+            _ = filter_list_ver2(i,1)
             }
         }
     }
 });
 
 $(document).on('click','.tt-suggestion', function(e){
-    for (var i = 0; i < site_search.length; i++) { 
-        if (site_search[i]== document.getElementsByClassName("typeahead")[1].value) { 
+    for (var i = 0; i < Site_search.length; i++) { 
+        if (Site_search[i]== document.getElementsByClassName("typeahead")[1].value) { 
             clearit() 
-            jun.map.flyTo({center : [lng_search[i],lat_search[i]], zoom:5})
+            jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
-            a= filter_list_ver2(i,1)
+            _ = filter_list_ver2(i,1)
             }
         }
 })
@@ -50,7 +54,6 @@ jun.map.on('click', 'points', function (e) {
     }
     a= filter_list_ver2(e.features[0].properties.id_number,1)
 });
-
 
 jun.map.on('mouseenter', 'points', function () {
     jun.map.getCanvas().style.cursor = 'pointer';

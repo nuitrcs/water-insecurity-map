@@ -34,4 +34,4 @@ jun.timelist = ["All", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 
 jun.v1_color = ["#1C71AA", "#2080BF", "#289FED"]
 jun.v2_color = ["#18C2A2", "#0FD2B4", "#11EDCB"]
-// jun.title = ""
+jun.divider = [0, 1, 11, 19, 20, 23]
