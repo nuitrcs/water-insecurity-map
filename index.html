@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="scripts/css/d3.slider.css">
 		<!-- bootstrap grid -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-		<link rel="stylesheet" href="scripts/mods/bootstrap/css/bootstrap.css" >
+		<link rel="stylesheet" href="scripts/css/bootstrap.css" >
 	    <link rel="stylesheet" href="scripts/css/multiple-select.css" >
 
 	    <link href="https://fonts.googleapis.com/css?family=Lato:300|Roboto:700|Ropa+Sans:400,400i" rel="stylesheet">
@@ -20,7 +20,7 @@
 		<!-- small navigation bars : search button and list button -->
 		<div class = "container">
 			<div class = "row">				
-				<div id = "openner" class="backsidenav" onclick="openNav()">
+				<div id = "openner" class="backsidenav" onclick="openSearcher()">
 					<img src="scripts/images/search_icon.png" style = "width :27% ; height: auto;">
 					Search
 				</div>
@@ -42,7 +42,7 @@
 
 				<div class="row">
 					<div class ="col">
-						<a class="closebtn" onclick="closeNav()" style="color:white"> &times;</a>
+						<a class="closebtn" onclick="closeSearcher()" style="color:white"> &times;</a>
 					</div>
 				</div>
 				<div class = "row" style = "margin-top : 25px">
@@ -104,7 +104,7 @@
 				</div> -->
 				<div class ="row" style = "margin-top : 3px">
 					<div class = "col">
-						<button class="button1" onclick="filtertolist()">
+						<button class="button1" onclick="Searcher_to_Lister()">
 							 List View
 						</button> 
 					</div>

@@ -488,6 +488,8 @@ function openDesc(id_number, option) {
     else {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
+
+    
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
         <div class='desc_top'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
         <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
@@ -508,6 +510,9 @@ function openDesc(id_number, option) {
         // "<tr> <td id = 'front_desc'>Longitude</td><td> "+Number(Lng_search[id_number]) +"</td> </tr> " + 
         "</td> </tr> <tr> <td id = 'front_desc'>Climate</td><td>" + Climate_search[id_number] +
         "</td></tr></table></div>"
+
+
+
     bottom_bar_enter(id_number)
 }
 
