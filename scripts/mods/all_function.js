@@ -695,9 +695,9 @@ function unfiltered_list_creator(){
 // bottom_bar_enter : when openDesc() function is called
 //      main role : hide "Dates of Data Collection" bar and bar for 3 statistics appear
 function bottom_bar_enter(idid) {
-    document.getElementById("third_bar").style.zIndex = "-2" 
-    document.getElementById("title_line2").style.zIndex = "-2" 
-    document.getElementById("legend1").style.zIndex = "-2"
+    document.getElementById("third_bar").style.zIndex = "-3" 
+    document.getElementById("title_line2").style.zIndex = "-3" 
+    document.getElementById("legend1").style.zIndex = "-3"
     document.getElementById("bottom_bar").style.zIndex = "0"
 
     main_source_enter(idid)
@@ -902,7 +902,7 @@ function time_spent_enter(idid) {
 // bottom_bar_enter : when description bar is closed
 //      main role : hide bar for 3 statistics and "Dates of Data Collection" bar appear 
 function bottom_bar_exit() { 
-    document.getElementById("bottom_bar").style.zIndex = "-2"
+    document.getElementById("bottom_bar").style.zIndex = "-3"
     document.getElementById("legend1").style.zIndex = "0"
     document.getElementById("third_bar").style.zIndex = "0"
     document.getElementById("title_line2").style.zIndex = "0"

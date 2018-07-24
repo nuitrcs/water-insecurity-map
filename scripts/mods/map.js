@@ -46,6 +46,22 @@ $(document).on('click','.tt-suggestion', function(e){
         }
 })
 
+$('input.typeahead').on('typeahead:selected', function(event, selection) {
+        for (var i = 0; i < Site_search.length; i++) { 
+            if (Site_search[i]== $('.typeahead')[1].value) {
+                clearit() 
+                jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:5})
+                openDesc(i)
+                $('.tt-menu').css('display','none');
+                _ = filter_list_ver2(i,1)
+                }
+            }
+        }
+);
+
+
+
+
 jun.map.on('click', 'points', function (e) {
     here_id  = e.features[0].properties.id_number
     var coordinates = e.features[0].geometry.coordinates.slice();
@@ -62,3 +78,4 @@ jun.map.on('mouseenter', 'points', function () {
 jun.map.on('mouseleave', 'points', function () {
     jun.map.getCanvas().style.cursor = '';
 });
+

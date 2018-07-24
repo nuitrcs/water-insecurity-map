@@ -131,7 +131,7 @@ table {
 }
 .tt-suggestion {
     font-size: 13px;
-    margin-left : 7px;
+    padding-left : 7px;
     line-height: 24px;
 }
 
@@ -165,7 +165,7 @@ table {
   height : auto;
   transition: all 0.5s;
   margin: auto;
-  font: 1.2vw 'Roboto', sans-serif;
+  font: 1.1vw 'Roboto', sans-serif;
   margin-bottom : 5px; 
 }
 
@@ -183,6 +183,7 @@ table {
     color : black;
     font: calc(21px + 0.5vw) 'Ropa Sans', sans-serif;
 	user-select:none;
+    z-index : -1 ;
 }
 
 #map { 
@@ -190,7 +191,7 @@ table {
     top:0px; 
     width:100%; 
     height: 100%;
-    z-index : -1;
+    z-index : -2;
 }
 
 .map_part { 
@@ -252,7 +253,7 @@ table {
 }
 
 #description th, #description td { 
-    border: 0.1px solid rgba(255, 255, 255, .3);
+    border: 0.1px solid rgba(255, 255, 255, .2);
  }
 
 #front_desc { 
@@ -275,7 +276,7 @@ table {
     background-color : white;
     opacity : 0;
     user-select : none;
-    z-index : -2;
+    z-index : -3;
  }
 
 .funds-allocated-meter .background {
