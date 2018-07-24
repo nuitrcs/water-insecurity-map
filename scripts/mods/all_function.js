@@ -698,7 +698,7 @@ function bottom_bar_enter(idid) {
     document.getElementById("third_bar").style.zIndex = "-2" 
     document.getElementById("title_line2").style.zIndex = "-2" 
     document.getElementById("legend1").style.zIndex = "-2"
-    document.getElementById("bottom_bar").style.zIndex = "100"
+    document.getElementById("bottom_bar").style.zIndex = "0"
 
     main_source_enter(idid)
     worry_enter(idid)
@@ -902,10 +902,10 @@ function time_spent_enter(idid) {
 // bottom_bar_enter : when description bar is closed
 //      main role : hide bar for 3 statistics and "Dates of Data Collection" bar appear 
 function bottom_bar_exit() { 
-    document.getElementById("bottom_bar").style.zIndex = "-100"
-    document.getElementById("legend1").style.zIndex = "5"
-    document.getElementById("third_bar").style.zIndex = "5"
-    document.getElementById("title_line2").style.zIndex = "5"
+    document.getElementById("bottom_bar").style.zIndex = "-2"
+    document.getElementById("legend1").style.zIndex = "0"
+    document.getElementById("third_bar").style.zIndex = "0"
+    document.getElementById("title_line2").style.zIndex = "0"
     d3.select("#fillgauge1").remove()
 
     if (document.getElementById("full_rect") != null)
