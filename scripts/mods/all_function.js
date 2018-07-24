@@ -489,7 +489,7 @@ function openDesc(id_number, option) {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
 
-    
+
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
         <div class='desc_top'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
         <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
@@ -671,7 +671,7 @@ function unfiltered_list_creator(){
             collector  += '<tr><td><div class ="region_division"> Africa </div></td></tr>'
         }
         else if (i == jun.divider[2]){
-            collector  += '<tr><td><div class ="region_division"> Latin American & the Caribbean </div> </td></tr>'
+            collector  += '<tr><td><div class ="region_division"> Latin America & the Caribbean </div> </td></tr>'
         }
         else if (i == jun.divider[3]){
             collector  += '<tr><td><div class ="region_division"> East Asia and Pacific </div></td></tr>'
