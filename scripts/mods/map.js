@@ -18,7 +18,6 @@ var Climate_search = []
 var Lat_search = []
 var Lng_search = []
 var Improved_search = []
-// var GNI_search = []
 
 document.getElementById("scrollable-dropdown-menu").addEventListener("keypress", function(event) {
   if (event.keyCode === 13) {
@@ -58,8 +57,6 @@ $('input.typeahead').on('typeahead:selected', function(event, selection) {
             }
         }
 );
-
-
 
 
 jun.map.on('click', 'points', function (e) {

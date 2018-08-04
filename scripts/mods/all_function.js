@@ -9,7 +9,6 @@ function drawMarkers() {
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
-                    // "GNI": jun.data[i]["GNI"],
                     "Region": jun.data[i]["Region"],
                     "Lat" : jun.data[i]["Lat"],
                     "Lng" : jun.data[i]["Lng"],
@@ -30,7 +29,6 @@ function drawMarkers() {
                 "properties": { 
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
-                    // "GNI": jun.data[i]["GNI"],
                     "Region": jun.data[i]["Region"],
                     "Lat" : jun.data[i]["Lat"],
                     "Lng" : jun.data[i]["Lng"],
@@ -64,7 +62,6 @@ function drawMarkers() {
         Lat_search.push(jun.data[i]["Lat"])
         Lng_search.push(jun.data[i]["Lng"])
         Improved_search.push(jun.data[i]["Improved_water"])
-        // GNI_search.push(jun.data[i]["GNI"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
@@ -125,15 +122,6 @@ function filter_list(clicked="") {
     }
 
     filter_combined = ["all"]
-     // if (clicked == "") {     
-    //     filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
-    //         [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]    
-    // }
-    // else {
-    //     filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText) ],
-    //                         [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],
-    //                         ["==", "Setting", clicked]]
-    // }
     if (year_value.innerText != "All") {
         filter_combined.push(["==","Start",year_value.innerText])
     }
@@ -151,89 +139,16 @@ function filter_list(clicked="") {
         filter_combined.push(["in", "HWISE_Version",100])
     }
     jun.map.setFilter("points", filter_combined)
-    // lasso.items(d3.selectAll(".dot"));
-    // lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
-    // if (clicked =="") { 
-        // if (version_filter[2]){
-        //     if (region_filter[2]) {
-        //         if (year_value.innerText != "All"){
-        //             lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-        //                 && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        // && (d.Lat >= Number(latmin.innerText))
-                        // && (d.Lat <= Number(latmax.innerText))
-                        // && (d.Lng >= Number(lngmin.innerText))
-                        // && (d.Lng <= Number(lngmax.innerText))
-                //         && (d.Year == Number(year_value.innerText)) 
-                //      }))}
-                // else {
-                //      lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                //         && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        // && (d.Lat >= Number(latmin.innerText))
-                        // && (d.Lat <= Number(latmax.innerText))
-                        // && (d.Lng >= Number(lngmin.innerText))
-                        // && (d.Lng <= Number(lngmax.innerText))
-        //              }))
-        //         }
-        //     }
-        //     else {
-        //         lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-        //     }
-        // }
-        // else {
-        //     lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-        // }
-    // }
-    // else {
-    //     if (version_filter[2]){
-    //         if (region_filter[2]) {
-    //             if (year_value.innerText != "All"){
-    //                 lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-    //                     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-    //                     // && (d.Lat >= Number(latmin.innerText))
-    //                     // && (d.Lat <= Number(latmax.innerText))
-    //                     // && (d.Lng >= Number(lngmin.innerText))
-    //                     // && (d.Lng <= Number(lngmax.innerText))
-    //                     && (d.Year == Number(year_value.innerText)
-    //                     && (d.Setting == clicked)) 
-    //                  }))}
-    //             else {
-    //                  lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-    //                     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-    //                     // && (d.Lat >= Number(latmin.innerText))
-    //                     // && (d.Lat <= Number(latmax.innerText))
-    //                     // && (d.Lng >= Number(lngmin.innerText))
-    //                     // && (d.Lng <= Number(lngmax.innerText))
-    //                     && (d.Setting == clicked)
-    //                  }))}
-    //         }
-    //         else {
-    //             lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-    //         }
-    //     }
-
-    //     else {
-    //         lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
-    //     }
-    // }
-    // lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     if (version_filter[0]){
         if (region_filter[0]) {
             if (year_value.innerText != "All"){
                 final_filter = '(region_filter.indexOf(Region_search[i]) >= 0) '+
                     '&& (version_filter.indexOf(Hwise_search[i]) >= 0)'+ 
-                    // '&& (Lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (Lng_search[i] <= Number(lngmax.innerText)) '+
                     '&& (Start_search[i] == year_value.innerText) '
             }
             else {
                 final_filter = '(region_filter.indexOf(Region_search[i]) >= 0) '+
                     '&& (version_filter.indexOf(Hwise_search[i]) >= 0)'
-                    // + '&& (Lat_search[i] >= Number(latmin.innerText)) '+
-                    // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
-                    // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
-                    // '&& (Lng_search[i] <= Number(lngmax.innerText)) '
             }
         }
         else {
@@ -264,17 +179,11 @@ function filter_list_ver2(id_marker, option) {
             version_filter.push( Number($(Version_select).val()[j]))
         }
     }
-    // lasso.items(d3.selectAll(".dot"));
-    // lasso.items().style("fill", "#c8c8c8").style("opacity","0.3").attr("r",3.5);
     if (version_filter[2]){
         if (region_filter[2]){
             if (year_value.innerText != "All"){
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
                     && (version_filter.indexOf(Hwise_search[id_marker]) >= 0)
-                    // && (Lat_search[id_marker] >= Number(latmin.innerText))
-                    // && (Lat_search[id_marker] <= Number(latmax.innerText))
-                    // && (Lng_search[id_marker] >= Number(lngmin.innerText))
-                    // && (Lng_search[id_marker] <= Number(lngmax.innerText))
                     && (Start_search[id_marker] == year_value.innerText) 
                     ){
                         jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:4.7})
@@ -282,63 +191,20 @@ function filter_list_ver2(id_marker, option) {
                         final_filter = '(Id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
                             '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)'+ 
-                            // '&& (Lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (Lng_search[i] <= Number(lngmax.innerText)) '+
                             '&& (Start_search[i] == year_value.innerText) '
-                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
-                        //     && (region_filter.indexOf(d.Region) >= 0) 
-                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        //     && (d.Lat >= Number(latmin.innerText))
-                        //     && (d.Lat <= Number(latmax.innerText))
-                        //     && (d.Lng >= Number(lngmin.innerText))
-                        //     && (d.Lng <= Number(lngmax.innerText))
-                        //     && (d.Year == Number(year_value.innerText)) 
-                        //  }))
-                        // lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
-                   
-                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        //     && (d.Lat >= Number(latmin.innerText))
-                        //     && (d.Lat <= Number(latmax.innerText))
-                        //     && (d.Lng >= Number(lngmin.innerText))
-                        //     && (d.Lng <= Number(lngmax.innerText))
-                        //     && (d.Year == Number(year_value.innerText)) 
-                        //  }))
                         filter_combined = ["all", ["==", "id_number", Number(id_marker)],["==","Start",year_value.innerText]]
-                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==", "id_number", Number(id_marker)],["==","Year",Number(year_value.innerText)]]
                     }
                 else {
                         final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
                             '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)'+ 
-                            // '&& (Lat_search[i] >= Number(latmin.innerText)) '+
-                            // '&& (Lat_search[i] <= Number(latmax.innerText)) '+
-                            // '&& (Lng_search[i] >= Number(lngmin.innerText)) '+
-                            // '&& (Lng_search[i] <= Number(lngmax.innerText)) '+
                             '&& (Start_search[i] == year_value.innerText) '
-                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        //     && (d.Lat >= Number(latmin.innerText))
-                        //     && (d.Lat <= Number(latmax.innerText))
-                        //     && (d.Lng >= Number(lngmin.innerText))
-                        //     && (d.Lng <= Number(lngmax.innerText))
-                        //     && (d.Year == Number(year_value.innerText)) 
-                        //  }))
-                        // lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",3.5);
                         filter_combined = ["all", ["==","Start",year_value.innerText]]
-                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","Year",Number(year_value.innerText)]]
                 }
             }
             else {
                 if ((region_filter.indexOf(Region_search[id_marker]) >= 0) 
                     && (version_filter.indexOf(Hwise_search[id_marker]) >= 0)
-                    // && (Lat_search[id_marker] >= Number(latmin.innerText))
-                    // && (Lat_search[id_marker] <= Number(latmax.innerText))
-                    // && (Lng_search[id_marker] >= Number(lngmin.innerText))
-                    // && (Lng_search[id_marker] <= Number(lngmax.innerText))
+
                     ){
                         jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:4.7})
                         openDesc(id_marker,option)
@@ -346,51 +212,21 @@ function filter_list_ver2(id_marker, option) {
                         final_filter = '(Id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
                             '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)' 
-                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (d.id_number == id_marker)
-                        //     && (region_filter.indexOf(d.Region) >= 0) 
-                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        //     && (d.Lat >= Number(latmin.innerText))
-                        //     && (d.Lat <= Number(latmax.innerText))
-                        //     && (d.Lng >= Number(lngmin.innerText))
-                        //     && (d.Lng <= Number(lngmax.innerText))
-                        // }))   
-                        // lasso.items().style("fill", function(d) { return color(d[jun.color_standard ]); }).style("opacity","1.0").attr("r",7);
-                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        //     && (d.Lat >= Number(latmin.innerText))
-                        //     && (d.Lat <= Number(latmax.innerText))
-                        //     && (d.Lng >= Number(lngmin.innerText))
-                        //     && (d.Lng <= Number(lngmax.innerText))
-                        // }))
                         filter_combined = ["all",["==","id_number",Number(id_marker)]]
-                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)],["==","id_number",Number(id_marker)]]
                     }
                 else {
                         final_filter = '(region_filter2.indexOf(Region_search[i]) >= 0) '+
                             '&& (version_filter2.indexOf(Hwise_search[i]) >= 0)'
-                        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (region_filter.indexOf(d.Region) >= 0) 
-                        //     && (version_filter.indexOf(d["HWISE Version"]) >= 0)
-                        //     && (d.Lat >= Number(latmin.innerText))
-                        //     && (d.Lat <= Number(latmax.innerText))
-                        //     && (d.Lng >= Number(lngmin.innerText))
-                        //     && (d.Lng <= Number(lngmax.innerText))
-                        // }))
-                        // lasso.items().style("fill", function(d) { return color(d["Site Name"]); }).style("opacity","1.0").attr("r",3.5);
                         filter_combined = ["all"]
-                        // filter_combined = ["all", [">=", "Lat", Number(latmin.innerText)], ["<=", "Lat", Number(latmax.innerText)],
-                        //     [">=", "Lng", Number(lngmin.innerText) ], ["<=", "Lng", Number(lngmax.innerText)]]
                 }
             }
         }
         else {
             final_filter = '(Hwise_search[i]) == 100)'
-            // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
         }
     }
     else {
         final_filter = '(Hwise_search[i]) == 100)'
-        // lasso.items(d3.selectAll(".dot").filter(function(d) {return (version_filter.indexOf(d["HWISE Version"]) == 100)}))
     }
     if (version_filter[2]){
         if (region_filter[2]) {
@@ -505,14 +341,8 @@ function openDesc(id_number, option) {
         "</td> </tr> <tr> <td id = 'front_desc'>Dates of Data Collection</td><td> " + Period_search[id_number] +
         "</td> </tr> <tr> <td id = 'front_desc'>Gender</td><td> Male - "+ ((100-Female_search[id_number]).toFixed(1)) +
         "% <br /> Female - "+Female_search[id_number].toFixed(1) +"%</td></table></div>"
-        // "</td> </tr> <tr> <td> GNI</td><td> " + (GNI_search[id_number]*1000).toLocaleString() + " USD"
-        // "<tr> <td id = 'front_desc'>Latitude</td> <td>"+Number(Lat_search[id_number]) + "</td> </tr> " + 
-        // "<tr> <td id = 'front_desc'>Longitude</td><td> "+Number(Lng_search[id_number]) +"</td> </tr> " + 
         "</td> </tr> <tr> <td id = 'front_desc'>Climate</td><td>" + Climate_search[id_number] +
         "</td></tr></table></div>"
-
-
-
     bottom_bar_enter(id_number)
 }
 
@@ -539,8 +369,6 @@ function clearit() {
     jun.map.setFilter("points", null)
     $('#region_select').multipleSelect("checkAll");
     $('#Version_select').multipleSelect("checkAll");  
-    // lasso.items(d3.selectAll(".dot"));
-    // lasso.items().style("fill", function(d) { return color(d[jun.color_standard]); }).style("opacity","1.0").attr("r",3.5);
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
     
     jun.clicked = ""
@@ -549,19 +377,6 @@ function clearit() {
 
     document.getElementById("results_num").innerText = Site_search.length
     document.getElementById('third_bar').click();
-    // document.getElementById("latmin").innerText = (-90.00).toFixed(2)
-    // document.getElementById("latmax").innerText = 90.00.toFixed(2)
-    // document.getElementById("lngmin").innerText = (-180.00).toFixed(2)
-    // document.getElementById("lngmax").innerText = 180.00.toFixed(2)
-    // document.getElementsByClassName("d3-slider-range")[0].style.left = "0%"
-    // document.getElementsByClassName("d3-slider-range")[0].style.right = "0%"     
-    // document.getElementsByClassName("d3-slider-range")[1].style.left = "0%"
-    // document.getElementsByClassName("d3-slider-range")[1].style.right = "0%" 
-
-    // document.getElementsByClassName("d3-slider-handle")[0].style.left = "0%"
-    // document.getElementsByClassName("d3-slider-handle")[1].style.left = "100%" 
-    // document.getElementsByClassName("d3-slider-handle")[2].style.left = "0%"
-    // document.getElementsByClassName("d3-slider-handle")[3].style.left = "100%" 
 }
 
 // linklink() : when element in list is chosen 
@@ -735,7 +550,9 @@ function main_source_enter(idid) {
 
     var canvas = d3.select("#first_column").insert("svg","#line_title0")
                     .attr('id','full_rect')
-                    .attr({'width':148,'height':148});
+                    .attr({'width':148,'height':148})
+                    .attr("preserveAspectRatio", "xMinYMin meet")
+                    .attr("viewBox", "0 0 148 148")
 
     var xAxis = d3.svg.axis();
         xAxis
@@ -751,7 +568,7 @@ function main_source_enter(idid) {
     var backback = canvas.append('rect')
                         .attr('id',"bar_background")
                         .attr("width", "100%")
-                        .attr("height", 148)
+                        .attr("height", "100%")
                         .attr("fill", "white")
                         .attr("y",0)
 
@@ -843,6 +660,7 @@ function main_source_enter(idid) {
 
     main_source_desc0.text(Source_search[idid])
 }
+
 // second statistic : proportion who worry about water
 function worry_enter(idid) {
     value = Improved_search[idid]
@@ -852,7 +670,8 @@ function worry_enter(idid) {
     btn.attr("id", "fillgauge1")    
         .attr("width", 148)
         .attr("height", 148)
-        .attr("viewBox","0 0 148 148")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 148 148")
 
     if (Hwise_search[idid] == 1 ) {
         loadLiquidFillGauge("fillgauge1", value, config1);

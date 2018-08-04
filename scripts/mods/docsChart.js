@@ -16,6 +16,7 @@ var svg = d3.select("#third_column").insert("svg","#line_title2")
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox","0 0 148 148")
+    .attr("preserveAspectRatio", "xMinYMin meet")
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 

@@ -71,27 +71,27 @@ return function module() {
       //if range slider, create two
       // var divRange;
 
-      if (toType(value) == "array" && value.length == 2) {
+      // if (toType(value) == "array" && value.length == 2) {
+      //   handle1 = div.append("a")
+      //     .classed("d3-slider-handle", true)
+      //     .attr("xlink:href", "#")
+      //     .attr('id', "handle-one")
+      //     .on("click", stopPropagation)
+      //     .call(drag);
+      //   handle2 = div.append("a")
+      //     .classed("d3-slider-handle", true)
+      //     .attr('id', "handle-two")
+      //     .attr("xlink:href", "#")
+      //     .on("click", stopPropagation)
+      //     .call(drag);
+      // } else {
         handle1 = div.append("a")
           .classed("d3-slider-handle", true)
           .attr("xlink:href", "#")
           .attr('id', "handle-one")
           .on("click", stopPropagation)
           .call(drag);
-        handle2 = div.append("a")
-          .classed("d3-slider-handle", true)
-          .attr('id', "handle-two")
-          .attr("xlink:href", "#")
-          .on("click", stopPropagation)
-          .call(drag);
-      } else {
-        handle1 = div.append("a")
-          .classed("d3-slider-handle", true)
-          .attr("xlink:href", "#")
-          .attr('id', "handle-one")
-          .on("click", stopPropagation)
-          .call(drag);
-      }
+      // }
       
       // Horizontal slider
       if (orientation === "horizontal") {
@@ -116,30 +116,31 @@ return function module() {
         }
         
         sliderLength = parseInt(div.style("width"), 10);
-      } else { // Vertical
+      } 
+      // else { // Vertical
 
-        div.on("click", onClickVertical);
-        drag.on("drag", onDragVertical);
-        if (toType(value) == "array" && value.length == 2) {
-          divRange = d3.select(this).append('div').classed("d3-slider-range-vertical", true);
+      //   div.on("click", onClickVertical);
+      //   drag.on("drag", onDragVertical);
+      //   if (toType(value) == "array" && value.length == 2) {
+      //     divRange = d3.select(this).append('div').classed("d3-slider-range-vertical", true);
 
-          handle1.style("bottom", formatPercent(scale(value[ 0 ])));
-          divRange.style("bottom", formatPercent(scale(value[ 0 ])));
-          drag.on("drag", onDragVertical);
+      //     handle1.style("bottom", formatPercent(scale(value[ 0 ])));
+      //     divRange.style("bottom", formatPercent(scale(value[ 0 ])));
+      //     drag.on("drag", onDragVertical);
 
-          var top = 100 - parseFloat(formatPercent(scale(value[ 1 ])));
-          handle2.style("bottom", formatPercent(scale(value[ 1 ])));
-          divRange.style("top", top+"%");
-          drag.on("drag", onDragVertical);
+      //     var top = 100 - parseFloat(formatPercent(scale(value[ 1 ])));
+      //     handle2.style("bottom", formatPercent(scale(value[ 1 ])));
+      //     divRange.style("top", top+"%");
+      //     drag.on("drag", onDragVertical);
 
-        } else {
-          handle1.style("bottom", formatPercent(scale(value)));
-          drag.on("drag", onDragVertical);
-        }
+      //   } else {
+      //     handle1.style("bottom", formatPercent(scale(value)));
+      //     drag.on("drag", onDragVertical);
+      //   }
         
-        sliderLength = parseInt(div.style("height"), 10);
+      //   sliderLength = parseInt(div.style("height"), 10);
 
-      }
+      // }
       
       if (axis) {
         createAxis(div);
@@ -186,23 +187,24 @@ return function module() {
             g.attr("transform", "translate(" + margin + ",0)");
           }
 
-        } else { // Vertical
+        } 
+        // else { // Vertical
 
-          svg.style("top", -margin + "px");
+        //   svg.style("top", -margin + "px");
 
-          svg.attr({
-            width: margin,
-            height: sliderLength + margin * 2
-          });
+        //   svg.attr({
+        //     width: margin,
+        //     height: sliderLength + margin * 2
+        //   });
 
-          if (axis.orient() === "left") {
-            svg.style("left", -margin + "px");
-            g.attr("transform", "translate(" + margin + "," + margin + ")");
-          } else { // right          
-            g.attr("transform", "translate(" + 0 + "," + margin + ")");
-          }
+        //   if (axis.orient() === "left") {
+        //     svg.style("left", -margin + "px");
+        //     g.attr("transform", "translate(" + margin + "," + margin + ")");
+        //   } else { // right          
+        //     g.attr("transform", "translate(" + 0 + "," + margin + ")");
+        //   }
 
-        }
+        // }
 
         g.call(axis);
 
@@ -217,14 +219,14 @@ return function module() {
         }
       }
 
-      function onClickVertical() {
-        if (toType(value) != "array") {
-          var pos = sliderLength - Math.max(0, Math.min(sliderLength, d3.event.offsetY || d3.event.layerY));
-          moveHandle(scale.invert ? 
-                      stepValue(scale.invert(pos / sliderLength))
-                    : nearestTick(pos / sliderLength));
-        }
-      }
+      // function onClickVertical() {
+      //   if (toType(value) != "array") {
+      //     var pos = sliderLength - Math.max(0, Math.min(sliderLength, d3.event.offsetY || d3.event.layerY));
+      //     moveHandle(scale.invert ? 
+      //                 stepValue(scale.invert(pos / sliderLength))
+      //               : nearestTick(pos / sliderLength));
+      //   }
+      // }
 
       function onDragHorizontal() {
         if ( d3.event.sourceEvent.target.id === "handle-one") {
@@ -239,17 +241,17 @@ return function module() {
                   : nearestTick(pos / sliderLength));
       }
 
-      function onDragVertical() {
-        if ( d3.event.sourceEvent.target.id === "handle-one") {
-          active = 1;
-        } else if ( d3.event.sourceEvent.target.id == "handle-two" ) {
-          active = 2;
-        }
-        var pos = sliderLength - Math.max(0, Math.min(sliderLength, d3.event.y))
-        moveHandle(scale.invert ? 
-                    stepValue(scale.invert(pos / sliderLength))
-                  : nearestTick(pos / sliderLength));
-      }
+      // function onDragVertical() {
+      //   if ( d3.event.sourceEvent.target.id === "handle-one") {
+      //     active = 1;
+      //   } else if ( d3.event.sourceEvent.target.id == "handle-two" ) {
+      //     active = 2;
+      //   }
+      //   var pos = sliderLength - Math.max(0, Math.min(sliderLength, d3.event.y))
+      //   moveHandle(scale.invert ? 
+      //               stepValue(scale.invert(pos / sliderLength))
+      //             : nearestTick(pos / sliderLength));
+      // }
 
       function stopPropagation() {
         d3.event.stopPropagation();
