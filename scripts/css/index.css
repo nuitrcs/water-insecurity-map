@@ -27,11 +27,12 @@
     cursor : pointer;
 }
 
-h3 {
+.h123 {
     font-family: 'Roboto', sans-serif;
-    font-size : 1.0vw;
+    font-size : 1.75vw;
+    margin-top: 13px;
+    line-height : 1.1;
 }
-
 
 /* search and list button */
 .backsidenav {
@@ -67,13 +68,6 @@ h3 {
     transition: 0.5s; 
     font-size : 1.4vw;
 }
-
-/*.desc_top {
-    margin-top : 10px;
-    font-size : 2vw;
-    font-family: 'Roboto', sans-serif; 
-    line-height : 1.0;
-}*/
 
 /* list of research sites*/
 #Lister {
@@ -180,7 +174,7 @@ h3 {
     text-align : center;
     text-shadow : 2px 2px 4px white;
     color : black;
-    font: calc(16px + 0.5vw) 'Ropa Sans', sans-serif;
+    font: calc(6px + 1.8vw) 'Ropa Sans', sans-serif;
 	user-select:none;
     z-index : -1 ;
 }
@@ -198,6 +192,10 @@ h3 {
     height : 400px;
  }
 
+
+#number_result { 
+    font-size :1.4vw;
+ }
 /* year slider */
 #third_bar {
 	max-width : 650px;
@@ -220,24 +218,28 @@ h3 {
     position : fixed ;
     bottom :27px;
     left:8px;
-    font: 1.15vw 'Roboto', sans-serif;; 
+    font: 1.05vw 'Roboto', sans-serif;; 
 }
 
 #credit a {
     opacity : 0.5;
     color : grey;
     text-decoration: none;
+        z-index : -3;
 }
 #credit a:link {
     color: grey;
+        z-index : -3;
 }
 
 #credit a:visited {
     color: grey;
+        z-index : -3;
 }
 
 #credit a:hover {
     cursor: pointer;
+        z-index : -3;
 }
 
 table { 
@@ -326,6 +328,14 @@ table {
     background-color : white;
 }
 
+.heading {
+    color : white;
+    font-size : 1.2vw;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+
 td img{
     display: block;
     margin-left: auto;
@@ -339,4 +349,32 @@ td img{
         z-index: -100;
     }
 }
+
+
+@media screen and (min-width: 1440px){
+    .h123 {
+        font-size : 25.2px;
+    }
+    #Desc, #Lister, .button1, #number_result {
+        font-size : 20.16px ;
+    }
+
+    .region_division { 
+        font-size : 18.72px;
+    }
+
+    #credit { 
+        font-size : 15.12px;
+     }
+    #title_line2 { 
+        font-size: 23.04px
+    }
+    #description {
+        max-width : 112.5px;
+    }
+    .heading {
+        font-size : 17.28px;
+    }
+}
+
 

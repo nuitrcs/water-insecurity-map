@@ -53,12 +53,12 @@
 					</div>
 				</div>
 				<div class = "row" style = "margin-top : 15px">
-					<b style="margin:auto;font-size : 1.4vw; user-select : none ; font-family: 'Roboto', sans-serif;"> Number of results : &nbsp; <span id="results_num"> 24 </span></b>
+					<b id = "number_result" style="margin:auto; user-select : none ; font-family: 'Roboto', sans-serif;"> Number of results : &nbsp; <span id="results_num"> 24 </span></b>
 				</div>
 				<div class="row" style = "margin-top : 3px">
 					<div class="col">
 					    <div class="form-group">
-					        <label style="color : white;font-size : 1.2vw; font-family: 'Roboto', sans-serif;">Regions</label>
+					        <label class= "heading" > Regions</label>
 					        <select id="region_select" multiple="multiple">
 							    <option value="Middle East and North Africa"> Middle East & North Africa</option>
 							    <option value="Africa"> Africa</option>
@@ -73,7 +73,7 @@
 				<div class="row">
 					<div class="col">
 					    <div class="form-group">
-					        <label style="color : white;font-size : 1.2vw; font-family: 'Roboto', sans-serif;">HWISE Version</label>
+					        <label class= "heading">HWISE Version</label>
 					        <select id="Version_select" multiple="multiple" style="color : white;">
 							    <option value="1"> Version 1</option>
 	  						    <option value="2"> Version 2</option>
@@ -143,15 +143,16 @@
 				</table>
 			</div>
 			<div id="map" ></div>
-			<!-- <div id="docsChart"></div> -->
-			<div id="credit"> <a href="https://www.it.northwestern.edu/research/index.html" target="_blank" style="text-decoration :none"> NUIT Research Computing Services </a> </div>
+			<div id="credit" style = "z-index : -3"> <a href="https://www.it.northwestern.edu/research/index.html" target="_blank" style="text-decoration :none;"> NUIT Research Computing Services </a> </div>
 	    </div>
 
 	    <div class='map-overlay top' id="legend1">
 			<table  style ="text-align :center" >
 				<tr style="background-color : rgba(1, 1, 1, 0)">
 					<td colspan ="2"> 
-						<img src = "scripts/images/full_color.png" style="width : 70% ; display: block ;margin: auto; margin-bottom : 5px; margin-top : 5px">
+						<a href="https://nuitrcs.github.io/water-insecurity-map" target="_blank" style="text-decoration :none">
+							<img src = "scripts/images/full_color.png" style="width : 70% ; display: block ;margin: auto; margin-bottom : 5px; margin-top : 5px">
+						</a>
 					</td>
 				</tr>
 				<tr>
