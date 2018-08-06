@@ -327,7 +327,7 @@ function openDesc(id_number, option) {
 
 
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
-        <div class='desc_top'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
+        <h3 style='font:  2.0vw Roboto, sans-serif; margin-bottom : 5px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </h3> \
         <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
         style=' width: 100%; height:auto;margin-top:7px'>\
         <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
@@ -369,7 +369,7 @@ function clearit() {
     jun.map.setFilter("points", null)
     $('#region_select').multipleSelect("checkAll");
     $('#Version_select').multipleSelect("checkAll");  
-    jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.3})
+    jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.1})
     
     jun.clicked = ""
     $('.typeahead').typeahead('val', '')
@@ -418,7 +418,7 @@ function center_changer() {
           multiple_selected_lat.push(Lat_search[multiple_selected[k]])
           multiple_selected_lng.push(Lng_search[multiple_selected[k]])
         }
-        jun.map.flyTo({center : [(Math.max(...multiple_selected_lng)+Math.min(...multiple_selected_lng))/2,(Math.max(...multiple_selected_lat)+Math.min(...multiple_selected_lat))/2],zoom:1.3})
+        jun.map.flyTo({center : [(Math.max(...multiple_selected_lng)+Math.min(...multiple_selected_lng))/2,(Math.max(...multiple_selected_lat)+Math.min(...multiple_selected_lat))/2],zoom:1.1})
         document.getElementById("results_num").innerText = (multiple_selected.length)
     }
     else {
@@ -468,7 +468,7 @@ function filtered_list_creator(standard){
           }
       }
     document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
-        <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
+        <h3 style='font:  2.0vw Roboto, sans-serif; margin-bottom : 5px'> Research Sites </h3> <table id='collected'>"+ collector+ 
         "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
         <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
         <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"
@@ -500,7 +500,7 @@ function unfiltered_list_creator(){
         collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ Site_search[i]+"</span></td></tr>"
     }
     document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
-        <h3 style='font:  2.0vw Roboto, sans-serif;'> Research Sites </h3> <table id='collected'>"+ collector+ 
+        <h3 style='font:  2.0vw Roboto, sans-serif;margin-bottom : 5px'> Research Sites </h3> <table id='collected'>"+ collector+ 
         "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
         <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
         <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"
@@ -519,7 +519,7 @@ function bottom_bar_enter(idid) {
     worry_enter(idid)
     time_spent_enter(idid)
     document.getElementById("bottom_bar").style.opacity = "1.0"
-    document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.5)"
+    document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.8)"
 }
 
 // first statistic : main source of water
@@ -538,11 +538,11 @@ function main_source_enter(idid) {
 
     var xscale = d3.scale.linear()
                     .domain([0,100])
-                    .range([0,148]);
+                    .range([0,jun.animation_size]);
 
     var yscale = d3.scale.linear()
                     .domain([0,1])
-                    .range([0,148]);
+                    .range([0,jun.animation_size]);
 
     var colorScale = d3.scale.quantize()
                     .domain([0,1])
@@ -550,9 +550,9 @@ function main_source_enter(idid) {
 
     var canvas = d3.select("#first_column").insert("svg","#line_title0")
                     .attr('id','full_rect')
-                    .attr({'width':148,'height':148})
+                    .attr({'width':jun.animation_size,'height':jun.animation_size})
                     .attr("preserveAspectRatio", "xMinYMin meet")
-                    .attr("viewBox", "0 0 148 148")
+                    .attr("viewBox", "0 0 " + jun.animation_size.toString()+" " +jun.animation_size.toString())
 
     var xAxis = d3.svg.axis();
         xAxis
@@ -569,7 +569,7 @@ function main_source_enter(idid) {
                         .attr('id',"bar_background")
                         .attr("width", "100%")
                         .attr("height", "100%")
-                        .attr("fill", "white")
+                        .attr("fill", "#E3E3E3")
                         .attr("y",0)
 
     formatPercent1 = d3.format(".0f");
@@ -577,17 +577,17 @@ function main_source_enter(idid) {
     var percentComplete = canvas.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "percent-complete1")
-        .attr("dy", "76.5")
-        .attr("dx", "72")
+        .attr("dy", "67.5")
+        .attr("dx", (jun.animation_size/2).toString())
         .style("font-size", "37px")
         .style("fill", colors[1]);
 
     var main_source_desc = canvas.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "percent-complete1")
-        .attr("dy", "104.5")
-        .attr("dx", "72")
-        .style("font-size", "15px")
+        .attr("dy", "88.5")
+        .attr("dx", (jun.animation_size/2).toString())
+        .style("font-size", "13px")
         .style("fill", colors[1]);
 
     var textRounder = function(value){ return Math.round(value);};
@@ -611,7 +611,7 @@ function main_source_enter(idid) {
         .enter()
         .append('rect')
         .attr('id','rect1')
-        .attr('height',148)
+        .attr('height',jun.animation_size)
         .attr({'x':0,'y':function(d,i){ return yscale(i); }})
         .style('fill',function(d,i){ return colorScale(i); })
         .attr('width',0)
@@ -624,16 +624,16 @@ function main_source_enter(idid) {
     var chart = canvas.append("g")  
         .attr("clip-path", "url(#ellipse-clip)")
     chart.append("rect")
-        .attr("height", 148)    
-        .attr("width", 148)    
+        .attr("height", jun.animation_size)    
+        .attr("width", jun.animation_size)    
         .style('fill',function(d,i){ return colorScale(i); })
 
     progress = 0
     var percentComplete0 = chart.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "percent-complete2")
-        .attr("dy", "76.5")
-        .attr("dx", "72")
+        .attr("dy", "67.5")
+        .attr("dx", (jun.animation_size/2).toString())
         .attr("id","woo")
         .style("font-size", "37px")
         .style("fill", colors[2])
@@ -642,9 +642,9 @@ function main_source_enter(idid) {
     var main_source_desc0 = chart.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "percent-complete2")
-        .attr("dy", "104.5")
-        .attr("dx", "72")
-        .style("font-size", "15px")
+        .attr("dy", "88.5")
+        .attr("dx", (jun.animation_size/2).toString())
+        .style("font-size", "13px")
         .style("fill", colors[2]);
 
 
@@ -668,10 +668,10 @@ function worry_enter(idid) {
 
     var btn = d3.select("#second_column").insert("svg",'#line_title')
     btn.attr("id", "fillgauge1")    
-        .attr("width", 148)
-        .attr("height", 148)
+        .attr("width", jun.animation_size)
+        .attr("height", jun.animation_size)
         .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", "0 0 148 148")
+        .attr("viewBox", "0 0 " +jun.animation_size.toString()+ " "+jun.animation_size.toString())
 
     if (Hwise_search[idid] == 1 ) {
         loadLiquidFillGauge("fillgauge1", value, config1);

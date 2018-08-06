@@ -29,24 +29,23 @@
 
 h3 {
     font-family: 'Roboto', sans-serif;
-    font-size : 2.0vw;
+    font-size : 1.0vw;
 }
-table {
-    font-family: 'Lato', sans-serif;
-}
+
 
 /* search and list button */
 .backsidenav {
+    margin-top: 10px;
     max-width : 150px;
-    width: 6%;
-    min-width : 126.5px; 
+    width: 5%;
+    min-width : 100px; 
     height: auto; 
     position : fixed;
     left : 0;
     background-color: #A1A1A1; 
     overflow-x: hidden; 
     color: white;
-    font: 22px 'Roboto', sans-serif; 
+    font: 17px 'Roboto', sans-serif; 
     user-select : none;
 }
 
@@ -55,7 +54,7 @@ table {
 }
 
 #openner2 {
-    margin-top : 40px;
+    margin-top : 45px;
     text-align : center;
 }
 
@@ -66,22 +65,22 @@ table {
     float : right;
     padding-top: 20px; 
     transition: 0.5s; 
-    font-size : 1.0vw;
+    font-size : 1.4vw;
 }
 
-.desc_top {
+/*.desc_top {
     margin-top : 10px;
     font-size : 2vw;
     font-family: 'Roboto', sans-serif; 
     line-height : 1.0;
-}
+}*/
 
 /* list of research sites*/
 #Lister {
     z-index: 1; 
     padding-top: 20px; 
     transition: 0.5s;  
-    font-size : 1.0vw;
+    font-size : 1.4vw;
     color : white;
     text-align : center;
     user-select :none 
@@ -104,7 +103,7 @@ table {
 }
 
 .region_division{
-    font-size : 1.2vw;
+    font-size : 1.3vw;
     background-color : #828282;;
 }
 
@@ -165,7 +164,7 @@ table {
   height : auto;
   transition: all 0.5s;
   margin: auto;
-  font: 1.1vw 'Roboto', sans-serif;
+  font: 1.4vw 'Roboto', sans-serif;
   margin-bottom : 5px; 
 }
 
@@ -181,7 +180,7 @@ table {
     text-align : center;
     text-shadow : 2px 2px 4px white;
     color : black;
-    font: calc(21px + 0.5vw) 'Ropa Sans', sans-serif;
+    font: calc(16px + 0.5vw) 'Ropa Sans', sans-serif;
 	user-select:none;
     z-index : -1 ;
 }
@@ -221,23 +220,23 @@ table {
     position : fixed ;
     bottom :27px;
     left:8px;
-    font: 15px 'Roboto', sans-serif;; 
+    font: 1.15vw 'Roboto', sans-serif;; 
 }
 
-a {
+#credit a {
     opacity : 0.5;
     color : grey;
     text-decoration: none;
 }
-a:link {
+#credit a:link {
     color: grey;
 }
 
-a:visited {
+#credit a:visited {
     color: grey;
 }
 
-a:hover {
+#credit a:hover {
     cursor: pointer;
 }
 
@@ -245,6 +244,7 @@ table {
     margin : auto ;
     width : 100%; 
     line-height : 1.1;
+    font-family: 'Lato', sans-serif;
 }
 
 #description {
@@ -257,6 +257,7 @@ table {
  }
 
 #front_desc { 
+    font-style : bold ;
     background-color :  #828282;
  }
 
@@ -310,20 +311,26 @@ table {
     bottom: 65px;
     text-align: center;
     width: 100%;
-    font: 1.4vw 'Roboto', sans-serif; 
+    font: 1.6vw 'Roboto', sans-serif; 
     user-select:none;
     color : black;
 }
 
 .map-overlay {
-    font: 1.1vw 'Roboto', sans-serif;
+    font: 13px 'Roboto', sans-serif;
     position: absolute;
-    width: 11%;
+    width: 110px;
     height : auto;
     bottom : 20px;
     right : 0px;
-    padding: 10px;
     background-color : white;
+}
+
+td img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 @media screen and (max-width: 640px){

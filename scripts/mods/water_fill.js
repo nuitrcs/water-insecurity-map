@@ -17,7 +17,7 @@
     config2.circleThickness = 0.2;
     config2.textVertPosition = 0.5;
     config2.waveAnimateTime = 2000;
-    config1.waveHeight = 0.1;
+    config2.waveHeight = 0.1;
 
 
 
