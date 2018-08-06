@@ -186,7 +186,7 @@ function filter_list_ver2(id_marker, option) {
                     && (version_filter.indexOf(Hwise_search[id_marker]) >= 0)
                     && (Start_search[id_marker] == year_value.innerText) 
                     ){
-                        jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:6})
+                        jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:5})
                         openDesc(id_marker,option)
                         final_filter = '(Id_search[i] == id_number) '+
                             '&& (region_filter2.indexOf(Region_search[i]) >= 0) '+
@@ -206,7 +206,7 @@ function filter_list_ver2(id_marker, option) {
                     && (version_filter.indexOf(Hwise_search[id_marker]) >= 0)
 
                     ){
-                        jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:6})
+                        jun.map.flyTo({center : [Lng_search[id_marker],Lat_search[id_marker]], zoom:5})
                         openDesc(id_marker,option)
 
                         final_filter = '(Id_search[i] == id_number) '+
@@ -327,7 +327,7 @@ function openDesc(id_number, option) {
 
 
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
-        <div class='h123' style='margin-bottom : 5px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
+        <div class='h123' style='margin-bottom : 5px;margin-top:13px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
         <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
         style=' width: 100%; height:auto;margin-top:7px'>\
         <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
@@ -468,7 +468,7 @@ function filtered_list_creator(standard){
           }
       }
     document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
-        <div class='h123' style='margin-bottom : 5px'> Research Sites </h123> <table id='collected'>"+ collector+ 
+        <div class='h123' style='margin-bottom : 5px; margin-top:13px'> Research Sites </h123> <table id='collected'>"+ collector+ 
         "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
         <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
         <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"
@@ -500,7 +500,7 @@ function unfiltered_list_creator(){
         collector += "<tr><td><span class='list_element_yes' id='"+i+"_list' onclick='linklink("+i+")'>"+ Site_search[i]+"</span></td></tr>"
     }
     document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
-        <div class='h123' style='margin-bottom : 5px'> Research Sites </div> <table id='collected'>"+ collector+ 
+        <div class='h123' style='margin-bottom : 5px; margin-top:13px'> Research Sites </div> <table id='collected'>"+ collector+ 
         "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
         <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
         <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"

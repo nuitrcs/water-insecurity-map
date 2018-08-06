@@ -24,7 +24,7 @@ document.getElementById("scrollable-dropdown-menu").addEventListener("keypress",
     for (var i = 0; i < Site_search.length; i++) { 
         if (Site_search[i]== $('.typeahead')[1].value) {
             clearit() 
-            jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:6})
+            jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
             _ = filter_list_ver2(i,1)
@@ -37,7 +37,7 @@ $(document).on('click','.tt-suggestion', function(e){
     for (var i = 0; i < Site_search.length; i++) { 
         if (Site_search[i]== document.getElementsByClassName("typeahead")[1].value) { 
             clearit() 
-            jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:6})
+            jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:5})
             openDesc(i)
             $('.tt-menu').css('display','none');
             _ = filter_list_ver2(i,1)
@@ -49,7 +49,7 @@ $('input.typeahead').on('typeahead:selected', function(event, selection) {
         for (var i = 0; i < Site_search.length; i++) { 
             if (Site_search[i]== $('.typeahead')[1].value) {
                 clearit() 
-                jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:6})
+                jun.map.flyTo({center : [Lng_search[i],Lat_search[i]], zoom:5})
                 openDesc(i)
                 $('.tt-menu').css('display','none');
                 _ = filter_list_ver2(i,1)

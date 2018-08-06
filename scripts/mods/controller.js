@@ -1,6 +1,6 @@
 var jun ={}
 
-jun.map_key = 'pk.eyJ1IjoiZnJhbms2MjciLCJhIjoiY2ppa2Z4Ym43MmRxbDNxcGVwMzRnajY3biJ9.8lvY87cIk4n7Kjok9vOQug'
+jun.map_key = 'pk.eyJ1IjoiZmVsYXZza3kiLCJhIjoiY2pmb3EwdjF3MHp4eTMybWR2aHVzNG1mOSJ9.QDrrYApB997cGXV7gnoNfQ'
 
 jun.default_center_first = 8.233028050000001
 jun.default_center_second = 11.853942649999999

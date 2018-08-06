@@ -28,10 +28,9 @@
 }
 
 .h123 {
+    font-size: calc(10px + 1.2vw) ;
     font-family: 'Roboto', sans-serif;
-    font-size : 1.75vw;
-    margin-top: 13px;
-    line-height : 1.1;
+    text-shadow : 2px 2px 3px black;
 }
 
 /* search and list button */
@@ -319,9 +318,10 @@ table {
 }
 
 .map-overlay {
-    font: 13px 'Roboto', sans-serif;
+    font: 14.4px 'Roboto', sans-serif;
     position: absolute;
-    width: 110px;
+    width: 8%;
+    min-width : 115px;
     height : auto;
     bottom : 20px;
     right : 0px;
@@ -334,8 +334,6 @@ table {
     font-family: 'Roboto', sans-serif;
 }
 
-
-
 td img{
     display: block;
     margin-left: auto;
@@ -345,7 +343,7 @@ td img{
 
 @media screen and (max-width: 640px){
     #Lister, #Desc, #Searcher, .backsidenav, #credit,
-    #bottom_bar, .map-overlay, #third_bar, #title_line2 {
+    #bottom_bar, #third_bar, #title_line2 {
         z-index: -100;
     }
 }
@@ -353,7 +351,7 @@ td img{
 
 @media screen and (min-width: 1440px){
     .h123 {
-        font-size : 25.2px;
+        font-size : 27.28px;
     }
     #Desc, #Lister, .button1, #number_result {
         font-size : 20.16px ;
@@ -375,6 +373,13 @@ td img{
     .heading {
         font-size : 17.28px;
     }
+    .map-overlay {
+        font-size : 1vw;
+    }
+
+    #map{
+        user-select: none;
+    } 
 }
 
 
