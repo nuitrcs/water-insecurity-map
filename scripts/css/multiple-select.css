@@ -84,6 +84,7 @@
     -webkit-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
     -moz-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
     box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+    vertical-align:top;
 }
 
 .ms-drop.top {
@@ -183,7 +184,7 @@
 }
 
 .ms-drop input[type="checkbox"] {
-    vertical-align: middle;
+    vertical-align:top;
 }
 
 .ms-drop .ms-no-results {
