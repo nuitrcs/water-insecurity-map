@@ -468,7 +468,7 @@ function filtered_list_creator(standard){
           }
       }
     document.getElementById("Lister").innerHTML = "<a class='closebtn' onclick='closeLister()''>&times;</a> \
-        <div class='h123' style='margin-bottom : 5px; margin-top:13px'> Research Sites </h123> <table id='collected'>"+ collector+ 
+        <div class='h123' style='margin-bottom : 5px; margin-top:13px'> Research Sites </div> <table id='collected'>"+ collector+ 
         "</table><div class ='container' style='margin-top:5px'> <div class='row'> <div class = 'col'>\
         <button id = 'clear1' class='button1' value ='clear' onclick = 'clearit()'>clear</button></div> </div> \
         <div class='row'> <div class = 'col'>  <button id = 'search_view' class='button1' value ='clear' onclick = 'Lister_to_Searcher()'>Search View</button> </div></div></div>"
