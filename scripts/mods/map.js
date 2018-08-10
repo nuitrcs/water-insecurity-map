@@ -1,23 +1,4 @@
 
-var Id_search = []
-var Region_search = []
-var Site_search = []
-var Hwise_search = []
-var Partners_search = []
-var Setting_search = [] 
-var Sampling_search = []
-var Cognitive_search = []
-var Participants_search = []
-var Period_search = []
-var Start_search = []
-var Female_search = []
-var Main_source_search = []
-var Main_search = []
-var Source_search = []
-var Climate_search = []
-var Lat_search = []
-var Lng_search = []
-var Improved_search = []
 
 document.getElementById("scrollable-dropdown-menu").addEventListener("keypress", function(event) {
   if (event.keyCode === 13) {

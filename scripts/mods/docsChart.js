@@ -6,7 +6,7 @@ var width = jun.animation_size,
     total = 60,
     formatPercent = d3.format(".1f");
 
-var arc = d3.svg.arc()
+var arc = d3.arc()
     .startAngle(0)
     .innerRadius((jun.animation_size/2))
     .outerRadius((jun.animation_size/2)-(0.1*jun.animation_size));

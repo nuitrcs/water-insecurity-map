@@ -1,3 +1,25 @@
+
+var Id_search = []
+var Region_search = []
+var Site_search = []
+var Hwise_search = []
+var Partners_search = []
+var Setting_search = [] 
+var Sampling_search = []
+var Cognitive_search = []
+var Participants_search = []
+var Period_search = []
+var Start_search = []
+var Female_search = []
+var Main_source_search = []
+var Main_search = []
+var Source_search = []
+var Climate_search = []
+var Lat_search = []
+var Lng_search = []
+var Improved_search = []
+
+
 // drawMarkers : when the page loads 
 //      main role : draw markers
 function drawMarkers() { 
@@ -536,34 +558,30 @@ function main_source_enter(idid) {
         var colors = jun.v2_color;
     }
 
-    var xscale = d3.scale.linear()
+    var xscale = d3.scaleLinear()
                     .domain([0,100])
                     .range([0,jun.animation_size]);
 
-    var yscale = d3.scale.linear()
+    var yscale = d3.scaleLinear()
                     .domain([0,1])
                     .range([0,jun.animation_size]);
 
-    var colorScale = d3.scale.quantize()
+    var colorScale = d3.scaleQuantize()
                     .domain([0,1])
                     .range(colors);
 
     var canvas = d3.select("#first_column").insert("svg","#line_title0")
                     .attr('id','full_rect')
-                    .attr({'width':jun.animation_size,'height':jun.animation_size})
+                    .attr('width', jun.animation_size)
+                    .attr('height',jun.animation_size)
                     .attr("preserveAspectRatio", "xMinYMin meet")
                     .attr("viewBox", "0 0 " + jun.animation_size.toString()+" " +jun.animation_size.toString())
 
-    var xAxis = d3.svg.axis();
-        xAxis
-            .orient('bottom')
-            .scale(xscale);
+    var xAxis = d3.axisBottom(xscale);
 
 
-    var yAxis = d3.svg.axis();
-        yAxis
-            .orient('left')
-            .scale(yscale);
+
+    var yAxis = d3.axisLeft(yscale);
 
     var backback = canvas.append('rect')
                         .attr('id',"bar_background")
@@ -612,7 +630,8 @@ function main_source_enter(idid) {
         .append('rect')
         .attr('id','rect1')
         .attr('height',jun.animation_size)
-        .attr({'x':0,'y':function(d,i){ return yscale(i); }})
+        .attr('x',0)
+        .attr('y',function(d,i){ return yscale(i);})
         .style('fill',function(d,i){ return colorScale(i); })
         .attr('width',0)
         .transition()
@@ -653,13 +672,14 @@ function main_source_enter(idid) {
         return function(t) {  
             progress = i(t); 
             percentComplete0.text(formatPercent1(progress*100)+"%"); }
-    };;
+    };
     percentComplete0.transition()
         .duration(1000)
         .tween("text", textTween0);
 
     main_source_desc0.text(Source_search[idid])
 }
+
 
 // second statistic : proportion who worry about water
 function worry_enter(idid) {
@@ -672,7 +692,6 @@ function worry_enter(idid) {
         .attr("height", jun.animation_size)
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", "0 0 " +jun.animation_size.toString()+ " "+jun.animation_size.toString())
-
     if (Hwise_search[idid] == 1 ) {
         loadLiquidFillGauge("fillgauge1", value, config1);
     }

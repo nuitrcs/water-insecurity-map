@@ -29,6 +29,7 @@ jun.clicked =""
 
 jun.timelist = ["All", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", 
 				"Jan", "Feb", "Mar", "Apr", "May"]
+jun.slider_position = jun.timelist[0]
 
 jun.v1_color = ["#1C71AA", "#2080BF", "#289FED"]
 jun.v2_color = ["#18C2A2", "#0FD2B4", "#11EDCB"]
