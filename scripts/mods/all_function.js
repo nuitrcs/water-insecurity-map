@@ -616,7 +616,7 @@ function main_source_enter(idid) {
         .style('fill',function(d,i){ return colorScale(i); })
         .attr('width',0)
         .transition()
-        .duration(1000)//time in ms
+        .duration(1000)
         .attr("width", function(d){
             return xscale(d);
         })     
@@ -680,6 +680,7 @@ function worry_enter(idid) {
         loadLiquidFillGauge("fillgauge1", value, config2); 
     }
 }
+
 // third statistic : time spent collecting water
 function time_spent_enter(idid) {
     allocated = Female_search[idid]

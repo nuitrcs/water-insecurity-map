@@ -60,7 +60,7 @@ return function module() {
       value = value || scale.domain()[0];
 
       // DIV container
-      var div = d3.select(this).classed("d3-slider d3-slider-" + orientation, true);
+      var div = d3.select(this).append('div').classed("d3-slider d3-slider-" + orientation, true);
       
       var drag = d3.behavior.drag();
       drag.on('dragend', function () {
