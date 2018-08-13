@@ -14,10 +14,12 @@ var Female_search = []
 var Main_source_search = []
 var Main_search = []
 var Source_search = []
+var Worry_search = []
+var Time_search = []
 var Climate_search = []
 var Lat_search = []
 var Lng_search = []
-var Improved_search = []
+
 
 
 // drawMarkers : when the page loads 
@@ -83,7 +85,8 @@ function drawMarkers() {
         Climate_search.push(jun.data[i]["Climate"])
         Lat_search.push(jun.data[i]["Lat"])
         Lng_search.push(jun.data[i]["Lng"])
-        Improved_search.push(jun.data[i]["Improved_water"])
+        Worry_search.push(jun.data[i]["Proportion_worry"])
+        Time_search.push(jun.data[i]["Time_spent"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
@@ -351,7 +354,7 @@ function openDesc(id_number, option) {
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
         <div class='h123' style='margin-bottom : 5px;margin-top:13px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
         <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
-        style=' width: 100%; height:auto;margin-top:7px'>\
+        style=' width: 100%; height:auto;margin-top:7px; image-orientation: from-image;'>\
         <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
         "<tr> <td id = 'front_desc'> Region</td><td> "+Region_search[id_number] +
         "</td> </tr> <tr> <td id = 'front_desc'>HWISE Version</td><td>  " + Hwise_search[id_number] +
@@ -545,6 +548,7 @@ function bottom_bar_enter(idid) {
 }
 
 // first statistic : main source of water
+// first statistic : main source of water
 function main_source_enter(idid) {
     if (document.getElementById("full_rect") != null)
     {
@@ -563,7 +567,7 @@ function main_source_enter(idid) {
                     .range([0,jun.animation_size]);
 
     var yscale = d3.scaleLinear()
-                    .domain([0,1])
+                    .domain([0,100])
                     .range([0,jun.animation_size]);
 
     var colorScale = d3.scaleQuantize()
@@ -572,10 +576,8 @@ function main_source_enter(idid) {
 
     var canvas = d3.select("#first_column").insert("svg","#line_title0")
                     .attr('id','full_rect')
-                    .attr('width', jun.animation_size)
-                    .attr('height',jun.animation_size)
-                    .attr("preserveAspectRatio", "xMinYMin meet")
-                    .attr("viewBox", "0 0 " + jun.animation_size.toString()+" " +jun.animation_size.toString())
+                    .attr('width',jun.animation_size)
+                    .attr('height',jun.animation_size);
 
     var xAxis = d3.axisBottom(xscale);
 
@@ -585,28 +587,88 @@ function main_source_enter(idid) {
 
     var backback = canvas.append('rect')
                         .attr('id',"bar_background")
-                        .attr("width", "100%")
-                        .attr("height", "100%")
-                        .attr("fill", "#E3E3E3")
+                        .attr("width", jun.animation_size*0.3)
+                        .attr("height", jun.animation_size)
+                        .attr("fill", "#DBDBDB")
                         .attr("y",0)
 
     formatPercent1 = d3.format(".0f");
     var progress = 0
-    var percentComplete = canvas.append("text")
+    
+    var text_group = canvas.append('g')
+        .attr("text-anchor", "middle")
+
+    var percentComplete = text_group.append("text")
         .attr("text-anchor", "middle")
         .attr("class", "percent-complete1")
-        .attr("dy", "67.5")
-        .attr("dx", (jun.animation_size/2).toString())
+        .attr("dy", "0")
+        .attr("dx", jun.animation_size * (0.3+(1-0.3)/2))
         .style("font-size", "37px")
         .style("fill", colors[1]);
 
-    var main_source_desc = canvas.append("text")
-        .attr("text-anchor", "middle")
-        .attr("class", "percent-complete1")
-        .attr("dy", "88.5")
-        .attr("dx", (jun.animation_size/2).toString())
-        .style("font-size", "13px")
-        .style("fill", colors[1]);
+    var main_source_desc = text_group.append("text")
+
+    main_source_desc.text(Source_search[idid])
+
+    if (main_source_desc.node().getBBox().width > jun.animation_size/2 + 15 ){
+        text_list = main_source_desc.text().split(" ")
+        for (i = 0; i < text_list.length; i ++) { 
+            pass = "yes"
+            main_source_desc.text(text_list[i]+" "+text_list[i+1])
+            if (main_source_desc.node().getBBox().width <= jun.animation_size/2 + 15){
+                text_list[i] = text_list[i]+" "+text_list[i+1]
+                text_list.splice(i+1, 1)
+                break
+            }
+        }
+        main_source_desc
+            .attr("text-anchor", "middle")
+            .attr("class", "percent-complete1")
+            .attr("dy", "24")
+            .attr("dx", jun.animation_size * (0.3+(1-0.3)/2))
+            .style("font-size", "15px")
+            .style("fill", colors[1]);
+        main_source_desc.text(text_list[0])
+        var main_source_desc1 = text_group.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "percent-complete1")
+            .attr("dy", "43")
+            .attr("dx", jun.animation_size * (0.3+(1-0.3)/2))
+            .style("font-size", "15px")
+            .style("fill", colors[1]);
+        main_source_desc1.text(text_list[1])
+
+        if (text_list.length == 3){
+            var main_source_desc2 = text_group.append("text")
+                .attr("text-anchor", "middle")
+                .attr("class", "percent-complete1")
+                .attr("dy", "62")
+                .attr("dx", jun.animation_size * (0.3+(1-0.3)/2))
+                .style("font-size", "15px")
+                .style("fill", colors[1]);
+            main_source_desc2.text(text_list[2])
+        }
+        translate_amount = text_group.node().getBBox().height/2
+        translate_amount += 36
+
+        text_group.attr("transform","translate(0," +translate_amount+")")
+    }
+    else {
+        main_source_desc
+            .attr("text-anchor", "middle")
+            .attr("class", "percent-complete1")
+            .attr("dy", "24")
+            .attr("dx", jun.animation_size * (0.3+(1-0.3)/2))
+            .style("font-size", "15px")
+            .style("fill", colors[1]);
+        translate_amount = text_group.node().getBBox().height/2
+        translate_amount += 57
+
+        text_group.attr("transform","translate(0," +translate_amount+")")
+    }
+
+    
+
 
     var textRounder = function(value){ return Math.round(value);};
     var textTween = function(){
@@ -620,7 +682,7 @@ function main_source_enter(idid) {
         .duration(1000)
         .tween("text", textTween);
 
-    main_source_desc.text(Source_search[idid])
+
 
     var waveGroup = canvas.append("clipPath")      
         .attr("id", "ellipse-clip") 
@@ -629,61 +691,30 @@ function main_source_enter(idid) {
         .enter()
         .append('rect')
         .attr('id','rect1')
-        .attr('height',jun.animation_size)
-        .attr('x',0)
-        .attr('y',function(d,i){ return yscale(i);})
+        .attr('height',0)
+        .attr('x',function(d,i){ return xscale(i)})
+        .attr('y',0)
         .style('fill',function(d,i){ return colorScale(i); })
-        .attr('width',0)
+        .attr('width',jun.animation_size*0.3)
+        .attr('transform', 'rotate(180 ' + jun.animation_size*0.3/2 +" " +jun.animation_size /2 +" )")
         .transition()
-        .duration(1000)
-        .attr("width", function(d){
-            return xscale(d);
+        .duration(1000)//time in ms
+        .attr("height", function(d){
+            return yscale(d);
         })     
 
     var chart = canvas.append("g")  
         .attr("clip-path", "url(#ellipse-clip)")
     chart.append("rect")
         .attr("height", jun.animation_size)    
-        .attr("width", jun.animation_size)    
+        .attr("width", jun.animation_size/2)    
         .style('fill',function(d,i){ return colorScale(i); })
-
-    progress = 0
-    var percentComplete0 = chart.append("text")
-        .attr("text-anchor", "middle")
-        .attr("class", "percent-complete2")
-        .attr("dy", "67.5")
-        .attr("dx", (jun.animation_size/2).toString())
-        .attr("id","woo")
-        .style("font-size", "37px")
-        .style("fill", colors[2])
-
-
-    var main_source_desc0 = chart.append("text")
-        .attr("text-anchor", "middle")
-        .attr("class", "percent-complete2")
-        .attr("dy", "88.5")
-        .attr("dx", (jun.animation_size/2).toString())
-        .style("font-size", "13px")
-        .style("fill", colors[2]);
-
-
-    var textTween0 = function(){
-        var i = d3.interpolate(progress, (Female_search[idid])/100); 
-        return function(t) {  
-            progress = i(t); 
-            percentComplete0.text(formatPercent1(progress*100)+"%"); }
-    };
-    percentComplete0.transition()
-        .duration(1000)
-        .tween("text", textTween0);
-
-    main_source_desc0.text(Source_search[idid])
 }
 
 
 // second statistic : proportion who worry about water
 function worry_enter(idid) {
-    value = Improved_search[idid]
+    value = Worry_search[idid]
     d3.select("#fillgauge1").remove()
 
     var btn = d3.select("#second_column").insert("svg",'#line_title')
@@ -702,17 +733,17 @@ function worry_enter(idid) {
 
 // third statistic : time spent collecting water
 function time_spent_enter(idid) {
-    allocated = Female_search[idid]
+    allocated = Time_search[idid]
     hwise = Hwise_search[idid]
     progress = 0 
-    var i = d3.interpolate(progress, allocated / total); 
+    var i = d3.interpolate(progress, allocated / 1); 
     if (hwise == 1 ) {
         var description = meter.append("text")
             .attr("text-anchor", "middle")
             .attr("class", "description")
-            .attr("dy", "0.9em")
-            .text("hrs")
-            .style("font-size", "28px")
+            .attr("dy", "24px")
+            .text("hrs/week")
+            .style("font-size", "15px")
             .style("fill", jun.v1_color[1]);
         document.getElementsByClassName("foreground")[0].style.fill = jun.v1_color[0]
         document.getElementsByClassName("percent-complete")[0].style.fill = jun.v1_color[1]
@@ -721,9 +752,9 @@ function time_spent_enter(idid) {
         var description = meter.append("text")
             .attr("text-anchor", "middle")
             .attr("class", "description")
-            .attr("dy", "0.9em")
-            .text("hrs")
-            .style("font-size", "28px")
+            .attr("dy", "24px")
+            .text("hrs/week")
+            .style("font-size", "15px")
             .style("fill", jun.v2_color[1]);
         document.getElementsByClassName("foreground")[0].style.fill = jun.v2_color[0]
         document.getElementsByClassName("percent-complete")[0].style.fill = jun.v2_color[1]
@@ -732,7 +763,7 @@ function time_spent_enter(idid) {
     d3.transition().duration(1000).tween("progress", function() {
       return function(t) {
         progress = i(t);
-        foreground.attr("d", arc.endAngle(twoPi * progress));
+        foreground.attr("d", arc.endAngle(twoPi * progress/Math.max(...Time_search)));
         percentComplete.text(formatPercent(progress));
       };
     })

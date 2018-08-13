@@ -51,7 +51,6 @@ function loadLiquidFillGauge(elementId, value, config) {
 
     var textPixels = (config.textSize*radius/2);
     var textFinalValue = parseFloat(value).toFixed(2);
-    console.log(textFinalValue)
     var textStartValue = config.valueCountUp?config.minValue:textFinalValue;
 
     var percentText = config.displayPercent?"%":"";
@@ -127,7 +126,7 @@ function loadLiquidFillGauge(elementId, value, config) {
         .attr("font-size", textPixels + "px")
         .style("fill", config.textColor)
         .attr('transform','translate('+radius+','+textRiseScaleY(config.textVertPosition)+')');
-    console.log(text1)
+
     // The clipping wave area.
     var clipArea = d3.area()
         .x(function(d) { return waveScaleX(d.x); } )
@@ -226,7 +225,7 @@ function loadLiquidFillGauge(elementId, value, config) {
 
             var textTween = function(){
                 var i = d3.interpolate(this.textContent, parseFloat(value).toFixed(2));
-                return function(t) { console.log(i(t)) ; this.textContent = textRounderUpdater(i(t)) + percentText; }
+                return function(t) {this.textContent = textRounderUpdater(i(t)) + percentText; }
             };
 
             text1.transition()

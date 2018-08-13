@@ -34,14 +34,7 @@ var foreground = meter.append("path")
 var percentComplete = meter.append("text")
     .attr("text-anchor", "middle")
     .attr("class", "percent-complete")
-    .attr("dy", "0em");
-
-var description = meter.append("text")
-    .attr("text-anchor", "middle")
-    .attr("class", "description")
-    .attr("dy", "0.9em")
-    .text("hrs")
-    .style("font-size", "28px");
+    .attr("dy", "3px");
 
 var i = d3.interpolate(progress, allocated / total);
 

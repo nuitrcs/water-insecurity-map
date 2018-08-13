@@ -19,7 +19,7 @@ jun.removeSlider = function() {
   d3.select('#third_bar .d3-slider').remove()
 }
 
-window.onresize = function(){jun.removeSlider(); jun.drawSlider(); console.log("hi")}
+window.onresize = function(){jun.removeSlider(); jun.drawSlider();}
 
 $('#scrollable-dropdown-menu .typeahead').typeahead({
   hint: true,
