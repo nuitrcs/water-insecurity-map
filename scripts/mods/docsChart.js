@@ -26,7 +26,7 @@ var meter = svg.append("g")
 meter.append("path")
     .attr("class", "background")
     .attr("d", arc.endAngle(twoPi))
-    .style("fill","#E3E3E3");
+    .style("fill", jun.grey);
 
 var foreground = meter.append("path")
     .attr("class", "foreground");
@@ -35,26 +35,3 @@ var percentComplete = meter.append("text")
     .attr("text-anchor", "middle")
     .attr("class", "percent-complete")
     .attr("dy", "3px");
-
-var i = d3.interpolate(progress, allocated / total);
-
-d3.transition().duration(1000).tween("progress", function() {
-  return function(t) {
-    progress = i(t);
-    foreground.attr("d", arc.endAngle(twoPi * progress));
-    percentComplete.text(formatPercent(progress*100));
-  };
-})
-
-
-
-
-
-
-
-
-
-
-
-
-

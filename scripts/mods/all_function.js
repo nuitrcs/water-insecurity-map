@@ -1,4 +1,3 @@
-
 var Id_search = []
 var Region_search = []
 var Site_search = []
@@ -19,8 +18,6 @@ var Time_search = []
 var Climate_search = []
 var Lat_search = []
 var Lng_search = []
-
-
 
 // drawMarkers : when the page loads 
 //      main role : draw markers
@@ -113,7 +110,6 @@ function drawMarkers() {
                         "text-offset": [0,-0.4],
                         "text-anchor": "top",  
                         "text-optional" : true,
-                        // "text-allow-overlap": true,
                         "text-max-width" : 8,
                         "text-line-height" : 0.9
                         },
@@ -132,7 +128,7 @@ function drawMarkers() {
 //      output : [region_filter.slice(2), version_filter.slice(2), final_filter]
 //                  list of strings         list of strings         string
 //      main role : set filter to markers
-function filter_list(clicked="") {    
+function filter_list() {    
     region_filter=["in", "Region"]
     if ($(region_select).val()){
         for (var i = 0; i < $(region_select).val().length;i++){
@@ -396,7 +392,6 @@ function clearit() {
     $('#Version_select').multipleSelect("checkAll");  
     jun.map.flyTo({center : [jun.default_center_first, jun.default_center_second], zoom:1.1})
     
-    jun.clicked = ""
     $('.typeahead').typeahead('val', '')
     unfiltered_list_creator()
 
@@ -423,7 +418,7 @@ function linklink(id_number){
 //      main role : set filters to markers / change the center of map based on filterd or chosen markers
 function center_changer() { 
     // marker filtering
-    filter_result = filter_list(clicked = jun.clicked)
+    filter_result = filter_list()
     region1_filter = filter_result[0]
     version1_filter = filter_result[1]
     // list changing
@@ -589,7 +584,7 @@ function main_source_enter(idid) {
                         .attr('id',"bar_background")
                         .attr("width", jun.animation_size*0.3)
                         .attr("height", jun.animation_size)
-                        .attr("fill", "#DBDBDB")
+                        .attr("fill", jun.grey)
                         .attr("y",0)
 
     formatPercent1 = d3.format(".0f");
@@ -667,9 +662,6 @@ function main_source_enter(idid) {
         text_group.attr("transform","translate(0," +translate_amount+")")
     }
 
-    
-
-
     var textRounder = function(value){ return Math.round(value);};
     var textTween = function(){
         var i = d3.interpolate(progress, (Female_search[idid])/100); 
@@ -679,7 +671,7 @@ function main_source_enter(idid) {
     };
 
     percentComplete.transition()
-        .duration(1000)
+        .duration(jun.animation_time)
         .tween("text", textTween);
 
 
@@ -698,7 +690,7 @@ function main_source_enter(idid) {
         .attr('width',jun.animation_size*0.3)
         .attr('transform', 'rotate(180 ' + jun.animation_size*0.3/2 +" " +jun.animation_size /2 +" )")
         .transition()
-        .duration(1000)//time in ms
+        .duration(jun.animation_time)//time in ms
         .attr("height", function(d){
             return yscale(d);
         })     
@@ -760,7 +752,7 @@ function time_spent_enter(idid) {
         document.getElementsByClassName("percent-complete")[0].style.fill = jun.v2_color[1]
     }
 
-    d3.transition().duration(1000).tween("progress", function() {
+    d3.transition().duration(jun.animation_time).tween("progress", function() {
       return function(t) {
         progress = i(t);
         foreground.attr("d", arc.endAngle(twoPi * progress/Math.max(...Time_search)));
