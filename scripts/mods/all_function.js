@@ -31,11 +31,8 @@ function drawMarkers() {
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
                     "Region": jun.data[i]["Region"],
-                    "Lat" : jun.data[i]["Lat"],
-                    "Lng" : jun.data[i]["Lng"],
                     "Start" : jun.data[i]["start"] ,
                     "id_number" : jun.data[i]["id_number"],
-                    "Setting" : jun.data[i]["Setting"],
                     "icon" :"custom-marker"
                 },
                 "geometry" : {
@@ -51,11 +48,8 @@ function drawMarkers() {
                     "SiteName": jun.data[i]["Site Name"],
                     "HWISE_Version": jun.data[i]["HWISE Version"],
                     "Region": jun.data[i]["Region"],
-                    "Lat" : jun.data[i]["Lat"],
-                    "Lng" : jun.data[i]["Lng"],
                     "Start" : jun.data[i]["start"] ,
                     "id_number" : jun.data[i]["id_number"],
-                    "Setting" : jun.data[i]["Setting"],
                     "icon" :"custom-marker1"
                 },
                 "geometry" : {
@@ -79,11 +73,11 @@ function drawMarkers() {
         Main_source_search.push(jun.data[i]["Main Sources of Drinking Water"])
         Main_search.push(jun.data[i]["Main"])
         Source_search.push(jun.data[i]["Source"])
-        Climate_search.push(jun.data[i]["Climate"])
         Lat_search.push(jun.data[i]["Lat"])
         Lng_search.push(jun.data[i]["Lng"])
         Worry_search.push(jun.data[i]["Proportion_worry"])
         Time_search.push(jun.data[i]["Time_spent"])
+        Climate_search.push(jun.data[i]["Climate"])
     }
     jun.map.on('load', function () {
         jun.map.loadImage(jun.image1_link, function(error, image) {
@@ -346,7 +340,6 @@ function openDesc(id_number, option) {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
 
-
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
         <div class='h123' style='margin-bottom : 5px;margin-top:13px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
         <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
@@ -534,6 +527,8 @@ function bottom_bar_enter(idid) {
     document.getElementById("title_line2").style.zIndex = "-3" 
     document.getElementById("legend1").style.zIndex = "-3"
     document.getElementById("bottom_bar").style.zIndex = "0"
+    document.getElementById("credit").style.zIndex = "-3"
+
 
     main_source_enter(idid)
     worry_enter(idid)
@@ -542,7 +537,6 @@ function bottom_bar_enter(idid) {
     document.getElementById("bottom_bar").style.background = "rgba(255, 255, 255, 0.8)"
 }
 
-// first statistic : main source of water
 // first statistic : main source of water
 function main_source_enter(idid) {
     if (document.getElementById("full_rect") != null)
@@ -560,7 +554,6 @@ function main_source_enter(idid) {
     var xscale = d3.scaleLinear()
                     .domain([0,100])
                     .range([0,jun.animation_size]);
-
     var yscale = d3.scaleLinear()
                     .domain([0,100])
                     .range([0,jun.animation_size]);
@@ -575,9 +568,6 @@ function main_source_enter(idid) {
                     .attr('height',jun.animation_size);
 
     var xAxis = d3.axisBottom(xscale);
-
-
-
     var yAxis = d3.axisLeft(yscale);
 
     var backback = canvas.append('rect')
@@ -605,6 +595,7 @@ function main_source_enter(idid) {
 
     main_source_desc.text(Source_search[idid])
 
+    // if Source_search[idid] is too long, we parse it. 
     if (main_source_desc.node().getBBox().width > jun.animation_size/2 + 15 ){
         text_list = main_source_desc.text().split(" ")
         for (i = 0; i < text_list.length; i ++) { 
@@ -672,9 +663,7 @@ function main_source_enter(idid) {
 
     percentComplete.transition()
         .duration(jun.animation_time)
-        .tween("text", textTween);
-
-
+        .tween("text", textTween); 
 
     var waveGroup = canvas.append("clipPath")      
         .attr("id", "ellipse-clip") 
@@ -751,7 +740,6 @@ function time_spent_enter(idid) {
         document.getElementsByClassName("foreground")[0].style.fill = jun.v2_color[0]
         document.getElementsByClassName("percent-complete")[0].style.fill = jun.v2_color[1]
     }
-
     d3.transition().duration(jun.animation_time).tween("progress", function() {
       return function(t) {
         progress = i(t);
@@ -762,17 +750,20 @@ function time_spent_enter(idid) {
 }
 
 // bottom_bar_enter : when description bar is closed
-//      main role : hide bar for 3 statistics and "Dates of Data Collection" bar appear 
+//      main role : hide bar for 3 statistics and "Data Collection Date" bar appear 
 function bottom_bar_exit() { 
     document.getElementById("bottom_bar").style.zIndex = "-3"
     document.getElementById("legend1").style.zIndex = "0"
     document.getElementById("third_bar").style.zIndex = "0"
     document.getElementById("title_line2").style.zIndex = "0"
-    d3.select("#fillgauge1").remove()
+    document.getElementById("credit").style.zIndex = "0"
 
     if (document.getElementById("full_rect") != null)
     {
         document.getElementById("full_rect").remove()
     }
+
+    d3.select("#fillgauge1").remove()
+
     document.getElementById("bottom_bar").style.background = "rgba(0,0,0,0.5)"
 }

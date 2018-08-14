@@ -22,7 +22,7 @@ jun.removeSlider = function() {
 window.onresize = function(){jun.removeSlider(); jun.drawSlider();}
 
 
-
+// setting for search engine (typeahead)
 $('#scrollable-dropdown-menu .typeahead').typeahead({
   hint: true,
   highlight: true,
