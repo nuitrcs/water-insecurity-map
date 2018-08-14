@@ -340,23 +340,31 @@ function openDesc(id_number, option) {
         document.getElementById("Desc").innerHTML = "<a class='closebtn' onclick='closeDesc1()' style='color : white'>&times;</a>"  
     }
 
+
     document.getElementById("Desc").innerHTML += "<span style='text-align:center; color : white;margin:auto'> \
-        <div class='h123' style='margin-bottom : 5px;margin-top:13px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
-        <img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
-        style=' width: 100%; height:auto;margin-top:7px; image-orientation: from-image;'>\
-        <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
-        "<tr> <td id = 'front_desc'> Region</td><td> "+Region_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>HWISE Version</td><td>  " + Hwise_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Partners</td><td> "+ Partners_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Setting</td><td>"+ Setting_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Sampling</td><td>" + Sampling_search[id_number] + 
-        "</td> </tr> <tr> <td id = 'front_desc'>Cognitive Interviewing</td><td>" + Cognitive_search[id_number] + 
-        "</td> </tr> <tr> <td id = 'front_desc'>Participants</td><td> " + Participants_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Dates of Data Collection</td><td> " + Period_search[id_number] +
-        "</td> </tr> <tr> <td id = 'front_desc'>Gender</td><td> Male - "+ ((100-Female_search[id_number]).toFixed(1)) +
-        "% <br /> Female - "+Female_search[id_number].toFixed(1) +"%</td></table></div>"
-        "</td> </tr> <tr> <td id = 'front_desc'>Climate</td><td>" + Climate_search[id_number] +
-        "</td></tr></table></div>"
+    <div class='h123' style='margin-bottom : 5px;margin-top:13px'>"+Site_search[id_number]+"<br />" +"Site Characteristics </div> \
+    <div class='whole_table' style='margin-top:7px'><table id = 'description'>" + 
+    "<tr> <td id = 'front_desc'> Region</td><td> "+Region_search[id_number] +
+    "</td> </tr> <tr> <td id = 'front_desc'>HWISE Version</td><td>  " + Hwise_search[id_number] +
+    "</td> </tr> <tr> <td id = 'front_desc'>Partners</td><td> "+ Partners_search[id_number] +
+    "</td> </tr> <tr> <td id = 'front_desc'>Setting</td><td>"+ Setting_search[id_number] +
+    "</td> </tr> <tr> <td id = 'front_desc'>Sampling</td><td>" + Sampling_search[id_number] + 
+    "</td> </tr> <tr> <td id = 'front_desc'>Cognitive Interviewing</td><td>" + Cognitive_search[id_number] + 
+    "</td> </tr> <tr> <td id = 'front_desc'>Participants</td><td> " + Participants_search[id_number] +
+    "</td> </tr> <tr> <td id = 'front_desc'>Dates of Data Collection</td><td> " + Period_search[id_number] +
+    "</td> </tr> <tr> <td id = 'front_desc'>Gender</td><td> Male - "+ ((100-Female_search[id_number]).toFixed(1)) +
+    "% <br /> Female - "+Female_search[id_number].toFixed(1) +"%</td></table></div>"
+    "</td> </tr> <tr> <td id = 'front_desc'>Climate</td><td>" + Climate_search[id_number] +
+    "</td></tr></table></div>"
+
+
+
+
+    $.get("scripts/images/Photos/"+Site_search[id_number]+"_1.jpg")
+    .done(function() { 
+        $("<img src='scripts/images/Photos/"+Site_search[id_number]+"_1.jpg' alt='no image yet' \
+    style=' width: 100%; height:auto;margin-top:7px; image-orientation: from-image;'>").insertBefore(".whole_table")
+    })
     bottom_bar_enter(id_number)
 }
 
