@@ -1,6 +1,7 @@
-Water Insecurity Map
+# Water Insecurity Map
+Read this in raw for proper format 
 
-# File structure
+## File structure
 water-insecurity-map
 ├── index.html
 ├── README.md
@@ -28,14 +29,14 @@ water-insecurity-map
 	│	└── data3.json
 	└── images
 
-# major id and class names : https://github.com/nuitrcs/water-insecurity-map/blob/master/useful/id:class.pdf
+## major id and class names : [here](https://github.com/nuitrcs/water-insecurity-map/blob/master/useful/id:class.pdf)
 
-# Maintenance 
+## Maintenance 
 1. When new research site is added 
-	- [index.html] Change number inside <span id ="results_num"> accordingly : I could not figure out how to automatically update this number when the website initially loads. Therefore for now, you need to manually change this number. After this, numbers will change automatically based on the filters or searches. 
+	- [index.html] Change number inside <span id ="results_num"> accordingly : I could not figure out how to automatically update this number when the website initially loads. Therefore, for now, you need to manually change this number. After you do this, numbers will change automatically based on the filters or searches. 
 	- [controller.js] Change jun.default_center_first, jun.default_center_second 
 	- [controller.js] Change jun.divider 
 	- [images] Check whether the name of the picture is in this format (region, country_1.jpg) 
 	- [data3.json] Check whether it has all data it needs + update id_number
 2. If the map gets really popular and it (fortunately and not so fortunately) goes over 50,000 views per month, feel free to use my API key which is mentioned in controller.js
-3. For more information, contact JunHwa Lee (junlee2020@u.northwestern.edu / 224-999-5969)
+3. For more information, contact JunHwa Lee (junlee2020@u.northwestern.edu)
