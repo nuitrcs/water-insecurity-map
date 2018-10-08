@@ -190,3 +190,7 @@
 .ms-drop .ms-no-results {
     display: none;
 }
+
+.mapboxgl-ctrl-top-right {
+    top:50px;
+}
