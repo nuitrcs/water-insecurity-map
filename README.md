@@ -2,6 +2,7 @@
 Read this in raw for proper format 
 
 ## File structure
+```
 water-insecurity-map
 ├── index.html
 ├── README.md
@@ -28,8 +29,9 @@ water-insecurity-map
 	├── data
 	│	└── data3.json
 	└── images
+```
 
-## major id and class names : [here](https://github.com/nuitrcs/water-insecurity-map/blob/master/useful/id:class.pdf)
+major id and class names : [here](https://github.com/nuitrcs/water-insecurity-map/blob/master/useful/id:class.pdf)
 
 ## Maintenance 
 1. When new research site is added 
